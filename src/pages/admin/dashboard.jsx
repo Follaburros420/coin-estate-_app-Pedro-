@@ -26,14 +26,12 @@ export default function Dashboard() {
 
 
   const handleDelete = (id) => {
-    console.log('delete', id)
     mutateDeleteBlog(id)
   }
 
   const handleUpdate = (cell, id) => {
     if (cell === 'edit') {
       router.push(`/admin/update-blog?id=${id}`)
-      console.log('update', id)
     }
   }
 

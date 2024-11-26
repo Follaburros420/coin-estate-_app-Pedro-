@@ -75,7 +75,6 @@ const PropertyTable = ({ data = [] }) => {
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
-  // console.log("🚀 ~ PropertyTable ~ table:", table)
 
   return (
     <div className="overflow-x-auto bg-black-600 p-4 rounded-lg shadow-lg">

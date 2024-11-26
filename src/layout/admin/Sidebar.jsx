@@ -20,11 +20,7 @@ export default function Sidebar({ isOpen }) {
     >
       <div className="w-full px-4 py-9 h-full flex flex-col justify-between ">
         <div className="flex flex-col  ">
-        {/* <div className="hidden md:flex items-center gap-5 ">
-          <Link href="/admin/create-property">Create Property</Link>
-          <Link href="/admin/create-blog">Create Blog</Link>
-          <Link href="/admin/dashboard">Dashboard</Link>
-        </div> */}
+      
           {Sidebar_DataA_Admin.map((item, idx) => {
             return (
               <button
