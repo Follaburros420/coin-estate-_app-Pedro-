@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +8,66 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+input[type="range"].range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+
+  background: #ffd521; /* Customize the dot color here (e.g., indigo-500) */
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+input[type="range"].YearRange-slider:focus {
+  outline: none;
+}
+input[type="range"].YearRange-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+
+  background: #ffd521; /* Customize the dot color here (e.g., indigo-500) */
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.glass {
+  /* From https://css.glass */
+  background: rgba(99, 97, 97, 0.38);
+  /* border-radius: 16px; */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.1px);
+  -webkit-backdrop-filter: blur(9.1px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin_glass {
+  /* From https://css.glass */
+  background: #151618;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8.1px);
+  -webkit-backdrop-filter: blur(8.1px);
+}
+
+input[type="range"].YearRange-slider:focus {
+  outline: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,7 +78,31 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: #000;
+  background-color: #fff;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* table css */
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 10px;
+}
+
+.pagination li {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination .active a {
+  font-weight: bold;
+  text-decoration: underline;
 }

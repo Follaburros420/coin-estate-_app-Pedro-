@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Blog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  heading     String
+  items       Item[]
+  details     String
+  description String
+  image       String
+  subheading  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Item {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  contentId    String
+  content      Blog     @relation(fields: [contentId], references: [id])
+  name         String
+  text_details String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model property {
+  id                   String @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
+  totalInvestmentPrice Float
+  description          String @db.String
+  bedRoom              Int
+  bathRoom             Int
+  roomSize             Float
+  constructionYear     String
+  // attributes           Attribute[]
+  saleStatus           String
+  houseType            String
+  location             String
+  netAnualIncome       Float
+  propertyType         String
+  propertyMaintenance  Int
+  tokenPrice           Float
+  expectedIncome       Float
+  roiExpected          Float
+  availableTokens      Int
+  expectedAnnual       Float
+  averageDollar        Float
+  totalReturn          Float
+  attractive           String
+
+  // Finance fields
+  propertyPrice     Float
+  renovations       Float
+  tokenizationCosts Float
+  commercialCosts   Float
+  legalCosts        Float
+  dueDiligence      Float
+  financialReserves Float
+  difference4x      Float
+  supplyFee         Float
+  marketingPlan     Float
+  grossIncome       Float
+  management        Float
+  taxes             Float
+  insurance         Float
+  SPVMaintenance    Float
+  vacancyReserve    Float
+  SPVCreation       Float
+  closingCosts      Float
+
+  // Owner details
+  email String
+
+  // New Fields for Image Data
+  image     String
+  subImages String[] @default([])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
