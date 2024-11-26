@@ -17,7 +17,7 @@ export default function Footer() {
         </div>
         <hr className="text-white mt-6 " />
         <p className="text-14 font-regular pb-8  text-center md:text-start font-inter text-white mt-6">
-          Copyright © 2024 CoinEstate. Todos los derechos reservados.
+          Copyright © 2024 CoinEstate. Todos los derechos reservados.
         </p>
       </div>
     </div>
