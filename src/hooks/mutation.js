@@ -156,6 +156,38 @@ export const useMutateDeleteBlog = (onSuccess) => {
   });
 };
 
+export const useMutateUpdateBlog = (onSuccess) => {
+  const mutationFn = async (data) => {
+    if (!data?.id) throw new Error("Blog ID and updated data are required for updating.");
+
+    const config = {
+      method: "PUT", // Use PUT or PATCH for updating
+      url: `${endPoint}/blog/update`, // Update to the correct update endpoint
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: { id:data?.id, ...data }, // Include ID and updated data in the request body
+    };
+
+    const response = await axios.request(config);
+    return response?.data;
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.error("Error updating blog:", error);
+      toast.error("Failed to update blog. Please try again.");
+    },
+    onSuccess: (data) => {
+      if (onSuccess) onSuccess();
+      console.log("Update response:", data);
+      toast.success("Blog updated successfully!");
+    },
+  });
+};
+
 // ============================================ Property Queries ========================================
 
 
@@ -191,6 +223,8 @@ export const useMutateCreateProperty = () => {
   });
 };
 
+
+// PUT
 
 
 export const useMutateLocalUser = () => {

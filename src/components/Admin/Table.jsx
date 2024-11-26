@@ -251,14 +251,14 @@ const PropertyTable = ({ deleteRow, updateRow, data = [] }) => {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    onClick={() => cell.column.id === 'delete' ? deleteRow(row.original.id) : updateRow(row.original.id)}
+                    onClick={() => cell.column.id === 'delete' ? deleteRow(row.original.id) : updateRow(cell.column.id, row.original.id)}
                     className="border text-center"
                   >
                     {cell.column.id === "image" ? (
                       cell.column.columnDef.cell({ row: cell.row })
-                    ) : (
-                      cell.getValue()
-                    )}
+                    ) : cell.column.id === 'delete' || cell.column.id === 'edit' ? (
+                      <p className="cursor-pointer">{cell.getValue()}</p>
+                    ) : cell.getValue()}
                   </td>
                 ))}
               </tr>
@@ -270,7 +270,6 @@ const PropertyTable = ({ deleteRow, updateRow, data = [] }) => {
         <div
           className="flex gap-2 justify-end mt-4"
         >
-
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
@@ -289,8 +288,6 @@ const PropertyTable = ({ deleteRow, updateRow, data = [] }) => {
               style={{
                 margin: "0 5px",
                 padding: "5px 10px",
-                // backgroundColor: i === table.getState().pagination.pageIndex ? "orangered" : "#fff",
-                // color: i === table.getState().pagination.pageIndex ? "#fff" : "#000",
                 border: "1px solid #ddd",
                 borderRadius: "4px",
               }}
@@ -306,7 +303,6 @@ const PropertyTable = ({ deleteRow, updateRow, data = [] }) => {
 
           >
             <img src="/assets/svg/arrow1.svg" alt="" className='-rotate-90' />
-
           </button>
         </div>
       </div>

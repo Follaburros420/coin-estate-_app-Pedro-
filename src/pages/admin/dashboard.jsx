@@ -4,11 +4,12 @@ import SortableTable from "@/components/Admin/Table";
 import { useMutateDeleteBlog } from "@/hooks/mutation";
 import { useQueryGetBlogList, useQueryGetProperty } from "@/hooks/query";
 import Layout from "@/layout/admin";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const router = useRouter()
   const { data: getPropertyDetails } = useQueryGetProperty();
   const { mutate: mutateDeleteBlog, isPending: isLoadingDelete } = useMutateDeleteBlog();
-  // const { data: getPropertyDetails } = useQueryGetPropertiesList()
   const { data: blogList } = useQueryGetBlogList()
   const latestBlogList = blogList?.map((item, idx) => {
     const date = new Date(item?.createdAt);
@@ -29,8 +30,11 @@ export default function Dashboard() {
     mutateDeleteBlog(id)
   }
 
-  const handleUpdate = (id) => {
-    console.log('update', id)
+  const handleUpdate = (cell, id) => {
+    if (cell === 'edit') {
+      router.push(`/admin/update-blog?id=${id}`)
+      console.log('update', id)
+    }
   }
 
 

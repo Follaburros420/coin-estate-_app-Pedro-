@@ -8,8 +8,22 @@ export default async function handler(req, res) {
           // Add filters if needed, or leave empty to fetch all
         },
       });
+      const item = await prisma.item.findMany({
+        where: {
+          // Add filters if needed, or leave empty to fetch all
+        },
+      });
 
-      res.status(200).json({ message: "Blogs fetched successfully", data: content });
+      const details = content.map((blog)=>{
+       const currentItems = item.filter(items=>items.contentId === blog.id)
+        if(currentItems?.[0]?.contentId === blog?.id)
+        return{
+          ...blog,
+          items:currentItems,
+        }
+      })
+
+      res.status(200).json({ message: "Blogs fetched successfully", data: details });
     } catch (error) {
       console.error("Error fetching blogs:", error);
       res.status(500).json({ error: "Failed to fetch blogs" });
