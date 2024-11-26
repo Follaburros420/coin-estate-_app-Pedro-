@@ -12,7 +12,7 @@ export const useQueryGetBlogList = () => {
 
   const queryFn = async () => {
     const config = {
-      method: 'POST',
+      method: 'GET',
       maxBodyLength: Infinity,
       url: `${endPoint}/blog/getBlogs`,
       headers: {
