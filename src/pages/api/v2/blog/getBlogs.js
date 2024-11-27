@@ -1,7 +1,7 @@
 import prisma from "@/libs/prisma";
 
 export default async function handler(req, res) {
-  if (req.method === "GET") {
+  if (req.method === "POST") {
     try {
       const content = await prisma.blog.findMany({
         where: {
