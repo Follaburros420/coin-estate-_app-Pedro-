@@ -149,13 +149,13 @@ export default function Home({ options }) {
               />
               {isLoadingMain && 'Uploading...'}
             </div>
-            <p className='font-medium text-18 leading-5 mb-[9px] text-start w-full mx-auto'>
+            <div className='font-medium text-18 leading-5 mb-[9px] text-start w-full mx-auto'>
               SubImages
               <Previews
                 onChange={(values) => mutateMultiImages(values)}
               />
               {isUploadingMultiFiles && 'Uploading To Server ...'}
-            </p>
+            </div>
 
             <form className='w-full'>
               <div className='w-full'>
@@ -268,7 +268,7 @@ export default function Home({ options }) {
                       rows={8}
                       placeholder='Type your Description'
                     />
-                    {errors.textArea && <p>{errors.description}</p>}
+                    {errors?.description && <p>{errors?.description?.message}</p>}
                   </div>
 
                   <div>
@@ -280,7 +280,7 @@ export default function Home({ options }) {
                       rows={8}
                       placeholder='Type your Description'
                     />
-                    {errors.attractive && <p>{errors.attractive}</p>}
+                    {errors?.attractive && <p>{errors?.attractive?.message}</p>}
                   </div>
 
                 </div>
