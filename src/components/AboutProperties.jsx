@@ -1,6 +1,7 @@
 import clsxm from "@/utils/clsxm";
 import React from "react";
 import RegisterBottomBanner from "./RegisterBottomBanner";
+import { SourceUrl } from "@/hooks/queryContants";
 const CARDS = [
   {
     id: 1,
@@ -184,31 +185,36 @@ const CARDS = [
   },
 ];
 
-export default function AboutProperties() {
+export default function AboutProperties({getPropertyList}) {
   return (
     <div className="mt-16 max-w-[1161px] mx-auto w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {CARDS.map((items, idx) => {
+        {getPropertyList?.map((items, idx) => {
+          const mainImage = SourceUrl + items?.image
+
           return (
             <div
-              key={`${items.id}___${idx}`}
+              key={`${items?.id}___${idx}`}
               className="max-w-[371px] bg-white mx-auto lg:mx-0  rounded-[8px] border border-black-100"
             >
               <div className="relative">
-                <img src={items.img} alt="" />
+                <div className="h-[247px] w-full">
+
+                <img src={mainImage} alt="" className="h-full object-cover w-full" />
+                </div>
                 <div className="flex justify-between">
-                  <button className="absolute top-4 left-4 py-1.5 px-4 bg-skyblue rounded-full text-12 font-inter font-semibold text-black-100 ">
-                    {items.btn1}
-                  </button>
+                  {/* <button className="absolute top-4 left-4 py-1.5 px-4 bg-skyblue rounded-full text-12 font-inter font-semibold text-black-100 ">
+                    {items.btn}
+                  </button> */}
                   <button className="absolute top-4 right-4 py-1.5 px-4 bg-black-100 rounded-full text-12 font-inter font-semibold text-white ">
-                    {items.btn2}
+                    {items.propertyType}
                   </button>
                 </div>
               </div>
               <div className="p-4">
                 <div className="flex justify-between items-center">
                   <h5 className="text-16 font-inter font-semibold text-black-100">
-                    {items.title}
+                    {items.name}
                   </h5>
                   <div className="flex gap-2 bg-peach p-1 items-center rounded-full">
                     <p className="text-12 font-inter font-semibold text-black-100">

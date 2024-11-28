@@ -1,15 +1,11 @@
 import { useCallback } from 'react';
 import * as yup from 'yup';
-
-// import { useMutateCreateNft, useMutateUploadFiles, useMutateUploadMultiFiles } from '@/hooks/mutation';
-import clsxm from '@/utils/clsxm';
-import { Controller, useForm } from 'react-hook-form';
-import Layout from '@/layout/admin';
 import Input from '@/components/Input';
 import Previews from '@/components/PreviewSec';
-import { useMutateCreateNft, useMutateCreateProperty, useMutateUploadFiles, useMutateUploadMultiFiles } from '@/hooks/mutation';
 import CustomSelect from '@/components/Select';
-import { toast } from 'react-toastify';
+import { useMutateCreateProperty, useMutateUploadFiles, useMutateUploadMultiFiles } from '@/hooks/mutation';
+import Layout from '@/layout/admin';
+import { useForm } from 'react-hook-form';
 
 const validationSchema = yup.object({
   name: yup.string().required('House Type is required'),
@@ -127,6 +123,8 @@ export default function Home({ options }) {
     // }
   }
 
+  const step = '0.001'
+
   return (
     <div>
       <Layout>
@@ -171,6 +169,7 @@ export default function Home({ options }) {
 
                   <Input
                     type='number'
+                    step={step}
                     Label={'Total investment price'}
                     placeholder='total investment price'
                     error={errors?.totalInvestmentPrice}
@@ -186,6 +185,7 @@ export default function Home({ options }) {
                   <Input
                     className='py-2'
                     type='number'
+                    step={step}
                     Label={'Token Price'}
                     placeholder='Token Price'
                     error={errors?.tokenPrice}
@@ -194,6 +194,7 @@ export default function Home({ options }) {
 
                   <Input
                     type='number'
+                    step={step}
                     Label={'Expected Income'}
                     placeholder='Expected Income'
                     error={errors?.expectedIncome}
@@ -204,6 +205,7 @@ export default function Home({ options }) {
                   <Input
                     className='py-2'
                     type='number'
+                    step={step}
                     Label={'ROI Expected'}
                     placeholder='ROI Expected'
                     error={errors?.roiExpected}
@@ -212,6 +214,7 @@ export default function Home({ options }) {
                   <Input
                     className='py-2'
                     type='number'
+                    step={step}
                     Label={'Expected Annual'}
                     placeholder='Expected Annual'
                     error={errors?.expectedAnnual}
@@ -221,6 +224,7 @@ export default function Home({ options }) {
                   <Input
                     className='py-2'
                     type='number'
+                    step={step}
                     Label={'Average Dollar'}
                     placeholder='Average Dollar'
                     error={errors?.averageDollar}
@@ -230,6 +234,7 @@ export default function Home({ options }) {
                   <Input
                     className='py-2'
                     type='number'
+                    step={step}
                     Label={'Total Return'}
                     placeholder='TotalReturn'
                     error={errors?.totalReturn}
@@ -238,6 +243,7 @@ export default function Home({ options }) {
 
                   <Input
                     type='number'
+                    step={step}
                     Label={'Available Tokens'}
                     placeholder='Available Tokens'
                     error={errors?.availableTokens}
@@ -296,6 +302,7 @@ export default function Home({ options }) {
                     Label={'NO Of BedRoom'}
                     placeholder='2'
                     type='number'
+                    step={step}
                     error={errors?.bedRoom}
                     register={register('bedRoom')}
                   />
@@ -303,12 +310,14 @@ export default function Home({ options }) {
                     Label={'NO Of BathRoom'}
                     placeholder='4'
                     type='number'
+                    step={step}
                     error={errors?.bathRoom}
                     register={register('bathRoom')}
                   />
                   <Input
                     Label={'Room Size'}
                     type='number'
+                    step={step}
                     placeholder='1000sfq'
                     error={errors?.roomSize}
                     register={register('roomSize')}
@@ -317,6 +326,7 @@ export default function Home({ options }) {
                     Label={'Construction Year'}
                     placeholder='2010..'
                     type='number'
+                    step={step}
                     error={errors?.constructionYear}
                     register={register('constructionYear')}
                   />
@@ -326,6 +336,7 @@ export default function Home({ options }) {
                   <Input
                     Label={'net anual income'}
                     type='number'
+                    step={step}
                     placeholder='32 eth'
                     error={errors?.netAnualIncome}
                     register={register('netAnualIncome')}
@@ -367,6 +378,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Property Price'}
                   placeholder='Property Price'
                   error={errors?.propertyPrice}
@@ -375,6 +387,7 @@ export default function Home({ options }) {
 
                 <Input
                   type='number'
+                  step={step}
                   Label={'Renovations'}
                   placeholder='Renovations'
                   error={errors?.renovations}
@@ -385,6 +398,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Tokenization Costs'}
                   placeholder='Tokenization Costs'
                   error={errors?.tokenizationCosts}
@@ -393,6 +407,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Commercial Costs'}
                   placeholder='Commercial Costs'
                   error={errors?.commercialCosts}
@@ -402,6 +417,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Legal Costs'}
                   placeholder='Legal Costs'
                   error={errors?.legalCosts}
@@ -411,6 +427,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Due Diligence'}
                   placeholder='Due Diligence'
                   error={errors?.dueDiligence}
@@ -419,6 +436,7 @@ export default function Home({ options }) {
 
                 <Input
                   type='number'
+                  step={step}
                   Label={'Financial Reserves'}
                   placeholder='Financial Reserves'
                   error={errors?.financialReserves}
@@ -430,6 +448,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'4X1000'}
                   placeholder='4X1000'
                   error={errors?.difference4x}
@@ -438,6 +457,7 @@ export default function Home({ options }) {
 
                 <Input
                   type='number'
+                  step={step}
                   Label={'Supply Fee'}
                   placeholder='Supply Fee'
                   error={errors?.supplyFee}
@@ -448,6 +468,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Marketing Plan'}
                   placeholder='Marketing Plan'
                   error={errors?.marketingPlan}
@@ -456,6 +477,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Gross Income'}
                   placeholder='Gross Income'
                   error={errors?.grossIncome}
@@ -465,6 +487,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Management'}
                   placeholder='Management'
                   error={errors?.management}
@@ -474,6 +497,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Taxes'}
                   placeholder='Taxes'
                   error={errors?.taxes}
@@ -482,6 +506,7 @@ export default function Home({ options }) {
 
                 <Input
                   type='number'
+                  step={step}
                   Label={'Insurance'}
                   placeholder='Insurance'
                   error={errors?.insurance}
@@ -491,6 +516,7 @@ export default function Home({ options }) {
 
                 <Input
                   type='number'
+                  step={step}
                   Label={'Property Maintenance'}
                   placeholder='Property Maintenance'
                   error={errors?.propertyMaintenance}
@@ -501,6 +527,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'SPV Maintenance'}
                   placeholder='SPV Maintenance'
                   error={errors?.SPVMaintenance}
@@ -510,6 +537,7 @@ export default function Home({ options }) {
                 <Input
                   className='py-2'
                   type='number'
+                  step={step}
                   Label={'Vacancy Reserve'}
                   placeholder='Vacancy Reserve'
                   error={errors?.vacancyReserve}
@@ -518,6 +546,9 @@ export default function Home({ options }) {
 
                 <Input
                   type='number'
+                  step={step}
+                  inputmode="decimal"
+                  step="0.001"
                   Label={'SPV Creation'}
                   placeholder='SPV Creation'
                   error={errors?.SPVCreation}
@@ -527,6 +558,7 @@ export default function Home({ options }) {
 
                 <Input
                   type='number'
+                  step={step}
                   Label={'Closing Costs'}
                   placeholder='Closing Costs'
                   error={errors?.closingCosts}
