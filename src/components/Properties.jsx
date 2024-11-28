@@ -8,10 +8,10 @@ import {
 } from "@/_mock/data";
 import clsxm from "@/utils/clsxm";
 
-export default function Properties() {
+export default function Properties({ setFilters, handleFilter, sortByMostRecent, handleSearch }) {
   const [isSelected, setIsSelected] = useState(0);
   const [isShown, setIsShown] = useState(false);
-  const [title, setTitle] = useState("Más recientes");
+  const [title, setTitle] = useState("Más rentables");
   return (
     <div className="max-w-[1161px] mx-auto w-full ">
       <h1 className="font-inter font-bold text-center lg:text-start text-36 text-black-100 mt-[52px]">
@@ -23,7 +23,7 @@ export default function Properties() {
             {MarketPlace_List_Content.map((item, idx) => {
               return (
                 <button
-                  onClick={() => setIsSelected(idx)}
+                  onClick={() => handleFilter(item?.value)}
                   key={idx}
                   className={clsxm(
                     "text-12 font-semibold w-fit text-center font-inter border border-black-100 p-2 sm:px-5 rounded-full",
@@ -45,6 +45,11 @@ export default function Properties() {
             />
             <input
               type="text"
+              // value={filters?.search === null ? '' : filters?.search}
+              onChange={(e) => {
+                handleSearch(e.target.value)
+                // setFilters({ ...filters, search: e.target.value })
+              }}
               placeholder="Busca Propiedades "
               className="text-grey-100 bg-lightblue w-full outline-none text-16 font-inter font-regular"
             />
@@ -67,21 +72,23 @@ export default function Properties() {
                 className={clsxm(
                   "w-4 h-2",
                   isShown === true &&
-                    "rotate-180 transition-all ease-in-out after:transition-all "
+                  "rotate-180 transition-all ease-in-out after:transition-all "
                 )}
               />
               {isShown && (
                 <div className="absolute bg-white mt-[190px] w-full max-w-[150px] z-50 shadow-2xl p-2 rounded-[10px] -ml-6 ">
                   {MarketPlace_Dropdown_Data.map((item, idx) => {
                     return (
-                      <div key={idx}>
-                        <input
-                          className="text-14 font-medium py-2 my-1 hover:bg-gray-hover w-full rounded-full placeholder:text-black-100 placeholder:text-center cursor-pointer "
-                          placeholder={item.title}
-                          onClick={() => setTitle(item.title)}
-                        />
-                        {/* {item.title} */}
-                      </div>
+                      <button
+                        key={idx}
+                        className="text-14 font-medium py-2 my-1 hover:bg-gray-hover w-full rounded-full text-black-100 text-center cursor-pointer "
+                        onClick={() => {
+                          sortByMostRecent(item.title)
+                          setTitle(item.title)
+                        }}
+                      >
+                        {item.title}
+                      </button>
                     );
                   })}
                 </div>

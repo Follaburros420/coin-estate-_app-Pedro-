@@ -1161,17 +1161,21 @@ export const Navbar_Links = [
 export const MarketPlace_List_Content = [
   {
     id: 1,
-    title: "Todas",
+    title: "All",
+    value: 'all',
   },
   {
     id: 3,
-    title: "En Financiación",
+    title: "In Financing",
+    value: 'financing',
   },
   {
     id: 3,
-    title: "En Operación",
+    title: "In Operation",
+    value: "in operation",
   },
 ];
+
 export const MarketPlace_Dropdown_Data = [
   {
     id: 1,
@@ -1179,7 +1183,7 @@ export const MarketPlace_Dropdown_Data = [
   },
   {
     id: 2,
-    title: " Más rentables",
+    title: "Más rentables",
   },
   {
     id: 3,

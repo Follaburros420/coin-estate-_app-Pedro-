@@ -185,7 +185,7 @@ const CARDS = [
   },
 ];
 
-export default function AboutProperties({getPropertyList}) {
+export default function AboutProperties({ getPropertyList }) {
   return (
     <div className="mt-16 max-w-[1161px] mx-auto w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -200,12 +200,12 @@ export default function AboutProperties({getPropertyList}) {
               <div className="relative">
                 <div className="h-[247px] w-full">
 
-                <img src={mainImage} alt="" className="h-full object-cover w-full" />
+                  <img src={mainImage} alt="" className="h-full object-cover w-full" />
                 </div>
                 <div className="flex justify-between">
-                  {/* <button className="absolute top-4 left-4 py-1.5 px-4 bg-skyblue rounded-full text-12 font-inter font-semibold text-black-100 ">
-                    {items.btn}
-                  </button> */}
+                  <button className="absolute top-4 left-4 py-1.5 px-4 bg-skyblue rounded-full text-12 font-inter font-semibold text-black-100 ">
+                    30%
+                  </button>
                   <button className="absolute top-4 right-4 py-1.5 px-4 bg-black-100 rounded-full text-12 font-inter font-semibold text-white ">
                     {items.propertyType}
                   </button>
@@ -216,11 +216,11 @@ export default function AboutProperties({getPropertyList}) {
                   <h5 className="text-16 font-inter font-semibold text-black-100">
                     {items.name}
                   </h5>
-                  <div className="flex gap-2 bg-peach p-1 items-center rounded-full">
+                  <div className="flex gap-2 bg-peach p-1 px-3 items-center rounded-full">
                     <p className="text-12 font-inter font-semibold text-black-100">
-                      {items.about}
+                      Location
                     </p>
-                    <img src={items.flag} alt="" />
+                    {/* <img src={items.flag} alt="" /> */}
                   </div>
                 </div>
                 <div className="bg-grey-200  h-2 mt-4 rounded-full">
@@ -235,25 +235,25 @@ export default function AboutProperties({getPropertyList}) {
                   <div className="mt-3 flex gap-6 items-center">
                     <div>
                       <p className="text-14 font-inter  font-regular text-grey-100">
-                        {items.token}
+                        Token Price
                       </p>
                       <p className="text-14 font-inter  mt-1 font-semibold text-black-100">
                         {items.tokenPrice}
                       </p>
                     </div>
-                    <img src={items.icon1} alt="" />
+                    <img src={'/assets/svg/questionMark.svg'} alt="" />
                   </div>
                   <hr className=" border border-r-1 mt-4 h-[44px] border-grey-100" />
                   <div className="mt-3 flex gap-6 items-center">
                     <div>
                       <p className="text-14 font-inter  font-regular text-grey-100">
-                        {items.total}
+                        Total Price
                       </p>
                       <p className="text-14 font-inter  mt-1 font-semibold text-end text-black-100">
-                        {items.totalPrice}
+                        {items.propertyPrice}
                       </p>
                     </div>
-                    <img src={items.icon1} alt="" />
+                    <img src={'/assets/svg/questionMark.svg'} alt="" />
                   </div>
                 </div>
 
@@ -261,10 +261,10 @@ export default function AboutProperties({getPropertyList}) {
                   <div className="mt-4 flex gap-6 items-center">
                     <div>
                       <p className="text-14 font-inter  font-regular text-grey-100">
-                        {items.income}
+                        Expected Income
                       </p>
                       <p className="text-14 font-inter  mt-1 font-semibold text-black-100">
-                        {items.percentage1}
+                        {items.expectedIncome}%
                       </p>
                     </div>
                     <img src="/assets/svg/iMark.svg" alt="" />
@@ -273,25 +273,24 @@ export default function AboutProperties({getPropertyList}) {
                   <div className="mt-3 flex gap-6 items-center">
                     <div>
                       <p className="text-14 font-inter  font-regular text-grey-100">
-                        {items.roi}
+                        Expected ROI
                       </p>
                       <p className="text-14 font-inter  mt-1 font-semibold text-end text-black-100">
-                        {items.percentage2}
-                      </p>
+                        {items.roiExpected}%                      </p>
                     </div>
                     <img src="/assets/svg/iMark.svg" alt="" />
                   </div>
                 </div>
                 <p className="mt-4 font-inter text-14 text-end font-semibold text-black-100">
                   Tokens Disponibles:{" "}
-                  <span className="text-yellow  font-regular">100 </span>{" "}
+                  <span className="text-yellow  font-regular">{items?.availableTokens} </span>{" "}
                 </p>
               </div>
             </div>
           );
         })}
       </div>
-     {/* <RegisterBottomBanner /> */}
+      {/* <RegisterBottomBanner /> */}
     </div>
   );
 }

@@ -87,13 +87,13 @@ export default function Navbar() {
         </div>
         <div className="hidden lg:flex gap-6 items-center">
           <button
-            onClick={() => router.push("/Auth/log-in")}
+            onClick={() => router.push("/auth/log-in")}
             className="text-12 font-inter font-semibold py-3 text-center px-8 text-black-100 border border-black-100 rounded-full"
           >
             Regístrate
           </button>
           <button
-            onClick={() => router.push("/Auth/create-account")}
+            onClick={() => router.push("/auth/create-account")}
             className="text-12 font-inter font-semibold py-3 text-center px-8 text-black-100 bg-yellow rounded-full"
           >
             Ingresa
