@@ -19,7 +19,7 @@ const validationSchema = yup.object({
   bathRoom: yup.number().required('bathRoom required'),
   roomSize: yup.number().required('roomSize required'),
   constructionYear: yup.string().required('constructionYear required'),
-  propertyMaintenance: yup.number().required('roomSize required'),
+  propertyMaintenance: yup.number().required('propertyMaintenance required'),
   // attributes: yup
   //   .array()
   //   .of(yup.boolean())
@@ -548,7 +548,6 @@ export default function Home({ options }) {
                   type='number'
                   step={step}
                   inputmode="decimal"
-                  step="0.001"
                   Label={'SPV Creation'}
                   placeholder='SPV Creation'
                   error={errors?.SPVCreation}
