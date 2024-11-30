@@ -1,13 +1,12 @@
 import About from "@/components/About";
 import AboutBlog from "@/components/AboutBlog";
 import Blog from "@/components/Blog";
-import Learn from "@/components/Learn";
-import Update from "@/components/Update";
 import WorksTopBanner from "@/components/WorksTopBanner";
+import { useQueryGetBlogList } from "@/hooks/query";
 import Layout from "@/layout";
-import React from "react";
 
-export default function page() {
+export default function Page() {
+  const { data: getBlogsList } = useQueryGetBlogList()
   return (
     <Layout>
       <div className="bg-lightblue">
@@ -21,7 +20,7 @@ export default function page() {
           }
         />
         <Blog />
-        <AboutBlog />
+        <AboutBlog getBlogsList={getBlogsList} />
         <About />
       </div>
     </Layout>

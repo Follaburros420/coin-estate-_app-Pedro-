@@ -4,34 +4,39 @@ import React from "react";
 import StyledImage from "./StyedImage";
 import { useRouter } from "next/navigation";
 import { LEARN } from "@/_mock/data";
+import { SourceUrl } from "@/hooks/queryContants";
+import { handleFormateTime } from "@/utils/helper";
+import Link from "next/link";
 
 
-export default function AboutBlog() {
+export default function AboutBlog({ getBlogsList }) {
   const router = useRouter();
   return (
     <div className="px-6 ">
       <div className="max-w-[1161px] mx-auto w-full pb-[100px]">
         <div className="my-16  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {LEARN.map((items, idx) => {
+          {getBlogsList?.map((items, idx) => {
+            const image = SourceUrl + items.image
             return (
               <div key={`${items.id}___${idx}`}>
-                <div className="max-w-[371px] mx-auto lg:mx-0 bg-white hover:bg-gray-200 rounded-lg">
+                <div className="max-w-[371px] mx-auto lg:mx-0 bg-white hover:bg-gray-200 rounded-lg border border-gray-200">
                   <div className=" relative ">
-                    <StyledImage
-                      src={items.img}
+                    <img
+                      src={image}
                       alt=""
-                      className="w-full h-[249px]"
+                      loading="lazy"
+                      className="w-full h-[249px] object-fill"
                     />
                     <button className="absolute top-4 left-4  py-1.5  px-6 rounded-full bg-black-100 text-white ">
-                      {items.btn}
+                      {'Real Estate Sector'}
                     </button>
                   </div>
                   <div className="p-4">
                     <h5 className="text-16 text-black-100 font-semibold font-inter">
                       {items.heading}
                     </h5>
-                    <p className="mt-2 text-14 font-inter font-regular text-black-100">
-                      {items.about}
+                    <p className="mt-2 text-14 font-inter font-regular text-gray">
+                      {items.details}
                     </p>
                     <div className={clsxm("flex justify-between mt-5")}>
                       <div className={clsxm("flex gap-1 items-center ")}>
@@ -47,19 +52,20 @@ export default function AboutBlog() {
                       <div className="flex gap-2 items-center ">
                         <StyledImage
                           className="w-4 h-4 "
-                          src={items.clockImg}
+                          src={'/assets/svg/clock.svg'}
                           alt=""
                         />
                         <h6 className="text-gray font-inter font-semibold text-12">
-                          {items.time}
+                          {handleFormateTime(items.createdAt)}
                         </h6>
                       </div>
                     </div>
                     <button
-                      onClick={() => router.push(items.path)}
+                      // href={{ pathname: "/[blog]/blog-details", query: { id: items.id } }}
+                      onClick={() => router.push(`/blog/${items.id}`)}
                       className="mt-4 text-yellow font-inter font-semibold text-12 border border-yellow rounded-full py-3 px-8 "
                     >
-                      {items.btn1}
+                      {'Conoce Más'}
                     </button>
                   </div>
                 </div>
