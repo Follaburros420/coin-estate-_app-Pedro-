@@ -1,12 +1,9 @@
 "use client";
-import clsxm from "@/utils/clsxm";
-import React from "react";
-import StyledImage from "./StyedImage";
-import { useRouter } from "next/navigation";
-import { LEARN } from "@/_mock/data";
 import { SourceUrl } from "@/hooks/queryContants";
+import clsxm from "@/utils/clsxm";
 import { handleFormateTime } from "@/utils/helper";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import StyledImage from "./StyedImage";
 
 
 export default function AboutBlog({ getBlogsList }) {
@@ -16,7 +13,7 @@ export default function AboutBlog({ getBlogsList }) {
       <div className="max-w-[1161px] mx-auto w-full pb-[100px]">
         <div className="my-16  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {getBlogsList?.map((items, idx) => {
-            const image = SourceUrl + items.image
+            const image = items.image !== 'null' ? SourceUrl + items.image : '/assets/images/BlogTwoMainImg.png';
             return (
               <div key={`${items.id}___${idx}`}>
                 <div className="max-w-[371px] mx-auto lg:mx-0 bg-white hover:bg-gray-200 rounded-lg border border-gray-200">

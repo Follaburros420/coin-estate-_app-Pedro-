@@ -6,7 +6,9 @@ import { useQueryGetBlogList } from "@/hooks/query";
 import Layout from "@/layout";
 
 export default function Page() {
-  const { data: getBlogsList } = useQueryGetBlogList()
+  const { data: getBlogsList } = useQueryGetBlogList();
+  const firstBlog = getBlogsList?.filter((item)=>item.image !== 'null')?.[0]
+  console.log("🚀 ~ Page ~ firstBlog:", firstBlog)
   return (
     <Layout>
       <div className="bg-lightblue">
@@ -19,7 +21,7 @@ export default function Page() {
             "Mantente informado con nuestros últimos artículos, noticias y opiniones de expertos sobre el mundo en evolución de la inversión inmobiliaria y la tecnología blockchain."
           }
         />
-        <Blog />
+        <Blog blog={firstBlog} />
         <AboutBlog getBlogsList={getBlogsList} />
         <About />
       </div>

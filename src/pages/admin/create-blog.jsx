@@ -7,7 +7,7 @@ import Previews from '@/components/PreviewSec';
 import { useMutateCreateBlog, useMutateUploadFiles } from '@/hooks/mutation';
 import Layout from '@/layout/admin';
 import clsxm from '@/utils/clsxm';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import dynamic from "next/dynamic";
 
 const QuillEditor = dynamic(() => import('@/components/QuillEditor'), {
@@ -20,7 +20,11 @@ const validationSchema = yup.object({
   items: yup.array().of(
     yup.object().shape({
       name: yup.string().required('Name is required'),
-      text_details: yup.string().required('Details are required'),
+      // text_details: yup.string().required('Details are required'),
+      text_details: yup.string()
+        .required('Text details are required')
+        .matches(/<\/?[a-z][\s\S]*>/i, 'Invalid content') // Validate HTML if necessary
+
     })
   ),
   details: yup.string().required('Details is required'),
@@ -91,6 +95,11 @@ export default function Home() {
   function handleFormSubmit(value) {
     createBlog({ ...value, image: mainImageData?.IpfsHash || 'null' })
   }
+
+  const normalizeQuillValue = (value) => {
+    const trimmed = value.replace(/<[^>]+>/g, '').trim(); // Strip HTML tags and trim
+    return trimmed === '' ? '' : value; // Return empty string if no meaningful content
+  };
 
   return (
     <div>
@@ -191,29 +200,20 @@ export default function Home() {
                         error={errors?.items?.[index]?.name}
                       />
 
-                      {/* {errors?.items?.[index]?.name && (
-                        <p className="error-text">{errors?.items?.[index]?.name?.message}</p>
-                      )} */}
-
-                      <QuillEditor
-                        value={item?.text_details || ''}
-                        onChange={(value) =>
-                          setValue(`items[${index}].text_details`, value)
-                        }
-                        style={{
-                          // background: '#fff'
-                          color: '#000'
-                        }}
-                        error={errors?.items?.[index]?.text_details}
-                        placeholder="Enter details..."
+                     
+                      <Controller
+                        name={`items[${index}].text_details`}
+                        control={control}
+                        defaultValue={item?.text_details || ''}
+                        render={({ field }) => (
+                          <QuillEditor
+                            {...field}
+                            placeholder="Enter details..."
+                            style={{ color: '#000' }}
+                          />
+                        )}
                       />
-
-                      {/* {errors?.items?.[index]?.text_details && (
-                        <p className="error-text">
-                          {errors?.items?.[index]?.text_details?.message}
-                        </p>
-                      )} */}
-
+                   
                       <button
                         className='absolute z-20 top-2 right-4 bg-yellow p-1 flex justify-center items-center rounded-lg'
                         type="button"

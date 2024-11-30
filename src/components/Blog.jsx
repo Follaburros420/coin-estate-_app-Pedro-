@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import StyledImage from "./StyedImage";
+import { handleFormateTime } from "@/utils/helper";
 
-export default function Blog() {
+export default function Blog({blog}) {
   return (
     <div className="px-6 ">
       <div className="max-w-[1161px] mx-auto w-full pt-[100px]">
@@ -38,26 +39,24 @@ export default function Blog() {
             />
           </div>
         </div>
-        <div className="mt-16 block lg:flex justify-center lg:justify-between  max-w-[1161px] mx-auto gap-7">
+        <div className="mt-16  grid md:grid-cols-2  max-w-[1161px] mx-auto gap-7">
           <img
             src="/assets/images/LearnPageMainImg.png"
             alt=""
-            className="max-h-[448px] mx-auto md:max-w-[662px]"
+            className="max-h-[448px] mx-auto w-full md:max-w-[662px]"
           />
-          <div className="mt-6 lg:mt-[103px] max-w-[656px] lg:max-w-[466px] mx-auto">
+          <div className="mt-6 w-full mx-auto">
             <button className="font-semibold text-14 text-center font-inter text-white bg-black-100 rounded-full py-1.5 px-6">
-              Sector Inmobiliario
+              {blog?.type || 'Sector Inmobiliario'}
             </button>
             <h5 className="mt-6 text-black-100 text-16 font-inter font-semibold">
-              ¿Cómo la tokenización puede revolucionar el sector inmobiliario?
+              {blog?.heading}
             </h5>
             <p className="mt-2 text-14 font-inter font-regular text-black-100">
-              La tokenización de activos por medio de contratos inteligentes
-              marcará un antes y un después, revolucionando el sector
-              inmobiliario por varias razones clave...
+             {blog?.description}
             </p>
             <div className="flex justify-between mt-8">
-              <div className="flex gap-1 items-center ">
+              <div className="flex flex-1 gap-1 items-center ">
                 <StyledImage
                   className="w-8 h-8 "
                   src="/assets/svg/UserIcon.svg"
@@ -74,7 +73,7 @@ export default function Blog() {
                   alt=""
                 />
                 <h6 className="text-gray font-inter font-semibold text-12">
-                  17 Oct 2024
+                {handleFormateTime(blog?.createdAt)}
                 </h6>
               </div>
             </div>

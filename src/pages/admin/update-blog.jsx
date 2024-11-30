@@ -8,7 +8,7 @@ import Previews from '@/components/PreviewSec';
 import { useMutateCreateBlog, useMutateUpdateBlog, useMutateUploadFiles } from '@/hooks/mutation';
 import Layout from '@/layout/admin';
 import clsxm from '@/utils/clsxm';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import dynamic from "next/dynamic";
 import { useQueryGetBlogList } from '@/hooks/query';
 import { useSearchParams } from 'next/navigation';
@@ -73,7 +73,7 @@ export default function Home() {
   const { mutate: createBlog, isPending: isLoadingCreateNfts } = useMutateUpdateBlog();
   const { data: blogList } = useQueryGetBlogList()
 
-  const selectedBlog = blogList?.filter((item)=> item.id === id)?.[0];
+  const selectedBlog = blogList?.filter((item) => item.id === id)?.[0];
 
 
   const initalValues = {
@@ -207,17 +207,17 @@ export default function Home() {
                         error={errors?.items?.[index]?.name}
                       />
 
-                      <QuillEditor
-                        value={item?.text_details || ''}
-                        onChange={(value) =>
-                          setValue(`items[${index}].text_details`, value)
-                        }
-                        style={{
-                          // background: '#fff'
-                          color: '#000'
-                        }}
-                        error={errors?.items?.[index]?.text_details}
-                        placeholder="Enter details..."
+                      <Controller
+                        name={`items[${index}].text_details`}
+                        control={control}
+                        defaultValue={item?.text_details || ''}
+                        render={({ field }) => (
+                          <QuillEditor
+                            {...field}
+                            placeholder="Enter details..."
+                            style={{ color: '#000' }}
+                          />
+                        )}
                       />
 
                       <button

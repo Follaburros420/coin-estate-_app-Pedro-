@@ -12,7 +12,8 @@ export default function BlogTwo() {
   const params = useParams()
   const { data: getBlogsList } = useQueryGetBlogList();
 
-  const selectedData = getBlogsList?.filter(item => item.id === params.slug)?.[0]
+  const selectedData = getBlogsList?.filter(item => item.id === params.slug)?.[0];
+  
 
   return (
     <Layout>
@@ -33,6 +34,7 @@ export default function BlogTwo() {
             mainImg={"/assets/images/BlogTwoMainImg.png"}
             heading={selectedData?.subheading}
           />
+
           <div className="text-14 font-inter text-gray font-medium bg-white rounded-[8px] shadow-md mt-8 sm:mt-16 p-6 ">
             <div>
               <p>
