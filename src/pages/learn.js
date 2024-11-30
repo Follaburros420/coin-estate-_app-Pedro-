@@ -8,7 +8,6 @@ import Layout from "@/layout";
 export default function Page() {
   const { data: getBlogsList } = useQueryGetBlogList();
   const firstBlog = getBlogsList?.filter((item)=>item.image !== 'null')?.[0]
-  console.log("🚀 ~ Page ~ firstBlog:", firstBlog)
   return (
     <Layout>
       <div className="bg-lightblue">
