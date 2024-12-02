@@ -2,7 +2,7 @@ import prisma from "@/libs/prisma";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { heading, items, details, image, description, subheading } = req.body;
+    const { heading, items, details, image, description, subheading, blogStatus } = req.body;
 
     if (!heading || !details || !image || !description || !subheading) {
       return res.status(400).json({ error: "All required fields must be provided." });
@@ -14,6 +14,7 @@ export default async function handler(req, res) {
         data: {
           heading,
           details,
+          blogStatus,
           image,
           description,
           subheading,

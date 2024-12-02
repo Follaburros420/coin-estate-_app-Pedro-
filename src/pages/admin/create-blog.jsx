@@ -9,6 +9,7 @@ import Layout from '@/layout/admin';
 import clsxm from '@/utils/clsxm';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import dynamic from "next/dynamic";
+import CustomSelect from '@/components/Select';
 
 const QuillEditor = dynamic(() => import('@/components/QuillEditor'), {
   ssr: false,
@@ -27,6 +28,7 @@ const validationSchema = yup.object({
 
     })
   ),
+  blogStatus: yup.string().required('blogStatus is required'),
   details: yup.string().required('Details is required'),
   description: yup
     .string()
@@ -115,15 +117,26 @@ export default function Home() {
               Create Blog
             </p>
             <form className=' w-full '>
-              <div className=' w-full '>
-                <Input
-                  className='py-4'
-                  type='text'
-                  Label={'Heading'}
-                  placeholder='heading'
-                  error={errors?.heading}
-                  register={register('heading')}
-                />
+              <div>
+                <div className='grid grid-cols-2 gap-4 w-full '>
+                  <Input
+                    className='py-2.5'
+                    type='text'
+                    Label={'Heading'}
+                    placeholder='heading'
+                    error={errors?.heading}
+                    register={register('heading')}
+                  />
+                  <div className='w-full'>
+                    <CustomSelect
+                      label={'Blog Type'}
+                      error={errors.blogStatus}
+                      control={control}
+                      name='blogStatus'
+                      options={['Real Estate', 'Tokenization', 'Coin Estate']}
+                    />
+                  </div>
+                </div>
                 <div className='mt-3'>
                   <label>Description</label>
                   <textarea
@@ -135,6 +148,7 @@ export default function Home() {
                   {errors?.description && <p>{errors?.description?.message}</p>}
                 </div>
               </div>
+
               <hr className='text-gray-hover my-6' />
               <div className='grid grid-cols-2 gap-4'>
 
@@ -200,7 +214,7 @@ export default function Home() {
                         error={errors?.items?.[index]?.name}
                       />
 
-                     
+
                       <Controller
                         name={`items[${index}].text_details`}
                         control={control}
@@ -213,7 +227,7 @@ export default function Home() {
                           />
                         )}
                       />
-                   
+
                       <button
                         className='absolute z-20 top-2 right-4 bg-yellow p-1 flex justify-center items-center rounded-lg'
                         type="button"

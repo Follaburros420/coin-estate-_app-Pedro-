@@ -2,6 +2,7 @@ import clsxm from "@/utils/clsxm";
 import React from "react";
 import RegisterBottomBanner from "./RegisterBottomBanner";
 import { SourceUrl } from "@/hooks/queryContants";
+import { useRouter } from "next/navigation";
 const CARDS = [
   {
     id: 1,
@@ -186,6 +187,7 @@ const CARDS = [
 ];
 
 export default function AboutProperties({ getPropertyList }) {
+  const router = useRouter()
   return (
     <div className="mt-16 max-w-[1161px] mx-auto w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -195,6 +197,7 @@ export default function AboutProperties({ getPropertyList }) {
           return (
             <div
               key={`${items?.id}___${idx}`}
+              onClick={() => router.push(`/dashboard/marketplace/${items.id}`)}
               className="max-w-[371px] bg-white mx-auto lg:mx-0  rounded-[8px] border border-black-100"
             >
               <div className="relative">

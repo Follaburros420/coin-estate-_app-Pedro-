@@ -3,7 +3,7 @@ import StyledImage from "@/components/StyedImage";
 import clsxm from "@/utils/clsxm";
 import React from "react";
 
-export default function BlockChainTab() {
+export default function BlockChainTab({nft}) {
   return (
     <div className="mt-8 bg-black-1000 p-6 rounded-[20px] overflow-hidden ">
       <div className="flex flex-col sm:flex-row items-center justify-between ">

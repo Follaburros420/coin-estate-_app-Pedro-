@@ -2,7 +2,7 @@ import clsxm from '@/utils/clsxm'
 import React from 'react'
 import { Controller } from 'react-hook-form'
 
-export default function CustomSelect({ label,name, errors, options, control }) {
+export default function CustomSelect({ label, name, errors, options, control }) {
   return (
     <div>
       <div className='w-full'>

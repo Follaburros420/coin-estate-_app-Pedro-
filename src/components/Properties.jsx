@@ -8,7 +8,7 @@ import {
 } from "@/_mock/data";
 import clsxm from "@/utils/clsxm";
 
-export default function Properties({ setFilters, handleFilter, sortByMostRecent, handleSearch }) {
+export default function Properties({  handleFilter, sortByMostRecent, handleSearch }) {
   const [isSelected, setIsSelected] = useState(0);
   const [isShown, setIsShown] = useState(false);
   const [title, setTitle] = useState("Más rentables");

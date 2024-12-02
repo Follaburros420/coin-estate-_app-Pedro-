@@ -1,42 +1,56 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 "use client";
-import { MarketPlace_Total_Investments_Data } from "@/_mock/data";
 import StyledImage from "@/components/StyedImage";
 import clsxm from "@/utils/clsxm";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
-export default function HeaderSection() {
+export default function HeaderSection({ selectedNFT }) {
   const [isSelected, setIsSelected] = useState(false);
   const location = usePathname();
   const paths = {
     "/admin/market-place": "MarketPlace",
   };
+
+
+  const MarketPlace_Total_Investments_Data = [
+    {
+      id: 1,
+      title: "Valor Total de la inversión ",
+      ratio: selectedNFT?.TotalPrice + '$' || "$ 50.000",
+    },
+    {
+      id: 2,
+      title: "Renta neta por alquiler anual",
+      ratio: selectedNFT?.expectedIncome + '%' || " 9.93%",
+    },
+    {
+      id: 3,
+      title: "Valorización promedio dólar",
+      ratio: selectedNFT?.averageDollar + '%' || "2%",
+    },
+    {
+      id: 4,
+      title: "Apreciación estimada anual",
+      ratio:  selectedNFT?.roiExpected + '%' ||"7%",
+    },
+    {
+      id: 5,
+      title: "Rentabilidad Total",
+      ratio:  "$"+ selectedNFT?.totalReturn || "$ 10.179",
+      color: "#FFCC00",
+    },
+  ];
+
+
   return (
     <div className="font-ubuntu ">
       <p className="text-28 text-center -mt-5 font-ubuntu font-bold lg:hidden leading-none text-white w-full ">
         {paths[location]}
       </p>
       <div className="mt-5 lg:mt-0 ">
-        {/* <p className="text-16 text-center md:text-start ">
-          Saturday, october,06, 2024
-        </p>
-        <div className="flex flex-col items-center md:flex-row text-center md:text-start md:gap-16 gap-8 mt-10 md:mt-20 ">
-          <StyledImage
-            src="/assets/images/MarketPlaceMain.png"
-            className="w-full max-w-[474px] h-[300px] "
-          />
-          <div>
-            <p className="text-26 md:text-40 font-bold ">
-              WE Got Every Thing you need!
-            </p>
-            <p className="text-16 font-bold text-white opacity-60 ">
-              Lorem ipsum dolor sit amet consectetur. Scelerisque quis at dui
-              pulvinar sit euismod.
-            </p>
-          </div>
-        </div> */}
+        
         <div className="grid grid-rows-2 grid-cols-4 gap-2 rounded-[10px] overflow-hidden ">
           <img
             src="/assets/images/MarketPlaceGridImgOne.png"
@@ -45,19 +59,19 @@ export default function HeaderSection() {
           <img
             src="/assets/images/MarketPlaceGridImgTwo.png"
             className="w-full h-full "
-          />{" "}
+          />
           <img
             src="/assets/images/MarketPlaceGridImgThree.png"
             className="w-full h-full "
-          />{" "}
+          />
           <img
             src="/assets/images/MarketPlaceGridImgFour.png"
             className="w-full h-full "
-          />{" "}
+          />
           <img
             src="/assets/images/MarketPlaceGridImgOne.png"
             className=" w-full h-full"
-          />{" "}
+          />
         </div>
       </div>
       <div className="grid xl:grid-cols-3 gap-8 mt-10 md:mt-20 ">
@@ -70,14 +84,14 @@ export default function HeaderSection() {
                   className="w-14 h-14 "
                 />
                 <div className="text-center ">
-                  <p className="text-20 text-Yellow-100  ">1000</p>
+                  <p className="text-20 text-Yellow-100  ">{selectedNFT?.availableTokens}</p>
                   <p className="sm:text-20 font-bold text-white sm:mt-2 leading-none ">
                     Tokens Disponibles
                   </p>
                 </div>
               </div>
               <div className="text-center ">
-                <p className="text-20 text-Yellow-100 ">$1 USD</p>
+                <p className="text-20 text-Yellow-100 ">${selectedNFT?.tokenPrice} USD</p>
                 <p className="sm:text-20 font-bold leading-none ">
                   Precio del Token
                 </p>
@@ -120,7 +134,7 @@ export default function HeaderSection() {
               <p className="text-14 font-bold text-Yellow-100 ">
                 Rentabilidad Anual Esperada{" "}
               </p>
-              <p className="sm:text-20 font-bold text-Yellow-100 ">+18,93%</p>
+              <p className="sm:text-20 font-bold text-Yellow-100 ">{selectedNFT?.expectedAnnual}%</p>
             </div>
             <p className="text-light-brand-400 text-center sm:text-start text-14 mt-2 ">
               {" "}

@@ -27,6 +27,7 @@ model Blog {
   items       Item[]
   details     String
   description String
+  blogStatus  String
   image       String
   subheading  String
   createdAt   DateTime @default(now())

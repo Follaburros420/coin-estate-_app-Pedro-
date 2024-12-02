@@ -10,11 +10,7 @@ import React, { useEffect, useState } from "react";
 export default function Page() {
   const { data: getPropertyList } = useQueryGetProperty();
   const [filtered, setFiltered] = useState();
-  const [filters, setFilters] = useState({
-    propertyType: null,
-    search: null,
-  });
-  console.log({ filtered })
+
 
   const handleFilter = (value) => {
     const filteredProperty = value !== 'all' ? getPropertyList.filter(
@@ -22,15 +18,6 @@ export default function Page() {
     ) : getPropertyList;
     setFiltered(filteredProperty)
   }
-  // useEffect(() => {
-  //   if (getPropertyList?.length > 0) {
-  //     handleFilter()
-  //   }
-  //   // setFiltered(getPropertyList)
-  // }, [filters?.search, filters?.propertyType])
-
-
-  const sorted = '';
 
   const handleSearch = (value) => {
     const searched = getPropertyList.filter((item) =>
@@ -51,8 +38,7 @@ export default function Page() {
         <div className="px-6 ">
           <Properties
             handleFilter={handleFilter}
-            setFilters={setFilters}
-            filters={filters}
+       
             handleSearch={handleSearch}
             sortByMostRecent={(title) => {
               console.log({ title })

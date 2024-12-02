@@ -5,6 +5,7 @@ import {
 import BlogHeaders from "@/components/userDetail/BlogHeaders";
 import WorksTopBanner from "@/components/WorksTopBanner";
 import { useQueryGetBlogList } from "@/hooks/query";
+import { SourceUrl } from "@/hooks/queryContants";
 import Layout from "@/layout";
 import { useParams } from "next/navigation";
 
@@ -31,7 +32,7 @@ export default function BlogTwo() {
             userName={"Pedro Ardila"}
             date={"Octubre 17, 2024"}
             dataBtn={"Sector Inmobiliario"}
-            mainImg={"/assets/images/BlogTwoMainImg.png"}
+            mainImg={selectedData?.image !== 'null' ? SourceUrl+selectedData?.image :"/assets/images/BlogTwoMainImg.png"}
             heading={selectedData?.subheading}
           />
 

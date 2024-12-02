@@ -25,7 +25,7 @@ export default function BlogHeaders({
             {dataBtn}
           </button>
         </div>
-        <StyledImage
+        <img
           src={mainImg}
           className="w-full max-w-[597px] min-h-[320px] sm:min-h-[371px] "
         />

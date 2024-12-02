@@ -380,34 +380,6 @@ export const SERVICES = [
   },
 ];
 
-export const MarketPlace_Total_Investments_Data = [
-  {
-    id: 1,
-    title: "Valor Total de la inversión ",
-    ratio: "$ 50.000",
-  },
-  {
-    id: 2,
-    title: "Renta neta por alquiler anual",
-    ratio: "9.93%",
-  },
-  {
-    id: 3,
-    title: "Valorización promedio dólar",
-    ratio: "2%",
-  },
-  {
-    id: 4,
-    title: "Apreciación estimada anual ",
-    ratio: "7%",
-  },
-  {
-    id: 5,
-    title: "Rentabilidad Total",
-    ratio: "$ 10.179",
-    color: "#FFCC00",
-  },
-];
 
 export const Blockchain_Tab_Data = [
   {
@@ -434,50 +406,7 @@ export const Blockchain_Tab_Data = [
   },
 ];
 
-export const Projection_Tab_Overview_Data = [
-  {
-    id: 1,
-    imgUrlActive: "/assets/svg/ProjectionTab/active/BedroomIcon.svg",
-    imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/BedroomIcon.svg",
-    title: "Bedroom",
-    desc: "4",
-  },
-  {
-    id: 2,
-    imgUrlActive: "/assets/svg/ProjectionTab/active/TypeIcon.svg",
-    imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/TypeIcon.svg",
-    title: "Type",
-    desc: "Home",
-  },
-  {
-    id: 3,
-    imgUrlActive: "/assets/svg/ProjectionTab/active/BathIcon.svg",
-    imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/BathIcon.svg",
-    title: "Bath",
-    desc: "3",
-  },
-  {
-    id: 4,
-    imgUrlActive: "/assets/svg/ProjectionTab/active/Parking.svg",
-    imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/Parking.svg",
-    title: "Parking",
-    desc: "Yes",
-  },
-  {
-    id: 5,
-    imgUrlActive: "/assets/svg/ProjectionTab/active/Sqft.svg",
-    imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/Sqft.svg",
-    title: "Sqft",
-    desc: "2200",
-  },
-  {
-    id: 6,
-    imgUrlActive: "/assets/svg/ProjectionTab/active/BuildYear.svg",
-    imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/BuildYear.svg",
-    title: "Build Year",
-    desc: "2020",
-  },
-];
+
 
 export const Financial_Tab_QueryOne_Data = [
   {

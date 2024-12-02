@@ -3,16 +3,8 @@ import prisma from "@/libs/prisma";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      const content = await prisma.blog.findMany({
-        where: {
-          // Add filters if needed, or leave empty to fetch all
-        },
-      });
-      const item = await prisma.item.findMany({
-        where: {
-          // Add filters if needed, or leave empty to fetch all
-        },
-      });
+      const content = await prisma.blog.findMany();
+      const item = await prisma.item.findMany();
 
       const details = content.map((blog)=>{
        const currentItems = item.filter(items=>items.contentId === blog.id)

@@ -5,15 +5,24 @@ import BlockChainTab from "./BlockChainTab";
 import ProjectionTab from "./ProjectionTab";
 import MoreInfoTab from "./MoreInfoTab";
 
-function Tabs() {
+function Tabs({ selectedNFT }) {
   const [activeTab, setActiveTab] = useState(0); // Manage active tab
 
   // Components corresponding to each tab
   const tabComponents = [
-    { name: "Financial", component: <FinancialTab /> },
-    { name: "Blockchain", component: <BlockChainTab /> },
-    { name: "Projections", component: <ProjectionTab /> },
-    // { name: "More Info", component: <MoreInfoTab /> },
+    {
+      name: "Details & Projections",
+      component: <ProjectionTab nft={selectedNFT} />
+    },
+    {
+      name: "Blockchain",
+      component: <BlockChainTab nft={selectedNFT} />
+    },
+    {
+      name: "Financials",
+      component: <FinancialTab nft={selectedNFT} />
+    },
+
   ];
 
   return (
@@ -23,11 +32,10 @@ function Tabs() {
         {tabComponents.map((tab, index) => (
           <button
             key={index}
-            className={`py-2 px-2 sm:px-4 focus:outline-none transition-colors duration-300 sm:text-24 font-medium ${
-              activeTab === index
-                ? "border-Yellow-300 border-b-[8px] -mb-2 sm:text-20 text-white  "
-                : " text-base-900 "
-            }`}
+            className={`py-2 px-2 sm:px-4 focus:outline-none transition-colors duration-300 sm:text-24 font-medium ${activeTab === index
+              ? "border-Yellow-300 border-b-[8px] -mb-2 sm:text-20 text-white  "
+              : " text-base-900 "
+              }`}
             onClick={() => setActiveTab(index)}
           >
             {tab.name}

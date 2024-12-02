@@ -6,8 +6,55 @@ import React, { useState } from "react";
 import Simulator from "./Simulator";
 import Projections from "./Projections";
 
-export default function ProjectionTab() {
+export default function ProjectionTab({ nft }) {
   const [isSelected, setIsSelected] = useState(false);
+
+
+  const Projection_Tab_Overview_Data = [
+    {
+      id: 1,
+      imgUrlActive: "/assets/svg/ProjectionTab/active/BedroomIcon.svg",
+      imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/BedroomIcon.svg",
+      title: "Bedroom",
+      desc: nft?.bedRoom || "4",
+    },
+    // {
+    //   id: 2,
+    //   imgUrlActive: "/assets/svg/ProjectionTab/active/TypeIcon.svg",
+    //   imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/TypeIcon.svg",
+    //   title: "Type",
+    //   desc: nft.bedRoom || "Home",
+    // },
+    {
+      id: 3,
+      imgUrlActive: "/assets/svg/ProjectionTab/active/BathIcon.svg",
+      imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/BathIcon.svg",
+      title: "Bath",
+      desc:   nft?.bathRoom || "3",
+    },
+    // {
+    //   id: 4,
+    //   imgUrlActive: "/assets/svg/ProjectionTab/active/Parking.svg",
+    //   imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/Parking.svg",
+    //   title: "Parking",
+    //   desc: "Yes",
+    // },
+    {
+      id: 5,
+      imgUrlActive: "/assets/svg/ProjectionTab/active/Sqft.svg",
+      imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/Sqft.svg",
+      title: "Sqft",
+      desc: nft?.roomSize || "2200",
+    },
+    {
+      id: 6,
+      imgUrlActive: "/assets/svg/ProjectionTab/active/BuildYear.svg",
+      imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/BuildYear.svg",
+      title: "Build Year",
+      desc: nft?.constructionYear || "2020",
+    },
+  ];
+
   return (
     <div>
       <div className="grid xl:grid-cols-3 md:gap-8 ">
@@ -20,7 +67,7 @@ export default function ProjectionTab() {
             <div>
               <div>
                 <p className="text-20 sm:text-24 font-semibold font-quickSand leading-none ">
-                  $ 32,000/ Year
+                  ${nft?.netAnualIncome || 0.0} / Year
                 </p>
                 <div className="flex items-center justify-center md:justify-start gap-2 mt-3 ">
                   <StyledImage
@@ -44,7 +91,7 @@ export default function ProjectionTab() {
                           idx === 2 && "my-5",
                           isSelected === item.id && "text-Yellow-100"
                         )}
-                        onClick={() => setIsSelected(item.id)}
+                        // onClick={() => setIsSelected(item.id)}
                         key={idx}
                       >
                         <StyledImage
@@ -61,7 +108,7 @@ export default function ProjectionTab() {
                             className={clsxm(
                               "text-14 text-grey-600 ",
                               isSelected === item.id &&
-                                "text-Yellow-100 text-14 "
+                              "text-Yellow-100 text-14 "
                             )}
                           >
                             {item.desc}
