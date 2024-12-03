@@ -1,11 +1,91 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
+import Input from "@/components/Input";
 import StyledImage from "@/components/StyedImage";
 import React, { useState } from "react";
+
+const validationSchema = yup.object({
+  email: yup.number().required("E-Mail is required"),
+  password: yup.number().required("Password is required"),
+});
+
+const useYupValidationResolver = (validationSchema) =>
+  useCallback(
+    async (data) => {
+      try {
+        const values = await validationSchema.validate(data, {
+          abortEarly: false,
+        });
+
+        return {
+          values,
+          errors: {},
+        };
+      } catch (errors) {
+        return {
+          values: {},
+          errors: errors.inner.reduce(
+            (allErrors, currentError) => ({
+              ...allErrors,
+              [currentError.path]: {
+                type: currentError.type ?? "validation",
+                message: currentError.message,
+              },
+            }),
+            {}
+          ),
+        };
+      }
+    },
+    [validationSchema]
+  );
 
 export default function LogIn() {
   const [showEmail, setShowEmail] = useState(true);
   const [showPassword, setShowPassword] = useState(true);
+  const resolver = useYupValidationResolver(validationSchema);
+  const {
+    mutate: mutateUploadMainFile,
+    data: mainImageData,
+    isPending: isLoadingMain,
+  } = useMutateUploadFiles();
+  const {
+    mutate: mutateMultiImages,
+    isPending: isUploadingMultiFiles,
+    data: multiFilesList,
+  } = useMutateUploadMultiFiles();
+  const { mutate: createProperty, isPending: isLoadingCreateNfts } =
+    useMutateCreateProperty();
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver,
+  });
+
+  function handleFormSubmit(value) {
+    // if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
+    const defaultValues = {
+      ...value,
+      image:
+        mainImageData?.IpfsHash ||
+        "QmTsTAMASbvwfGUxhqdV48h8HG55v3PT4eGVjLYQ8SCE1R",
+      subImages: multiFilesList || [
+        "QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU",
+      ],
+      email: "demo@gmail.com",
+    };
+    createProperty(defaultValues);
+    // }else{
+    // toast.error('data is missing')
+    // }
+  }
+
+  const step = "0.001";
   return (
     <div className="bg-black-800 min-h-screen flex items-center justify-center ">
       <div className="bg-white p-6 rounded-[20px] w-full max-w-[500px]  ">
@@ -44,10 +124,19 @@ export default function LogIn() {
             </button>
           </div>
           <div className="bg-light-brand-200 border border-grayTwo py-2 px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between ">
-            <input
+            {/* <input
               type={showPassword === true ? "text" : "password"}
               className="bg-[transparent]  w-full text-16 outline-none "
               placeholder="*****************"
+            /> */}
+            <Input
+              type={showPassword === true ? "text" : "password"}
+              step={step}
+              Label={"Total investment price"}
+              placeholder="total investment price"
+              error={errors?.email}
+              register={register("email")}
+              className="py-2"
             />
           </div>
         </div>
@@ -59,7 +148,7 @@ export default function LogIn() {
           Don't have an account yet?
         </p>
         <div className="flex items-center justify-between mt-4 px-6 text-blue-500 font-medium underline ">
-          <button>Sign up</button>
+          <button type="submit">Sign up</button>
           <button>Forgot your password?</button>
         </div>
       </div>
