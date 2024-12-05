@@ -17,7 +17,7 @@ export default function Dashboard() {
       ...item,
       rowNum: idx + 1,
       value: date?.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
-      edit: <img src="/assets/svg/edit.svg" alt="" className="mx-auto" />,
+      edit: <img src="/assets/svg/Edit.svg" alt="" className="mx-auto" />,
       delete: <img src="/assets/svg/delete.svg" alt="" className="mx-auto" />,
     }
   });
