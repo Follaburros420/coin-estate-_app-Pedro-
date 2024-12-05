@@ -1,5 +1,5 @@
+import prisma from '@/libs/prisma';
 import crypto from 'crypto';
-import prisma from '../../../lib/prisma';
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {

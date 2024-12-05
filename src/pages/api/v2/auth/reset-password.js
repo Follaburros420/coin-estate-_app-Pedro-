@@ -1,6 +1,6 @@
 import crypto from 'crypto';
-import prisma from '../../../lib/prisma';
 import bcrypt from 'bcryptjs';
+import prisma from '@/libs/prisma';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
