@@ -12,9 +12,8 @@ export const handleFormateTime = (dateString) => {
 }
 
 export const handleFormate = (email) => {
-  return 
+  return
 }
-
 
 export const routerPaths = [
   'admin',
