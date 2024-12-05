@@ -1,11 +1,10 @@
-"use client";
-import React, { useState } from "react";
-import Sidebar from "./Sidebar";
+import { useState } from "react";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Sidebar from "./Sidebar";
 
 export default function Layout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
+
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -15,14 +14,13 @@ export default function Layout({ children }) {
       <Navbar toggleSidebar={toggleSidebar} />
       <div>
         <div className="flex lg:gap-5 w-full h-full pt-28 ">
-          <div className="lg:w-full lg:max-w-[292px]">
+          <div className="hidden xl:block lg:w-full xl:max-w-[292px]">
             <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
           </div>
-          <div className="w-full lg:max-w-[1161px] mx-auto lg:ml-auto h-full ">
+          <div className="w-full lx:ml-[242px] lg:max-w-[1161px] mx-auto h-full ">
             {children}
           </div>
         </div>
-        {/* <Footer /> */}
       </div>
     </div>
   );

@@ -3,9 +3,47 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { endPoint, user_auth } from './queryContants';
+import { useRouter } from 'next/navigation';
+import { useQueryGetUser } from './query';
 // import createBlog from '@/app/server/blog/action';
 // import getBlogsList from '@/app/server/blog/deleteBlog';
 // import createProperty from '@/app/api/v2/property/action';
+
+
+
+
+
+export const useMutateLocalUser = () => {
+
+  const mutationFn = async (value) => {
+
+    return sessionStorage.setItem(user_auth, JSON.stringify(value))
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (res) => {
+      console.log({ res })
+    },
+    onSuccess: (res) => {
+    },
+  });
+};
+
+export const useMutateLogout = () => {
+  const mutationFn = async () => {
+    return sessionStorage.removeItem(user_auth)
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (res) => {
+      console.log({ res })
+    },
+    onSuccess: (res) => {
+    },
+  });
+}
 
 // ================================== pinata albums ==========================
 
@@ -94,6 +132,7 @@ export const useMutateUploadMultiFiles = () => {
 // ================================================= Delete Blog ==================================
 
 export const useMutateCreateBlog = () => {
+  const { data: user } = useQueryGetUser()
 
   const mutationFn = async (data) => {
     if (!data) throw new Error("Blog data is required for creation.");
@@ -103,8 +142,9 @@ export const useMutateCreateBlog = () => {
       url: `${endPoint}/blog/action`, // Update to the correct deletion endpoint
       headers: {
         Accept: "application/json",
+        Authorization: `Bearer ${user?.token}`,
       },
-      data: data, // Pass the ID in the request body
+      data: { ...data, email: user?.email }, // Pass the ID in the request body
     };
 
     const response = await axios.request(config);
@@ -115,7 +155,7 @@ export const useMutateCreateBlog = () => {
     mutationFn,
     onError: (res) => {
       console.log({ res })
-      toast.error(`Error: ${res}`);
+      toast.error(`Error: ${res.response.data.error}`);
     },
     onSuccess: (res) => {
       console.log({ res })
@@ -126,6 +166,8 @@ export const useMutateCreateBlog = () => {
 
 
 export const useMutateDeleteBlog = (onSuccess) => {
+  const { data: user } = useQueryGetUser()
+
   const mutationFn = async (id) => {
     if (!id) throw new Error("Blog ID is required for deletion.");
 
@@ -133,7 +175,8 @@ export const useMutateDeleteBlog = (onSuccess) => {
       method: "DELETE", // Use DELETE method for deletion
       url: `${endPoint}/blog/deleteBlog`, // Update to the correct deletion endpoint
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
+        Authorization: `Bearer ${user?.token}`,
       },
       data: { id }, // Pass the ID in the request body
     };
@@ -157,6 +200,8 @@ export const useMutateDeleteBlog = (onSuccess) => {
 };
 
 export const useMutateUpdateBlog = (onSuccess) => {
+  const { data: user } = useQueryGetUser()
+
   const mutationFn = async (data) => {
     if (!data?.id) throw new Error("Blog ID and updated data are required for updating.");
 
@@ -165,9 +210,9 @@ export const useMutateUpdateBlog = (onSuccess) => {
       url: `${endPoint}/blog/update`, // Update to the correct update endpoint
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${user?.token}`,
       },
-      data: { id:data?.id, ...data }, // Include ID and updated data in the request body
+      data: { id: data?.id, ...data, email: user?.email }, // Include ID and updated data in the request body
     };
 
     const response = await axios.request(config);
@@ -177,7 +222,7 @@ export const useMutateUpdateBlog = (onSuccess) => {
   return useMutation({
     mutationFn,
     onError: (error) => {
-      console.error("Error updating blog:", error);
+      console.log("Error updating blog:", error);
       toast.error("Failed to update blog. Please try again.");
     },
     onSuccess: (data) => {
@@ -192,6 +237,8 @@ export const useMutateUpdateBlog = (onSuccess) => {
 
 
 export const useMutateCreateProperty = () => {
+  const { data: user } = useQueryGetUser()
+
   const mutationFn = async (data) => {
     if (!data) throw new Error("Property data is required for creation.");
 
@@ -199,7 +246,8 @@ export const useMutateCreateProperty = () => {
       method: "POST", // Use DELETE method for deletion
       url: `${endPoint}/property/create-action`, // Update to the correct deletion endpoint
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
+        Authorization: `Bearer ${user?.token}`,
       },
       data: data, // Pass the ID in the request body
     };
@@ -224,21 +272,80 @@ export const useMutateCreateProperty = () => {
 };
 
 
-// PUT
+// ============================================ Register User ========================================
 
 
-export const useMutateLocalUser = () => {
+export const useMutateRegisterUser = () => {
+  const router = useRouter()
+  const mutationFn = async (data) => {
+    if (!data) throw new Error("Property data is required for creation.");
 
-  const mutationFn = async (value) => {
-    return localStorage.setItem(user_auth, JSON.stringify(value))
+    const config = {
+      method: "POST", // Use DELETE method for deletion
+      url: `${endPoint}/auth/signup`, // Update to the correct deletion endpoint
+      headers: {
+        Accept: "application/json",
+      },
+      data: data, // Pass the ID in the request body
+    };
+
+    const response = await axios.request(config);
+    return response.data;
   };
+
 
   return useMutation({
     mutationFn,
-    onError: (res) => {
-      console.log({ res })
+    onError: (error) => {
+      const message = error.message || "An unexpected error occurred.";
+      console.log("Mutation error:", message);
+      toast.error(`Failed to create property: ${message}`);
     },
     onSuccess: (res) => {
+      router.push('/auth/log-in')
+      console.log("Mutation success:", res);
+      toast.success(`${res?.message}`);
+    },
+  });
+};
+
+
+
+
+// ============================================ Login User ========================================
+
+export const useMutateLoginUser = () => {
+  const router = useRouter();
+  const { mutate: localUser, } = useMutateLocalUser()
+  const mutationFn = async (data) => {
+    if (!data) throw new Error("Property data is required for creation.");
+
+    const config = {
+      method: "POST", // Use DELETE method for deletion
+      url: `${endPoint}/auth/signin`, // Update to the correct deletion endpoint
+      headers: {
+        Accept: "application/json",
+      },
+      data: data, // Pass the ID in the request body
+    };
+
+    const response = await axios.request(config);
+    return response.data;
+  };
+
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      const message = error.message || "An unexpected error occurred.";
+      console.log("Mutation error:", error.response.data);
+      toast.error(`Login Fail: ${error.response.data.error}`);
+    },
+    onSuccess: (res) => {
+      console.log("Mutation success:", res);
+      router.push('/')
+      localUser(res)
+      toast.success(`Login Success`);
     },
   });
 };

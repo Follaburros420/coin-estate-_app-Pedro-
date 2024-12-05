@@ -60,7 +60,7 @@ export default function WalletTransactionHistory() {
                     }}
                     className="w-fit text-center  flex items-center gap-2 rounded-[7px] mx-auto py-2 px-6 "
                   >
-                    <div
+                    <span
                       style={{ backgroundColor: `${item.statusDot}` }}
                       className="rounded-full w-[10px] h-[10px] "
                     />

@@ -5,9 +5,11 @@ import StyledImage from "@/components/StyedImage";
 import {
   useMutateCreateBlog,
   useMutateCreateProperty,
+  useMutateLoginUser,
   useMutateUploadFiles,
   useMutateUploadMultiFiles,
 } from "@/hooks/mutation";
+import clsxm from "@/utils/clsxm";
 import React, { useCallback, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -24,7 +26,6 @@ const useYupValidationResolver = (validationSchema) =>
         const values = await validationSchema.validate(data, {
           abortEarly: false,
         });
-
         return {
           values,
           errors: {},
@@ -49,8 +50,10 @@ const useYupValidationResolver = (validationSchema) =>
   );
 
 export default function LogIn() {
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const resolver = useYupValidationResolver(validationSchema);
+
+  const { mutate: loginUser, isPending: isLoadingLoginUser } = useMutateLoginUser()
 
   const {
     handleSubmit,
@@ -65,9 +68,8 @@ export default function LogIn() {
 
   function handleFormSubmit(value) {
     console.log(value);
+    loginUser(value)
   }
-
- 
 
   const step = "0.001";
   return (
@@ -82,43 +84,27 @@ export default function LogIn() {
           <p className="text-30 font-bold text-center">LogIn</p>
           <div className="mt-4">
             <p className="font-bold font-quickSand">Email:</p>
-            <div
-              className={`bg-light-brand-200 ${
-                errors?.password?.message
-                  ? "border-2 border-red-300"
-                  : "border border-grayTwo"
-              }px-3 mt-2 rounded-[10px] w-full  text-light-brand-300 flex items-center justify-between `}
-            >
+            <div>
               <Input
-                className={"border-none text-black-100 "}
+                className={clsxm('px-3 mt-2 rounded-[10px] w-full border-2 text-light-brand-300 flex items-center justify-between')}
                 placeholder="Example@gmail.com"
                 type="text"
-                // error={errors?.password}
+                error={errors?.email}
                 register={register("email")}
               />
             </div>
-            {errors?.email?.message && (
-              <span className="text-[red] text-xs">
-                {errors?.email?.message}
-              </span>
-            )}
+
           </div>
           <div className="mt-4 ">
             <div className="flex items-center justify-between w-full text-lightGray-700 ">
               <p className="font-bold font-quickSand ">Password:</p>
-              {/* <button
-              className="font-quickSand font-bold "
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button> */}
+
             </div>
             <div
-              className={`bg-light-brand-200 ${
-                errors?.password?.message
-                  ? "border-2 border-red-300"
-                  : "border border-grayTwo"
-              } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}
+              className={`bg - light - brand - 200 ${errors?.password?.message
+                ? "border-2 border-red-300"
+                : "border border-grayTwo"
+                } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}
             >
               <Input
                 className={"border-none text-black-100 "}
@@ -128,7 +114,7 @@ export default function LogIn() {
                 register={register("password")}
               />
 
-              <button onClick={() => setShowPassword(!showPassword)}>
+              <button type="button" onClick={() => setShowPassword(!showPassword)}>
                 {showPassword === true ? (
                   <StyledImage
                     src="/assets/svg/EyeIcon.svg"
@@ -148,16 +134,16 @@ export default function LogIn() {
               </span>
             )}
           </div>
-          <button className="text-lightGray-700 w-full bg-Yellow-100 rounded-[10px] mt-6 p-3 text-20 font-bold ">
-            Log In
+          <button type="submit" className="text-lightGray-700 w-full bg-Yellow-100 rounded-[10px] mt-6 p-3 text-20 font-bold ">
+            {isLoadingLoginUser ? 'Loading...' : ' Log In'}
           </button>
           {/* <hr className="my-4 p-1 border-none bg-grayTwo rounded-[100%] " /> */}
           <p className="text-lightGray-700 font-bold font-quickSand mt-8 ">
             Don't have an account yet?
           </p>
           <div className="flex items-center justify-between mt-4 px-6 text-blue-500 font-medium underline ">
-            <button type="submit">Sign up</button>
-            <button>Forgot your password?</button>
+            <button type="button">Sign up</button>
+            <button type="button">Forgot your password?</button>
           </div>
         </div>
       </form>

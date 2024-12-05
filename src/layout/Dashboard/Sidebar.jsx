@@ -15,7 +15,7 @@ export default function Sidebar({ isOpen }) {
     <div
       className={clsxm(
         " transform transition-transform duration-300 ease-in-out w-full shadow-lg max-w-[292px] block fixed left-0 top-[75px] lg:top-[105px] bottom-0 z-50 bg-black-900",
-        isOpen ? "translate-x-0 " : "-translate-x-full lg:translate-x-0"
+        isOpen ? "translate-x-0 " : "-translate-x-full xl:translate-x-0"
       )}
     >
       <div className="w-full px-4 py-9 h-full flex flex-col justify-between ">

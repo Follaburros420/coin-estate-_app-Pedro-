@@ -1,6 +1,6 @@
+import prisma from '@/libs/prisma';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import prisma from '../../../lib/prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -22,5 +22,5 @@ export default async function handler(req, res) {
     data: { userId: user.id, expiresAt: sessionExpiresAt },
   });
 
-  res.status(200).json({ token, expiresAt: sessionExpiresAt });
+  res.status(200).json({ token, expiresAt: sessionExpiresAt, email });
 }

@@ -1,13 +1,13 @@
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
 import { useState } from "react";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 export default function Layout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div className="h-full w-full bg-[#121315] min-h-screen text-white ">
       <Navbar toggleSidebar={toggleSidebar} />

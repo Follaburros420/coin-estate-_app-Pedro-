@@ -3,6 +3,8 @@ import Input from "@/components/Input";
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import StyledImage from "@/components/StyedImage";
+import { useMutateRegisterUser } from "@/hooks/mutation";
+import clsxm from "@/utils/clsxm";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -50,6 +52,7 @@ export default function CreateAccount() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
   const resolver = useYupValidationResolver(validationSchema);
+  const { mutate: registerUser, isPending: isLoadingRegisterUser } = useMutateRegisterUser();
 
   const {
     handleSubmit,
@@ -64,6 +67,7 @@ export default function CreateAccount() {
 
   function handleFormSubmit(value) {
     console.log(value);
+    registerUser(value)
   }
 
   return (
@@ -80,37 +84,24 @@ export default function CreateAccount() {
               Crear Cuenta
             </p>
             <p className="mt-6 font-quickSand font-bold">Email</p>
-            <div
-              className={`bg-light-brand-200 ${
-                errors?.email?.message
-                  ? "border-2 border-red-300"
-                  : "border border-grayTwo"
-              } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}
-            >
-              <Input
-                className={"border-none text-black-100 "}
-                placeholder="Example@gmail.com"
-                type="text"
-                // error={errors?.password}
-                register={register("email")}
-              />
-            </div>
-            {errors?.email?.message && (
-              <span className="text-[red] text-xs">
-                {errors?.email?.message}
-              </span>
-            )}
+            <Input
+              className={clsxm('px-3 mt-2 rounded-[10px] w-full border-2 text-light-brand-300 flex items-center justify-between')}
+              placeholder="Example@gmail.com"
+              type="text"
+              error={errors?.email}
+              register={register("email")}
+            />
+
             <div className="text-lightGray-700">
               <div className="mt-4 ">
                 <div className="flex items-center justify-between w-full text-lightGray-700 ">
                   <p className="font-bold font-quickSand ">Password:</p>
                 </div>
                 <div
-                  className={`bg-light-brand-200 ${
-                    errors?.password?.message
-                      ? "border-2 border-red-300"
-                      : "border border-grayTwo"
-                  } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}
+                  className={`bg-light-brand-200 ${errors?.password?.message
+                    ? "border-2 border-red-300"
+                    : "border border-grayTwo"
+                    } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}
                 >
                   <Input
                     className={"border-none text-black-100 "}
@@ -120,7 +111,9 @@ export default function CreateAccount() {
                     register={register("password")}
                   />
 
-                  <button onClick={() => setShowPassword(!showPassword)}>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}>
                     {showPassword === true ? (
                       <StyledImage
                         src="/assets/svg/EyeIcon.svg"
@@ -144,11 +137,10 @@ export default function CreateAccount() {
                 <p className="font-quickSand font-bold">Confirm Password</p>
               </div>
               <div
-                className={`bg-light-brand-200 ${
-                  errors?.cPassword?.message
-                    ? "border-2 border-red-300"
-                    : "border border-grayTwo"
-                } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}
+                className={`bg-light-brand-200 ${errors?.cPassword?.message
+                  ? "border-2 border-red-300"
+                  : "border border-grayTwo"
+                  } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}
               >
                 <Input
                   className={"border-none text-black-100 "}
@@ -158,6 +150,7 @@ export default function CreateAccount() {
                   register={register("cPassword")}
                 />
                 <button
+                  type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword === true ? (
@@ -181,10 +174,9 @@ export default function CreateAccount() {
             </div>
             <button
               type="submit"
-              onClick={() => router.push("/dashboard/dashboard-wallet")}
-              className="bg-Yellow-100 p-3 text-lightGray-700 font-bold font-quickSand mt-20 w-full rounded-[10px] "
+              className="bg-Yellow-100 p-3 text-lightGray-700 font-bold font-quickSand mt-10 w-full rounded-[10px] "
             >
-              Create Your Account
+              {isLoadingRegisterUser ? 'Loading...' : '  Create Your Account'}
             </button>
             <p className="text-lightGray-700 font-semibold mt-14 text-center ">
               Have you already registered?

@@ -6,7 +6,7 @@ export default function adminWallet() {
   return (
     <div>
       <Layout>
-        <div className="my-10">
+         <div className="my-10">
           <WalletPage />
         </div>
       </Layout>

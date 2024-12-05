@@ -38,6 +38,8 @@ model Blog {
   details     String
   description String
   blogStatus  String
+  userId      String
+  email       String
   image       String
   subheading  String
   createdAt   DateTime @default(now())
@@ -78,29 +80,30 @@ model property {
   averageDollar        Float
   totalReturn          Float
   attractive           String
-
   // Finance fields
-  propertyPrice     Float
-  renovations       Float
-  tokenizationCosts Float
-  commercialCosts   Float
-  legalCosts        Float
-  dueDiligence      Float
-  financialReserves Float
-  difference4x      Float
-  supplyFee         Float
-  marketingPlan     Float
-  grossIncome       Float
-  management        Float
-  taxes             Float
-  insurance         Float
-  SPVMaintenance    Float
-  vacancyReserve    Float
-  SPVCreation       Float
-  closingCosts      Float
+  propertyPrice        Float
+  renovations          Float
+  tokenizationCosts    Float
+  commercialCosts      Float
+  legalCosts           Float
+  dueDiligence         Float
+  financialReserves    Float
+  difference4x         Float
+  supplyFee            Float
+  marketingPlan        Float
+  grossIncome          Float
+  management           Float
+  taxes                Float
+  insurance            Float
+  SPVMaintenance       Float
+  vacancyReserve       Float
+  SPVCreation          Float
+  closingCosts         Float
 
   // Owner details
   email String
+  userId               String
+  address              String
 
   // New Fields for Image Data
   image     String

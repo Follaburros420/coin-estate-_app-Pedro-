@@ -1,6 +1,6 @@
+import ProfileMenu from "@/components/ProfileUser";
 import StyledImage from "@/components/StyedImage";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
 
 export default function Navbar({ toggleSidebar }) {
   const location = usePathname();
@@ -19,7 +19,7 @@ export default function Navbar({ toggleSidebar }) {
           className="w-[157px] h-9 "
         />
       </button>
-      <div className="w-full max-w-[83%] ml-auto hidden lg:flex items-center justify-between gap-10 ">
+      <div className="w-full max-w-[83%] ml-auto hidden lg:flex items-center justify-between gap-10">
         <p className="text-24 font-ubuntu font-medium leading-none text-white h-[50px] w-full pt-4 ">
           {paths[location]}
         </p>
@@ -58,6 +58,7 @@ export default function Navbar({ toggleSidebar }) {
             />
           </div>
         </div>
+        <ProfileMenu />
       </div>
       <button
         onClick={toggleSidebar}

@@ -1,6 +1,6 @@
+import UserProfile from "@/components/ProfileUser";
 import StyledImage from "@/components/StyedImage";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
 
 export default function Navbar({ toggleSidebar }) {
   const location = usePathname();
@@ -58,6 +58,8 @@ export default function Navbar({ toggleSidebar }) {
             />
           </div>
         </div>
+        <UserProfile />
+
       </div>
       <button
         onClick={toggleSidebar}

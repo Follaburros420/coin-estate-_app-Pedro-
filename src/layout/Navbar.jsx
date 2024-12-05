@@ -1,5 +1,6 @@
 "use client";
 import { Navbar_Links } from "@/_mock/data";
+import ProfileUser from "@/components/ProfileUser";
 import StyledImage from "@/components/StyedImage";
 import clsxm from "@/utils/clsxm";
 import Link from "next/link";
@@ -86,24 +87,7 @@ export default function Navbar() {
           })}
         </div>
         <div className="hidden lg:flex gap-6 items-center">
-          <button
-            onClick={() => router.push("/auth/log-in")}
-            className="text-12 font-inter font-semibold py-3 text-center px-8 text-black-100 border border-black-100 rounded-full"
-          >
-            Regístrate
-          </button>
-          <button
-            onClick={() => router.push("/auth/create-account")}
-            className="text-12 font-inter font-semibold py-3 text-center px-8 text-black-100 bg-yellow rounded-full"
-          >
-            Ingresa
-          </button>
-          <button
-            className="bg-black-100 p-1 rounded-full "
-            onClick={() => router.push("/admin/dashboard")}
-          >
-            <StyledImage src="/assets/svg/person.svg" className="w-7 h-7 " />
-          </button>
+          <ProfileUser />
         </div>
       </div>
     </div>

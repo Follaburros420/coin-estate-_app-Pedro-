@@ -6,6 +6,7 @@ import CustomSelect from '@/components/Select';
 import { useMutateCreateProperty, useMutateUploadFiles, useMutateUploadMultiFiles } from '@/hooks/mutation';
 import Layout from '@/layout/admin';
 import { useForm } from 'react-hook-form';
+import { useQueryGetUser } from '@/hooks/query';
 
 const validationSchema = yup.object({
   name: yup.string().required('House Type is required'),
@@ -90,6 +91,7 @@ const useYupValidationResolver = (validationSchema) =>
   );
 
 export default function Home({ options }) {
+  const { data: user } = useQueryGetUser()
   const resolver = useYupValidationResolver(validationSchema);
   const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
   const {
@@ -111,15 +113,16 @@ export default function Home({ options }) {
 
   function handleFormSubmit(value) {
     // if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
-      const defaultValues = {
-        ...value,
-        image: mainImageData?.IpfsHash || 'QmTsTAMASbvwfGUxhqdV48h8HG55v3PT4eGVjLYQ8SCE1R',
-        subImages: multiFilesList || ['QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU'],
-        email: 'demo@gmail.com',
-      };
-      createProperty(defaultValues);
+    const defaultValues = {
+      ...value,
+      image: mainImageData?.IpfsHash || 'QmTsTAMASbvwfGUxhqdV48h8HG55v3PT4eGVjLYQ8SCE1R',
+      subImages: multiFilesList || ['QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU'],
+      email: user?.email || 'demo@gmail.com',
+      address: '0xd7e0221b66f8A4534ce5DEed86e718376c1ddc8f'
+    };
+    createProperty(defaultValues);
     // }else{
-      // toast.error('data is missing')
+    // toast.error('data is missing')
     // }
   }
 

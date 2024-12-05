@@ -10,3 +10,19 @@ export const handleFormateTime = (dateString) => {
 
   return `${day} ${month} ${year}`;
 }
+
+export const handleFormate = (email) => {
+  return 
+}
+
+
+export const routerPaths = [
+  'admin',
+  'dashboard',
+  '/dashboard',
+  '/dashboard/my-properties',
+  '/dashboard/market-place',
+  '/admin/dashboard',
+  '/admin/create-property',
+  '/admin/create-blog'
+]
