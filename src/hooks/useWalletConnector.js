@@ -1,32 +1,30 @@
-import { CHAIN_ID, abis, honiAddress, swapAddress } from '@/contract';
+import { CHAIN_ID, FactoryAbi, beaconAbi, beaconAddress, factoryAddress, tokenAbi, tokenAddress } from '@/contract';
 import { useGlobalStates } from '@/store/useGlobalStates';
-import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers5/react';
 import { ethers } from 'ethers';
 import { useCallback } from 'react';
+import { useAccount } from 'wagmi';
+import { useEthersSigner } from './ethers';
 
 const useWalletConnector = () => {
-  const { address: account } = useWeb3ModalAccount();
-  const { walletProvider } = useWeb3ModalProvider()
-  const contactDetails = useGlobalStates((state) => state.contactDetails);
+  const { address: account, chainId } = useAccount();
+  const signer = useEthersSigner(CHAIN_ID)
+  const setContactDetails = useGlobalStates((state) => state.setContactDetails);
   // eip155:97
   // const provider = useProvider();
 
   const onConnect = useCallback(async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(walletProvider)
-      const signer = provider.getSigner();
       const chainId = await signer?.getChainId();
-      const isChainId = chainId ===  CHAIN_ID;
+      const isChainId = chainId === CHAIN_ID;
 
       if (account && isChainId) {
-        // instantiate contract instance and assign to component ref variable
-
-        const SWAPCONTRACT = new ethers.Contract(swapAddress, abis.swapContractAbi, signer);
-        const HONICONTRACT = new ethers.Contract(honiAddress, abis.honiContractAbi, signer);
-
-        contactDetails({
-          SWAPCONTRACT,
-          HONICONTRACT,
+        const BEACON_CONTRACT = new ethers.Contract(beaconAddress, beaconAbi, signer);
+        const TOKEN_CONTRACT = new ethers.Contract(tokenAddress, tokenAbi, signer);
+        const FACTORY_CONTRACT = new ethers.Contract(factoryAddress, FactoryAbi, signer);
+        setContactDetails({
+          BEACON_CONTRACT,
+          FACTORY_CONTRACT,
+          TOKEN_CONTRACT,
           address: account,
           chainId,
         });
@@ -39,7 +37,7 @@ const useWalletConnector = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [account, contactDetails, walletProvider]);
+  }, [account, setContactDetails, signer]);
 
   return {
     onConnect,

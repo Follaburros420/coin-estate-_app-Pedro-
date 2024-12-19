@@ -1,11 +1,29 @@
-'use client'
 import { useQueryGetUser } from '@/hooks/query';
 import { routerPaths } from '@/utils/helper';
 import { QueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+import { mainnet, arbitrum, bscTestnet } from '@reown/appkit/networks'
+import { cookieStorage, createStorage, http } from '@wagmi/core'
 
+export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
+
+if (!projectId) {
+  throw new Error('Project ID is not defined')
+}
+
+export const networks = [bscTestnet]
+
+export const wagmiAdapter = new WagmiAdapter({
+  storage: createStorage({
+    storage: cookieStorage
+  }),
+  ssr: true,
+  projectId,
+  networks
+})
 
 export default function AuthProvider() {
   const router = useRouter();

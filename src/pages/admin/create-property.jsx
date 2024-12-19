@@ -7,6 +7,7 @@ import { useMutateCreateProperty, useMutateUploadFiles, useMutateUploadMultiFile
 import Layout from '@/layout/admin';
 import { useForm } from 'react-hook-form';
 import { useQueryGetUser } from '@/hooks/query';
+import { useMutateApproveNft } from '@/hooks/mutateContract';
 
 const validationSchema = yup.object({
   name: yup.string().required('House Type is required'),
@@ -92,6 +93,7 @@ const useYupValidationResolver = (validationSchema) =>
 
 export default function Home({ options }) {
   const { data: user } = useQueryGetUser()
+  const { mutate: ApproveNft, isPending: isLoadingApprove } = useMutateApproveNft()
   const resolver = useYupValidationResolver(validationSchema);
   const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
   const {
@@ -141,6 +143,7 @@ export default function Home({ options }) {
             <p className='mt-[20px] text-white text-center  uppercase text-30 md:text-48 font-semibold leading-9 md:leading-[58px]'>
               Create Property
             </p>
+            <button onClick={ApproveNft}>ApproveNft</button>
             <div className='mt-10 font-medium text-18 leading-5 mb-[9px] text-start w-full mx-auto'>
               Main Image
               <Previews

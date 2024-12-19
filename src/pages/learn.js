@@ -11,7 +11,6 @@ export default function Page() {
   const [blogs, setBlogs] = useState(getBlogsList)
   const firstBlog = getBlogsList?.filter((item) => item.image !== 'null')?.[0]
 
-
   const handleSelectFilter = (value) => {
     const filteredProperty = value !== 'all' ? getBlogsList.filter(
       (item) => item.blogStatus.toLowerCase() === value?.toLowerCase()
@@ -33,7 +32,6 @@ export default function Page() {
   return (
     <Layout>
       <div className="bg-lightblue">
-        {/* <Update /> */}
         <WorksTopBanner
           heading={
             "Perspectivas y Actualizaciones sobre la Tokenización Inmobiliaria"

@@ -1,3 +1,4 @@
+import ConnectWallet from "@/components/ConnectWallet";
 import ProfileMenu from "@/components/ProfileUser";
 import StyledImage from "@/components/StyedImage";
 import { usePathname, useRouter } from "next/navigation";
@@ -59,7 +60,9 @@ export default function Navbar({ toggleSidebar }) {
           </div>
         </div>
         <ProfileMenu />
+        <ConnectWallet />
       </div>
+
       <button
         onClick={toggleSidebar}
         className="lg:hidden block bg-black-600 p-1 rounded-[8px] "
