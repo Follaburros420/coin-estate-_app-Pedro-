@@ -7,10 +7,9 @@ import { useAccount } from "wagmi";
 export const useMutateApproveNft = () => {
   const { address } = useAccount();
   const { BEACON_CONTRACT, FACTORY_CONTRACT, TOKEN_CONTRACT, } = useGlobalStates((state) => state.contract);
-  console.log({BEACON_CONTRACT, TOKEN_CONTRACT})
 
-  const mutationFn = async (id) => {
-    const tx = await TOKEN_CONTRACT.approve(address, id, 1, 0);
+  const mutationFn = async (address) => {
+    const tx = await TOKEN_CONTRACT.mint(address, 10);
     return tx?.wait();
   };
 
