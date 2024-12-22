@@ -1,18 +1,67 @@
+// import prisma from '@/libs/prisma';
+// import bcrypt from 'bcryptjs';
+
+// export default async function handler(req, res) {
+//   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+//   const { email, password } = req.body;
+
+//   const existingUser = await prisma.user.findUnique({ where: { email } });
+//   if (existingUser) return res.status(400).json({ error: 'User already exists' });
+
+//   const hashedPassword = await bcrypt.hash(password, 10);
+//   const newUser = await prisma.user.create({
+//     data: { email, password: hashedPassword },
+//   });
+
+//   res.status(201).json({ message: 'User created', user: { email: newUser.email } });
+// }
+
 import prisma from '@/libs/prisma';
 import bcrypt from 'bcryptjs';
+import { ethers } from 'ethers';
+import crypto from 'crypto';
+
+const ENCRYPTION_KEY = crypto.createHash('sha256').update(process.env.FORGOT_PASSWORD_KEY).digest(); // Derive 32-byte key
+const IV_LENGTH = 16;
+
+function encrypt(text) {
+  const iv = crypto.randomBytes(IV_LENGTH);
+  const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+  let encrypted = cipher.update(text);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return iv.toString('hex') + ':' + encrypted.toString('hex');
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { email, password } = req.body;
 
+  // Check if user already exists
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) return res.status(400).json({ error: 'User already exists' });
 
+  // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Generate Ethereum wallet
+  const wallet = ethers.Wallet.createRandom();
+  const destinationCalculation = encrypt(wallet.privateKey);
+  const destinationValues = encrypt(wallet.address);
+
+  // Create new user in the database
   const newUser = await prisma.user.create({
-    data: { email, password: hashedPassword },
+    data: {
+      email,
+      listHash: hashedPassword,
+      destinationValues: destinationValues,
+      destinationCalculation: destinationCalculation,
+    },
   });
 
-  res.status(201).json({ message: 'User created', user: { email: newUser.email } });
+  res.status(200).json({
+    message: 'User created',
+    user: { email: newUser.email },
+  });
 }

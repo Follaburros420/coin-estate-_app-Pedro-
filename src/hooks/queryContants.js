@@ -5,6 +5,8 @@ export const queryKeys = {
   getUserDetails:'getUserDetails'
 };
 
+//? openssl rand -hex 32
+//? openssl rand -hex 64
 
 export const endPoint = '/api/v2';
 
