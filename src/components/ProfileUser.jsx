@@ -1,14 +1,18 @@
+import { wagmiAdapter } from "@/context/Provider";
 import { useMutateLogout } from "@/hooks/mutation";
 import { useQueryGetUser } from "@/hooks/query";
 import { conciseAddress } from "@/utils/wagmiConfig";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
+import { useBalance } from "wagmi";
 
 export default function ProfileMenu() {
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { data: user, refetch } = useQueryGetUser();
+  const balance = useBalance({ address: user?.address, chainId:80002 });
+  console.log(balance, balance.data)
   const router = useRouter();
   const { mutate: mutateLogout } = useMutateLogout()
 

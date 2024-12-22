@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { mainnet, arbitrum, bscTestnet } from '@reown/appkit/networks'
+import { mainnet, arbitrum, bscTestnet, polygonAmoy } from '@reown/appkit/networks'
 import { cookieStorage, createStorage, http } from '@wagmi/core'
 
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
@@ -14,7 +14,7 @@ if (!projectId) {
    console.log('Project ID is not defined')
 }
 
-export const networks = [bscTestnet]
+export const networks = [bscTestnet, polygonAmoy]
 
 export const wagmiAdapter = new WagmiAdapter({
   storage: createStorage({

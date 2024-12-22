@@ -3,15 +3,12 @@
 import Input from "@/components/Input";
 import StyledImage from "@/components/StyedImage";
 import {
-  useMutateCreateBlog,
-  useMutateCreateProperty,
-  useMutateLoginUser,
-  useMutateUploadFiles,
-  useMutateUploadMultiFiles,
+  useMutateLoginUser
 } from "@/hooks/mutation";
 import clsxm from "@/utils/clsxm";
-import React, { useCallback, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const validationSchema = yup.object({
@@ -50,6 +47,7 @@ const useYupValidationResolver = (validationSchema) =>
   );
 
 export default function LogIn() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
   const resolver = useYupValidationResolver(validationSchema);
 
@@ -138,12 +136,12 @@ export default function LogIn() {
             {isLoadingLoginUser ? 'Loading...' : ' Log In'}
           </button>
           {/* <hr className="my-4 p-1 border-none bg-grayTwo rounded-[100%] " /> */}
-          <p className="text-lightGray-700 font-bold font-quickSand mt-8 ">
+          <p className="text-lightGray-700 font-bold font-quickSand mt-8 text-center">
             Don't have an account yet?
           </p>
-          <div className="flex items-center justify-between mt-4 px-6 text-blue-500 font-medium underline ">
-            <button type="button">Sign up</button>
-            <button type="button">Forgot your password?</button>
+          <div className="flex items-center  mt-4 justify-center px-6 text-blue-500 font-medium underline ">
+            <button onClick={()=>router.push('/auth/create-account')} type="button">Sign up</button>
+            {/* <button type="button">Forgot your password?</button> */}
           </div>
         </div>
       </form>

@@ -181,7 +181,9 @@ export default function CreateAccount() {
             <p className="text-lightGray-700 font-semibold mt-14 text-center ">
               Have you already registered?
             </p>
-            <p className="underline text-blue-500 mt-7 text-center ">Log In</p>
+            <div className="text-center">
+              <button onClick={() => router.push('/auth/log-in')} className="underline  text-blue-500 mt-7 text-center ">Log In</button>
+            </div>
           </div>
         </div>
         <div>

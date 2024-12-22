@@ -1,6 +1,6 @@
 import AuthProvider, { wagmiAdapter } from "@/context/Provider";
 import "@/styles/globals.css";
-import { arbitrum, bscTestnet, mainnet } from '@reown/appkit/networks';
+import { arbitrum, bscTestnet, mainnet, polygonAmoy } from '@reown/appkit/networks';
 import { createAppKit } from '@reown/appkit/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import 'react-quill-new/dist/quill.snow.css'; // Or 'quill.bubble.css'
@@ -30,7 +30,7 @@ const metadata = {
 const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [bscTestnet],
+  networks: [bscTestnet, polygonAmoy],
   defaultNetwork: mainnet,
   metadata: metadata,
   features: {
