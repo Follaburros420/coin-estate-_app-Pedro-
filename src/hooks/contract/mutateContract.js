@@ -2,6 +2,7 @@ import { useGlobalStates } from "@/store/useGlobalStates";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
+import { useQueryGetUser } from "../query";
 
 // purchaseWMP (0x74724ce8)
 export const useMutateApproveNft = () => {
@@ -25,3 +26,5 @@ export const useMutateApproveNft = () => {
     },
   });
 };
+
+

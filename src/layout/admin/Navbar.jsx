@@ -37,7 +37,7 @@ export default function Navbar({ toggleSidebar }) {
               className="w-8 h-8 "
             />
           </div>
-          <div className="bg-black-600 py-[14px] px-4 rounded-[6px] w-full max-w-[183px] flex items-center justify-between ">
+          <div onClick={()=>router.push('/admin/testing')} className="bg-black-600 py-[14px] px-4 rounded-[6px] w-full max-w-[183px] flex items-center justify-between ">
             <div className="flex items-center gap-3 w-full ">
               <div className="bg-black-700 w-full max-w-9 h-9 flex items-center justify-center rounded-[8px] p-1 ">
                 <StyledImage
@@ -52,12 +52,12 @@ export default function Navbar({ toggleSidebar }) {
               className="w-8 h-8 "
             />
           </div>
-          <div className="bg-black-600 px-5 py-[14px] w-full max-w-[76px] flex items-center justify-center rounded-[8px] ">
+          {/* <div className="bg-black-600 px-5 py-[14px] w-full max-w-[76px] flex items-center justify-center rounded-[8px] ">
             <StyledImage
               src="/assets/svg/Notification.svg"
               className="w-[38px] h-[38px] "
             />
-          </div>
+          </div> */}
         </div>
         <ProfileMenu />
         <ConnectWallet />

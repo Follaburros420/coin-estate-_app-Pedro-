@@ -5,14 +5,15 @@ import { conciseAddress } from "@/utils/wagmiConfig";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import { useBalance } from "wagmi";
+import useWalletBalance from "../hooks/WalletBalance";
+import { toast } from "react-toastify";
 
 export default function ProfileMenu() {
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { data: user, refetch } = useQueryGetUser();
-  const balance = useBalance({ address: user?.address, chainId:80002 });
-  console.log(balance, balance.data)
+  const { balance } = useWalletBalance(user?.address)
   const router = useRouter();
   const { mutate: mutateLogout } = useMutateLogout()
 
@@ -37,6 +38,7 @@ export default function ProfileMenu() {
     const copy = navigator.clipboard.writeText(text)
       .then(() => {
         setCopied(true);
+        toast.success('Copied')
         setTimeout(() => setCopied(false), 2000); // Reset "copied" state after 2 seconds
       })
       .catch((err) => {
@@ -85,6 +87,12 @@ export default function ProfileMenu() {
                 </button>
 
               </div>
+              <p
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Balance: {balance ? balance : 'Loading'}
+
+              </p>
               <button
                 onClick={() => router.push('/dashboard/')}
                 className="block px-4 py-2 text-sm  text-gray-700 hover:bg-gray-200 text-left border-y border-gray-200 w-full"

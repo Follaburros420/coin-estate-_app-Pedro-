@@ -353,3 +353,40 @@ export const useMutateLoginUser = () => {
 
 
 
+// ======================= Testing Section ====================================
+
+export const useMutateTransferFunds = () => {
+  const { data: user } = useQueryGetUser()
+
+  const mutationFn = async ({ address }) => {
+    const config = {
+      method: "POST", // Use DELETE method for deletion
+      url: `${endPoint}/userInstants/transfer`, // Update to the correct deletion endpoint
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${user?.token}`,
+      },
+      data: {
+        recipient: address,
+        amount: '0.05',
+        email: user?.email
+      }, // Pass the ID in the request body
+    };
+
+    const response = await axios.request(config);
+    return response.data;
+  };
+
+  return useMutation({
+    mutationFn,
+    enabled: !!user?.email,
+    onError: (res) => {
+      console.log({ res })
+      toast.error(`Error: ${res?.message}`)
+    },
+    onSuccess: (res) => {
+      toast.success(`Purchased`)
+    },
+  });
+};
+
