@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import * as yup from 'yup';
 import Input from '@/components/Input';
 import Previews from '@/components/PreviewSec';
@@ -7,9 +7,16 @@ import { useMutateCreateProperty, useMutateUploadFiles, useMutateUploadMultiFile
 import Layout from '@/layout/admin';
 import { useForm } from 'react-hook-form';
 import { useQueryGetUser } from '@/hooks/query';
-import { useMutateApproveNft } from '@/hooks/contract/mutateContract';
+import {
+  useMutateApprove,
+  useMutateApproveNft,
+  useMutateCreateERC884ProPerty,
+  useMutateCreateProPerty,
+} from '@/hooks/contract/mutateContract';
+import { useYupValidationResolver } from '@/utils/helper';
+import { toast } from 'react-toastify';
 
-const validationSchema = yup.object({
+const validationSchemaProperty = yup.object({
   name: yup.string().required('House Type is required'),
   totalInvestmentPrice: yup.number().required('total investment price is required'),
   description: yup
@@ -22,10 +29,6 @@ const validationSchema = yup.object({
   roomSize: yup.number().required('roomSize required'),
   constructionYear: yup.string().required('constructionYear required'),
   propertyMaintenance: yup.number().required('propertyMaintenance required'),
-  // attributes: yup
-  //   .array()
-  //   .of(yup.boolean())
-  //   .test('atLeastOne', 'At least one feature must be selected', (value) => value.filter((val) => val).length > 0),
   saleStatus: yup.string().required('please select an option'),
   houseType: yup.string().required('location is required'),
   location: yup.string().required('location is required'),
@@ -60,81 +63,58 @@ const validationSchema = yup.object({
   closingCosts: yup.number().required('closing costs is required'),
 });
 
-const useYupValidationResolver = (validationSchema) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await validationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors, currentError) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {},
-          ),
-        };
-      }
-    },
-    [validationSchema],
-  );
-
 export default function Home({ options }) {
-  const { data: user } = useQueryGetUser()
-  const { mutate: approveNft, isPending: isLoadingApprove } = useMutateApproveNft()
-  const resolver = useYupValidationResolver(validationSchema);
-  const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
-  const {
-    mutate: mutateMultiImages,
-    isPending: isUploadingMultiFiles,
-    data: multiFilesList,
-  } = useMutateUploadMultiFiles();
-  const { mutate: createProperty, isPending: isLoadingCreateNfts } = useMutateCreateProperty();
-
+  const resolver = useYupValidationResolver(validationSchemaProperty);
+  const { data: user } = useQueryGetUser();
+  const [selected, setSelected] = useState();
   const {
     handleSubmit,
     register,
     control,
+    getValues,
     reset,
     formState: { errors },
   } = useForm({
     resolver,
   });
 
-  function handleFormSubmit(value) {
-    // if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
+  // const { mutate: approveChange, isPending: isLoadingApprove } = useMutateApprove()
+
+  const { mutate: createProperty, isPending: isLoadingCreateNfts } = useMutateCreateProperty();
+  const onSuccess = () => {
     const defaultValues = {
-      ...value,
+      ...selected,
       image: mainImageData?.IpfsHash || 'QmTsTAMASbvwfGUxhqdV48h8HG55v3PT4eGVjLYQ8SCE1R',
       subImages: multiFilesList || ['QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU'],
       email: user?.email || 'demo@gmail.com',
-      address: '0xd7e0221b66f8A4534ce5DEed86e718376c1ddc8f'
+      address: '0xd7e0221b66f8A4534ce5DEed86e718376c1ddc8f',
     };
     createProperty(defaultValues);
-    // }else{
-    // toast.error('data is missing')
+  };
+  const { mutate: createNftProperty, isPending: isLoadingCreateNftProperty } = useMutateCreateERC884ProPerty(onSuccess);
+  const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
+  const {
+    mutate: mutateMultiImages,
+    isPending: isUploadingMultiFiles,
+    data: multiFilesList,
+  } = useMutateUploadMultiFiles();
+
+  function handleFormSubmit(value) {
+    // if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
+      setSelected(value);
+      createNftProperty({ name: value?.name, symbols: value?.saleStatus });
+    // } else {
+      // toast.error('data is missing');
     // }
   }
 
-  const step = '0.001'
+  const step = '0.001';
+  const buttonState = isLoadingCreateNftProperty || isLoadingCreateNfts ? 'Loading...' : 'Submit';
 
   return (
     <div>
       <Layout>
         <div className='pt-20 p-12'>
-
           <div
             onSubmit={handleSubmit((data) => {
               handleFormSubmit(data);
@@ -143,7 +123,7 @@ export default function Home({ options }) {
             <p className='mt-[20px] text-white text-center  uppercase text-30 md:text-48 font-semibold leading-9 md:leading-[58px]'>
               Create Property
             </p>
-            <button onClick={() => approveNft()}>{isLoadingApprove ? "Loading..." : 'ApproveNft'}</button>
+            {/* <button onClick={() => approveNft()}>{isLoadingApprove ? "Loading..." : 'ApproveNft'}</button> */}
             <div className='mt-10 font-medium text-18 leading-5 mb-[9px] text-start w-full mx-auto'>
               Main Image
               <Previews
@@ -155,15 +135,13 @@ export default function Home({ options }) {
             </div>
             <div className='font-medium text-18 leading-5 mb-[9px] text-start w-full mx-auto'>
               SubImages
-              <Previews
-                onChange={(values) => mutateMultiImages(values)}
-              />
+              <Previews onChange={(values) => mutateMultiImages(values)} />
               {isUploadingMultiFiles && 'Uploading To Server ...'}
             </div>
 
             <form className='w-full'>
               <div className='w-full'>
-                <div className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-6'>
+                <div className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-4'>
                   <Input
                     className='py-2'
                     type='text'
@@ -184,10 +162,9 @@ export default function Home({ options }) {
                   />
                 </div>
 
-
                 {/* ================================== main token Price ================================= */}
 
-                <div className=' mt-4 grid grid-cols-1 md:grid-cols-2 gap-6'>
+                <div className=' mt-4 grid grid-cols-1 md:grid-cols-2 gap-4'>
                   <Input
                     className='py-2'
                     type='number'
@@ -266,8 +243,6 @@ export default function Home({ options }) {
                   />
                 </div>
 
-
-
                 {/* ====================== field old changes ======================== */}
 
                 <div className='w-full mt-3'>
@@ -275,8 +250,9 @@ export default function Home({ options }) {
                     <label>Description</label>
                     <textarea
                       {...register('description')}
-                      className={`outline-none border border-gray-light bg-[transparent] rounded-lg p-3 w-full ${errors.textArea ? 'border-red' : ''
-                        }`}
+                      className={`outline-none border border-gray-light bg-[transparent] rounded-lg p-3 w-full ${
+                        errors.textArea ? 'border-red' : ''
+                      }`}
                       rows={8}
                       placeholder='Type your Description'
                     />
@@ -287,14 +263,14 @@ export default function Home({ options }) {
                     <label>Why is it attractive?</label>
                     <textarea
                       {...register('attractive')}
-                      className={`outline-none border border-gray-light bg-[transparent] rounded-lg p-3 w-full ${errors.attractive ? 'border-red' : ''
-                        }`}
+                      className={`outline-none border border-gray-light bg-[transparent] rounded-lg p-3 w-full ${
+                        errors.attractive ? 'border-red' : ''
+                      }`}
                       rows={8}
                       placeholder='Type your Description'
                     />
                     {errors?.attractive && <p>{errors?.attractive?.message}</p>}
                   </div>
-
                 </div>
               </div>
               {/* ========dropdown====== */}
@@ -302,7 +278,7 @@ export default function Home({ options }) {
               <div className='rounded-lg outline-none'>
                 {/* ====================== Projections section ================ */}
                 <p className='font-bold uppercase mt-4 text-20 text-yellow'>Projections</p>
-                <hr className='text-yellow' />
+                <hr className='text-yellow mb-4' />
                 <div className='grid grid-cols-2 gap-4 '>
                   <Input
                     Label={'NO Of BedRoom'}
@@ -380,7 +356,7 @@ export default function Home({ options }) {
               {/* ====================== finance old change ================ */}
               <p className='font-bold uppercase mt-4 text-20 text-yellow'>Financial</p>
               <hr className='text-yellow' />
-              <div className=' mt-4 grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <div className=' mt-4 grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <Input
                   className='py-2'
                   type='number'
@@ -553,7 +529,7 @@ export default function Home({ options }) {
                 <Input
                   type='number'
                   step={step}
-                  inputmode="decimal"
+                  inputmode='decimal'
                   Label={'SPV Creation'}
                   placeholder='SPV Creation'
                   error={errors?.SPVCreation}
@@ -570,40 +546,15 @@ export default function Home({ options }) {
                   register={register('closingCosts')}
                   className='py-2'
                 />
-
               </div>
 
-
               {/* ===================== end finance section ============ */}
-              {/* <p className='font-bold uppercase mt-4 text-20 text-yellow'>Options</p>
-              <hr className='text-yellow' /> */}
-              {/* <div className={clsxm('grid grid-cols-1 xsm:grid-cols-2 gap-3 md:grid-cols-4  mx-auto ')}>
-                {featureData.map((items, idx) => {
-                  return (
-                    <div key={items.id} className={clsxm()}>
-                      <div className='flex gap-[6px] md:gap-[10px] py-2 md:py-[13px] items-center'>
-                        <label className='w-6 h-6 rounded-[100%] overflow-hidden bg-blue-300 flex items-center justify-center border '>
-                          <input
-                            type='checkbox'
-                            {...register(`attributes.${idx}`)}
-                            className='w-[32px] h-[32px] rounded-[100%] overflow-hidden outline-none'
-                          />
 
-                        </label>
-
-                        <p className='text-white leading-[30px] md:leading-7 font-normal text-16 font-Poppins'>
-                          {items.title}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div> */}
-              <div className='w-full max-w-[500px] mt-16 mx-auto'>
+              <div className='w-full max-w-[500px] mt-8 mx-auto'>
                 <button
                   className=' text-13 md:text-16 px-4 md:px-5 py-3 mt-4 w-full  text-black font-bold uppercase rounded-lg border'
                   type='submit'>
-                  {isLoadingCreateNfts ? 'Loading...' : 'Submit'}
+                  {buttonState}
                 </button>
               </div>
             </form>

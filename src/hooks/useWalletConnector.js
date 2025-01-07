@@ -1,4 +1,4 @@
-import { CHAIN_ID, FactoryAbi, beaconAbi, beaconAddress, factoryAddress, tokenAbi, tokenAddress } from '@/contract';
+import { CHAIN_ID, FactoryAbi, factoryAddress, tokenAbi, tokenAddress } from '@/contract';
 import { useGlobalStates } from '@/store/useGlobalStates';
 import { ethers } from 'ethers';
 import { useCallback } from 'react';
@@ -14,15 +14,12 @@ const useWalletConnector = () => {
 
   const onConnect = useCallback(async () => {
     try {
-      const chainId = await signer?.getChainId();
       const isChainId = chainId === CHAIN_ID;
 
       if (account && isChainId) {
-        const BEACON_CONTRACT = new ethers.Contract(beaconAddress, beaconAbi, signer);
         const TOKEN_CONTRACT = new ethers.Contract(tokenAddress, tokenAbi, signer);
         const FACTORY_CONTRACT = new ethers.Contract(factoryAddress, FactoryAbi, signer);
         setContactDetails({
-          BEACON_CONTRACT,
           FACTORY_CONTRACT,
           TOKEN_CONTRACT,
           address: account,

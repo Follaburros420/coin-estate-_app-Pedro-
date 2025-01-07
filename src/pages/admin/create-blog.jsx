@@ -10,67 +10,17 @@ import clsxm from '@/utils/clsxm';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import dynamic from "next/dynamic";
 import CustomSelect from '@/components/Select';
+import { useYupValidationResolver, validationSchemaBlog } from '@/utils/helper';
 
 const QuillEditor = dynamic(() => import('@/components/QuillEditor'), {
   ssr: false,
   loading: () => <p>Loading editor...</p>,
 });
 
-const validationSchema = yup.object({
-  heading: yup.string().required('heading is required'),
-  items: yup.array().of(
-    yup.object().shape({
-      name: yup.string().required('Name is required'),
-      // text_details: yup.string().required('Details are required'),
-      text_details: yup.string()
-        .required('Text details are required')
-        .matches(/<\/?[a-z][\s\S]*>/i, 'Invalid content') // Validate HTML if necessary
-
-    })
-  ),
-  blogStatus: yup.string().required('blogStatus is required'),
-  details: yup.string().required('Details is required'),
-  description: yup
-    .string()
-    .required('Description is mandatory'),
-  subheading: yup.string().required('constructionYear required')
-});
-
-const useYupValidationResolver = (validationSchema) =>
-  useCallback(
-    async (data) => {
-      try {
-        const values = await validationSchema.validate(data, {
-          abortEarly: false,
-        });
-
-        return {
-          values,
-          errors: {},
-        };
-      } catch (errors) {
-        return {
-          values: {},
-          errors: errors.inner.reduce(
-            (allErrors, currentError) => ({
-              ...allErrors,
-              [currentError.path]: {
-                type: currentError.type ?? 'validation',
-                message: currentError.message,
-              },
-            }),
-            {},
-          ),
-        };
-      }
-    },
-    [validationSchema],
-  );
-
 export default function Home() {
 
 
-  const resolver = useYupValidationResolver(validationSchema);
+  const resolver = useYupValidationResolver(validationSchemaBlog);
   const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
 
   const { mutate: createBlog, isPending: isLoadingCreateNfts } = useMutateCreateBlog();

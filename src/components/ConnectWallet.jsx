@@ -1,4 +1,4 @@
-import { CHAIN_ID } from '@/contract'
+import { CHAIN_ID } from '@/contract2'
 import { useEthersSigner } from '@/hooks/ethers'
 import useWalletConnector from '@/hooks/useWalletConnector'
 import { useEffect } from 'react'

@@ -1,35 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useMemo } from "react";
+import clsxm from '@/utils/clsxm';
 import {
-  useReactTable,
   getCoreRowModel,
-  getSortedRowModel,
-  getPaginationRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
-import clsxm from "@/utils/clsxm";
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
 
-const PropertyTable = ({ data = [] }) => {
+const PropertyTable = ({ data = [], handleMintNft }) => {
   // Define table columns
   const columns = useMemo(
     () => [
       {
-        accessorKey: "rowNum",
-        header: "#",
+        accessorKey: 'rowNum',
+        header: '#',
       },
       {
-
-        accessorKey: "image",
-        header: "Image",
+        accessorKey: 'image',
+        header: 'Image',
         cell: ({ row }) => (
-          <img
-            src={`https://ipfs.io/ipfs/${row.original.image}`}
-            alt="Property"
-            className="w-20 h-20 rounded-lg p-1"
-          />
+          <img src={`https://ipfs.io/ipfs/${row.original.image}`} alt='Property' className='w-20 h-20 rounded-lg p-1' />
         ),
       },
-      { accessorKey: "name", header: "Name" },
+      { accessorKey: 'name', header: 'Name' },
       // {
       //   accessorKey: "createdAt",
       //   header: "Created At",
@@ -38,18 +33,22 @@ const PropertyTable = ({ data = [] }) => {
       //   return date?.toLocaleDateString(); // Format as readable date
       // },
       // },
-      { accessorKey: "email", header: "Email" },
-      { accessorKey: "propertyPrice", header: "Property Price" },
-      { accessorKey: "saleStatus", header: "Sale Status" },
-      { accessorKey: "houseType", header: "House Type" },
-      { accessorKey: "totalInvestmentPrice", header: "Investment Price" },
-      { accessorKey: "constructionYear", header: "Construction Year" },
+      { accessorKey: 'email', header: 'Email' },
+      { accessorKey: 'propertyPrice', header: 'Property Price' },
+      { accessorKey: 'saleStatus', header: 'Sale Status' },
+      { accessorKey: 'houseType', header: 'House Type' },
+      { accessorKey: 'totalInvestmentPrice', header: 'Investment Price' },
+      { accessorKey: 'constructionYear', header: 'Construction Year' },
+      {
+        Header: 'Actions',
+        accessorKey: 'actions',
+      },
     ],
-    []
+    [],
   );
 
   // Search filter state
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
   // Sorting state
   const [sorting, setSorting] = useState([]);
   // Pagination state
@@ -77,43 +76,33 @@ const PropertyTable = ({ data = [] }) => {
   });
 
   return (
-    <div className="overflow-x-auto bg-black-600 p-4 rounded-lg shadow-lg">
-      <div className=" min-w-[1200px]">
-
+    <div className='overflow-x-auto bg-black-600 p-4 rounded-lg shadow-lg'>
+      <div className=' min-w-[1200px]'>
         {/* Search input */}
         <input
-          type="text"
-          placeholder="Search by Name or Email"
-          value={globalFilter ?? ""}
+          type='text'
+          placeholder='Search by Name or Email'
+          value={globalFilter ?? ''}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          className="w-full p-2 border border-gray-300 glass rounded"
+          className='w-full p-2 border border-gray-300 glass rounded'
         />
 
         {/* Table */}
-        <table className="min-w-full bg-black-600 border mt-4 border-gray-200">
+        <table className='min-w-full bg-black-600 border mt-4 border-gray-200'>
           <thead>
-            {table?.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}
-                className="px-4 py-2 cursor-pointer border-b border-gray-300 text-left"
-              >
+            {table?.getHeaderGroups()?.map((headerGroup) => (
+              <tr key={headerGroup.id} className='px-4 py-2 cursor-pointer border-b border-gray-300 text-left'>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
                     style={{
-                      padding: "10px",
-                      border: "1px solid #ddd",
-                      cursor: header.column.getCanSort() ? "pointer" : "auto",
+                      padding: '10px',
+                      border: '1px solid #ddd',
+                      cursor: header.column.getCanSort() ? 'pointer' : 'auto',
                     }}
-                    onClick={header.column.getToggleSortingHandler()}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : header.column.columnDef.header}
-                    {header.column.getIsSorted() === "asc"
-                      ? "🔼"
-                      : header.column.getIsSorted() === "desc"
-                        ? "🔽"
-                        : ""}
+                    onClick={header.column.getToggleSortingHandler()}>
+                    {header.isPlaceholder ? null : header.column.columnDef.header}
+                    {header.column.getIsSorted() === 'asc' ? '🔼' : header.column.getIsSorted() === 'desc' ? '🔽' : ''}
                   </th>
                 ))}
               </tr>
@@ -121,17 +110,17 @@ const PropertyTable = ({ data = [] }) => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="border px-2 hover:bg-black-100">
+              <tr key={row.id} className='border px-2 hover:bg-black-100'>
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="border text-center"
-                  >
-                    {cell.column.id === "image" ? (
-                      cell.column.columnDef.cell({ row: cell.row })
-                    ) : (
-                      cell.getValue()
-                    )}
+                    onClick={() =>
+                      cell.column.id === 'actions' &&
+                      // ? deleteRow(row.original.id)
+                      handleMintNft(cell.row.original)
+                    }
+                    className='border text-center'>
+                    {cell.column.id === 'image' ? cell.column.columnDef.cell({ row: cell.row }) : cell.getValue()}
                   </td>
                 ))}
               </tr>
@@ -140,34 +129,32 @@ const PropertyTable = ({ data = [] }) => {
         </table>
 
         {/* Pagination */}
-        <div
-          className="flex gap-2 justify-end mt-4"
-        >
-
+        <div className='flex gap-2 justify-end mt-4'>
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className={clsxm("bg-yellow p-2 py-[11px] rounded-[10px] disabled:opacity-50", table.getCanNextPage() && 'bg-gray-dark')}
-          >
-            <img src="/assets/svg/arrow1.svg" alt="" className='rotate-90' />
+            className={clsxm(
+              'bg-yellow p-2 py-[11px] rounded-[10px] disabled:opacity-50',
+              table.getCanNextPage() && 'bg-gray-dark',
+            )}>
+            <img src='/assets/svg/arrow1.svg' alt='' className='rotate-90' />
           </button>
           {Array.from({ length: table.getPageCount() }).map((_, i) => (
             <button
               key={i}
               onClick={() => table.setPageIndex(i)}
-              className={clsxm("font-bold text-black-100",
-                i === table.getState().pagination.pageIndex ? "bg-yellow " : "bg-white",
-
+              className={clsxm(
+                'font-bold text-black-100',
+                i === table.getState().pagination.pageIndex ? 'bg-yellow ' : 'bg-white',
               )}
               style={{
-                margin: "0 5px",
-                padding: "5px 10px",
+                margin: '0 5px',
+                padding: '5px 10px',
                 // backgroundColor: i === table.getState().pagination.pageIndex ? "orangered" : "#fff",
                 // color: i === table.getState().pagination.pageIndex ? "#fff" : "#000",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-              }}
-            >
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+              }}>
               {i + 1}
             </button>
           ))}
@@ -175,16 +162,15 @@ const PropertyTable = ({ data = [] }) => {
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className={clsxm("bg-yellow p-2 py-[11px] rounded-[10px] disabled:opacity-50", !table.getCanNextPage() && 'bg-gray-dark')}
-
-          >
-            <img src="/assets/svg/arrow1.svg" alt="" className='-rotate-90' />
-
+            className={clsxm(
+              'bg-yellow p-2 py-[11px] rounded-[10px] disabled:opacity-50',
+              !table.getCanNextPage() && 'bg-gray-dark',
+            )}>
+            <img src='/assets/svg/arrow1.svg' alt='' className='-rotate-90' />
           </button>
         </div>
       </div>
     </div>
-
   );
 };
 
