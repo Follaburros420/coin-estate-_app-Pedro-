@@ -124,3 +124,14 @@ model transaction {
   transactionHash String
   status          String
 }
+
+model Payment {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          Int
+  amount          Int
+  currency        String
+  paymentIntentId String
+  status          String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

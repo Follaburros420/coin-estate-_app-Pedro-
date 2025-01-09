@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 export const useMutateCreateERC884ProPerty = (onSuccess) => {
   const { address } = useAccount();
   const {  FACTORY_CONTRACT, TOKEN_CONTRACT, } = useGlobalStates((state) => state.contract);
-  // console.log("🚀 ~ useMutateCreateERC884ProPerty ~ FACTORY_CONTRACT:", FACTORY_CONTRACT)
 
   const mutationFn = async ({ name, symbols }) => {
     const tx = await FACTORY_CONTRACT.createERC884(name, symbols);
@@ -37,7 +36,6 @@ export const useMutateMintNft = (onSuccess) => {
   const {  FACTORY_CONTRACT, TOKEN_CONTRACT, } = useGlobalStates((state) => state.contract);
 
   const mutationFn = async ({ tokenAddress,amount }) => {
-    console.log({ tokenAddress,amount })
     const tx = await TOKEN_CONTRACT.mint(tokenAddress, amount);
     return tx?.wait();
   };
@@ -58,29 +56,37 @@ export const useMutateMintNft = (onSuccess) => {
 };
 
 
-// export const useMutateApprove = (onSuccess) => {
-//   const { address } = useAccount();
-//   const { BEACON_CONTRACT, FACTORY_CONTRACT, TOKEN_CONTRACT, } = useGlobalStates((state) => state.contract);
-//   console.log({ FACTORY_CONTRACT })
+export const useMutateTransfer = () => {
+  const { data: user } = useQueryGetUser()
 
-//   const mutationFn = async () => {
-//     const tx = await TOKEN_CONTRACT.approve('0x50119354Aa81d47AF73CF75594069aFdFc95299c', 22);
-//     return tx?.wait();
-//   };
+  const mutationFn = async ({ address }) => {
+    const config = {
+      method: "POST", // Use DELETE method for deletion
+      url: `${endPoint}/userInstants/store`, // Update to the correct deletion endpoint
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${user?.token}`,
+      },
+      // data: {
+      //   recipient: address,
+      //   amount: '0.05',
+      //   email: user?.email
+      // }, // Pass the ID in the request body
+    };
 
-//   return useMutation({
-//     mutationFn,
-//     enabled: !!address && !!FACTORY_CONTRACT && !!BEACON_CONTRACT,
-//     onError: (res) => {
-//       console.log({ res })
-//       toast.error(`Error: ${res?.message}`)
-//     },
-//     onSuccess: (res) => {
-//       console.log({ res });
-//       onSuccess()
-//       toast.success(`Purchased`)
-//     },
-//   });
-// };
+    const response = await axios.request(config);
+    return response.data;
+  };
 
-
+  return useMutation({
+    mutationFn,
+    enabled: !!user?.email,
+    onError: (res) => {
+      console.log({ res })
+      toast.error(`Error: ${res?.message}`)
+    },
+    onSuccess: (res) => {
+      toast.success(`Purchased`)
+    },
+  });
+};
