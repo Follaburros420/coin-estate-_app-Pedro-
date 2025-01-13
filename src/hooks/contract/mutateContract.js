@@ -1,14 +1,14 @@
-import { useGlobalStates } from "@/store/useGlobalStates";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
-import { useQueryGetUser } from "../query";
-import { toast } from "react-toastify";
+import { useGlobalStates } from '@/store/useGlobalStates';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useAccount } from 'wagmi';
+import { useQueryGetUser } from '../query';
+import { toast } from 'react-toastify';
 
 // purchaseWMP (0x74724ce8)
 export const useMutateCreateERC884ProPerty = (onSuccess) => {
   const { address } = useAccount();
-  const {  FACTORY_CONTRACT, TOKEN_CONTRACT, } = useGlobalStates((state) => state.contract);
+  const { FACTORY_CONTRACT, TOKEN_CONTRACT } = useGlobalStates((state) => state.contract);
 
   const mutationFn = async ({ name, symbols }) => {
     const tx = await FACTORY_CONTRACT.createERC884(name, symbols);
@@ -19,23 +19,23 @@ export const useMutateCreateERC884ProPerty = (onSuccess) => {
     mutationFn,
     enabled: !!address && !!FACTORY_CONTRACT && !!TOKEN_CONTRACT,
     onError: (res) => {
-      console.log({ res })
-      toast.error(`Error: ${res?.reason}`)
+      console.log({ res });
+      toast.error(`Error: ${res?.reason}`);
     },
     onSuccess: (res) => {
       console.log({ res });
-      onSuccess()
-      toast.success(`Purchased`)
+      onSuccess();
+      toast.success(`Purchased`);
     },
   });
 };
 
-
 export const useMutateMintNft = (onSuccess) => {
   const { address } = useAccount();
-  const {  FACTORY_CONTRACT, TOKEN_CONTRACT, } = useGlobalStates((state) => state.contract);
+  const { FACTORY_CONTRACT, TOKEN_CONTRACT } = useGlobalStates((state) => state.contract);
 
-  const mutationFn = async ({ tokenAddress,amount }) => {
+  const mutationFn = async ({ tokenAddress, amount }) => {
+    console.log({ tokenAddress, amount });
     const tx = await TOKEN_CONTRACT.mint(tokenAddress, amount);
     return tx?.wait();
   };
@@ -44,27 +44,26 @@ export const useMutateMintNft = (onSuccess) => {
     mutationFn,
     enabled: !!address && !!FACTORY_CONTRACT && !!TOKEN_CONTRACT,
     onError: (res) => {
-      console.log({ res })
-      toast.error(`Error: ${res?.reason}`)
+      console.log({ res });
+      toast.error(`Error: ${res?.reason}`);
     },
     onSuccess: (res) => {
       console.log({ res });
-      onSuccess()
-      toast.success(`${res}`)
+      onSuccess();
+      toast.success(`${res}`);
     },
   });
 };
 
-
 export const useMutateTransfer = () => {
-  const { data: user } = useQueryGetUser()
+  const { data: user } = useQueryGetUser();
 
   const mutationFn = async ({ address }) => {
     const config = {
-      method: "POST", // Use DELETE method for deletion
+      method: 'POST', // Use DELETE method for deletion
       url: `${endPoint}/userInstants/store`, // Update to the correct deletion endpoint
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         Authorization: `Bearer ${user?.token}`,
       },
       // data: {
@@ -82,11 +81,11 @@ export const useMutateTransfer = () => {
     mutationFn,
     enabled: !!user?.email,
     onError: (res) => {
-      console.log({ res })
-      toast.error(`Error: ${res?.message}`)
+      console.log({ res });
+      toast.error(`Error: ${res?.message}`);
     },
     onSuccess: (res) => {
-      toast.success(`Purchased`)
+      toast.success(`Purchased`);
     },
   });
 };

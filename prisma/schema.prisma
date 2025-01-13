@@ -127,7 +127,7 @@ model transaction {
 
 model Payment {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId          Int
+  userId          String
   amount          Int
   currency        String
   paymentIntentId String

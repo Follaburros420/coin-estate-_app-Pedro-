@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,7 +10,7 @@
   --foreground: #171717;
 }
 
-input[type="range"].range-slider::-webkit-slider-thumb {
+input[type='range'].range-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
@@ -32,10 +32,10 @@ input[type="range"].range-slider::-webkit-slider-thumb {
   scrollbar-width: none; /* Firefox */
 }
 
-input[type="range"].YearRange-slider:focus {
+input[type='range'].YearRange-slider:focus {
   outline: none;
 }
-input[type="range"].YearRange-slider::-webkit-slider-thumb {
+input[type='range'].YearRange-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
@@ -66,7 +66,7 @@ input[type="range"].YearRange-slider::-webkit-slider-thumb {
   -webkit-backdrop-filter: blur(8.1px);
 }
 
-input[type="range"].YearRange-slider:focus {
+input[type='range'].YearRange-slider:focus {
   outline: none;
 }
 
@@ -105,4 +105,14 @@ body {
 .pagination .active a {
   font-weight: bold;
   text-decoration: underline;
+}
+
+.glass_css_modal {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
