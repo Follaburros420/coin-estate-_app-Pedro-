@@ -4,6 +4,10 @@ import { useRouter } from 'next/router';
 import { useAccount } from 'wagmi';
 import { useQueryGetUser } from '../query';
 import { toast } from 'react-toastify';
+import { ethers } from 'ethers';
+import { tokenAbi } from '@/contract2';
+import { useEthersSigner } from '../ethers';
+import { CHAIN_ID } from '@/contract';
 
 // purchaseWMP (0x74724ce8)
 export const useMutateCreateERC884ProPerty = (onSuccess) => {
@@ -30,19 +34,24 @@ export const useMutateCreateERC884ProPerty = (onSuccess) => {
   });
 };
 
-export const useMutateMintNft = (onSuccess) => {
+export const useMutateMint = (onSuccess) => {
   const { address } = useAccount();
-  const { FACTORY_CONTRACT, TOKEN_CONTRACT } = useGlobalStates((state) => state.contract);
+  const { data: user } = useQueryGetUser();
+  const signer = useEthersSigner(CHAIN_ID);
+
+  const { FACTORY_CONTRACT } = useGlobalStates((state) => state.contract);
 
   const mutationFn = async ({ tokenAddress, amount }) => {
-    console.log({ tokenAddress, amount });
-    const tx = await TOKEN_CONTRACT.mint(tokenAddress, amount);
+    const TOKEN_CONTRACT = new ethers.Contract(tokenAddress, tokenAbi, signer);
+    console.log({ tokenAddress, TOKEN_CONTRACT, amount });
+
+    const tx = await TOKEN_CONTRACT.mint(user.address, amount);
     return tx?.wait();
   };
 
   return useMutation({
     mutationFn,
-    enabled: !!address && !!FACTORY_CONTRACT && !!TOKEN_CONTRACT,
+    enabled: !!address && !!FACTORY_CONTRACT,
     onError: (res) => {
       console.log({ res });
       toast.error(`Error: ${res?.reason}`);
@@ -50,7 +59,7 @@ export const useMutateMintNft = (onSuccess) => {
     onSuccess: (res) => {
       console.log({ res });
       onSuccess();
-      toast.success(`${res}`);
+      toast.success(`Minted`);
     },
   });
 };

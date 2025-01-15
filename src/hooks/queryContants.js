@@ -4,7 +4,8 @@ export const queryKeys = {
   getPropertiesList:'getPropertiesList',
   getUserDetails:'getUserDetails',
   getCreatedNfts:'getCreatedNfts',
-  getNftsFromContract:'getNftsFromContract'
+  getNftsFromContract:'getNftsFromContract',
+  getMintedList: 'getMintedList'
 };
 
 //? openssl rand -hex 32

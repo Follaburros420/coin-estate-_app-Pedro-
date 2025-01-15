@@ -18,23 +18,18 @@ export default async function handler(req, res) {
       if (!decoded || !decoded.userId) {
         return res.status(401).json({ error: "Unauthorized. Invalid token." });
       }
+      const data = req.body; // Access data from the request body
 
-      // Fetch blogs and items
-      const blogs = await prisma.blog.findMany();
-      const items = await prisma.item.findMany();
-
-      // Map blogs to their respective items
-      const details = blogs.map((blog) => {
-        const relatedItems = items.filter((item) => item.contentId === blog.id);
-        return {
-          ...blog,
-          items: relatedItems,
-        };
+      const content = await prisma.minted.create({
+        data: {
+          ...data,
+          userId: decoded.userId, // Include userId from the token
+        },
       });
 
-      res.status(200).json({ message: "Blogs fetched successfully", data: details });
+      res.status(201).json({ message: "Minted successfully.", content });
     } catch (error) {
-      console.error("Error fetching blogs:", error);
+      console.error("Error creating property:", error);
 
       // Handle specific JWT errors
       if (error.name === "JsonWebTokenError") {
@@ -44,10 +39,11 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: "Unauthorized. Token has expired." });
       }
 
-      res.status(500).json({ error: "Failed to fetch blogs. Please try again later." });
+      res.status(500).json({ error: "Failed to create property. Please try again later." });
     }
   } else {
     res.setHeader("Allow", ["POST"]);
     res.status(405).json({ error: `Method ${req.method} not allowed.` });
   }
 }
+

@@ -20,19 +20,11 @@ export default async function handler(req, res) {
       }
 
       // Fetch blogs and items
-      const blogs = await prisma.blog.findMany();
-      const items = await prisma.item.findMany();
+      const tokensList = await prisma.minted.findMany();
 
       // Map blogs to their respective items
-      const details = blogs.map((blog) => {
-        const relatedItems = items.filter((item) => item.contentId === blog.id);
-        return {
-          ...blog,
-          items: relatedItems,
-        };
-      });
 
-      res.status(200).json({ message: "Blogs fetched successfully", data: details });
+      res.status(200).json({ message: "fetched successfully", data: tokensList });
     } catch (error) {
       console.error("Error fetching blogs:", error);
 

@@ -87,7 +87,7 @@ export default function Home({ options }) {
       image: mainImageData?.IpfsHash || 'QmTsTAMASbvwfGUxhqdV48h8HG55v3PT4eGVjLYQ8SCE1R',
       subImages: multiFilesList || ['QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU'],
       email: user?.email || 'demo@gmail.com',
-      address: '0xd7e0221b66f8A4534ce5DEed86e718376c1ddc8f',
+      address: user?.address,
     };
     createProperty(defaultValues);
   };

@@ -1,4 +1,3 @@
-
 // import getProperty from '@/app/server/property/getAction';
 // import getBlogsList from '@/app/server/blog/getBlogs';
 import { useQuery } from '@tanstack/react-query';
@@ -10,7 +9,7 @@ function convertToSubcurrency(amount, factor = 100) {
 }
 
 export const useQueryGetBlogList = () => {
-  const { data: user } = useQueryGetUser()
+  const { data: user } = useQueryGetUser();
   const queryKey = [queryKeys.getBlogList, user?.email];
 
   const queryFn = async () => {
@@ -41,9 +40,8 @@ export const useQueryGetBlogList = () => {
   });
 };
 
-
 export const useQueryGetProperty = () => {
-  const { data: user } = useQueryGetUser()
+  const { data: user } = useQueryGetUser();
   const queryKey = [queryKeys.getPropertiesList, user];
 
   const queryFn = async () => {
@@ -66,15 +64,13 @@ export const useQueryGetProperty = () => {
     queryKey,
     queryFn,
     onError: (error) => {
-      console.error("Query Error:", error);
+      console.error('Query Error:', error);
     },
     onSuccess: (data) => {
-      console.log("Query Success:", data);
+      console.log('Query Success:', data);
     },
   });
 };
-
-
 
 export const useQueryInitiatePayment = () => {
   const { data: user } = useQueryGetUser();
@@ -88,7 +84,7 @@ export const useQueryInitiatePayment = () => {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${user?.token}`,
-      },    
+      },
       body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
     };
 
@@ -103,15 +99,13 @@ export const useQueryInitiatePayment = () => {
     queryKey,
     queryFn,
     onError: (error) => {
-      console.error("Query Error:", error);
+      console.error('Query Error:', error);
     },
     onSuccess: (data) => {
-      console.log("Query Success:", data);
+      console.log('Query Success:', data);
     },
   });
 };
-
-
 
 export const useQueryGetUser = () => {
   const queryKey = [queryKeys.getUserDetails];
@@ -125,11 +119,43 @@ export const useQueryGetUser = () => {
     queryKey,
     queryFn,
     onError: (error) => {
-      console.error("Query Error:", error);
+      console.error('Query Error:', error);
     },
     onSuccess: (data) => {
-      console.log("Query Success:", data);
+      console.log('Query Success:', data);
     },
   });
 };
 
+export const useQueryGetMintedTokenlist = () => {
+  const { data: user } = useQueryGetUser();
+
+  const queryKey = [queryKeys.getMintedList];
+
+  const queryFn = async () => {
+    const config = {
+      method: 'POST',
+      maxBodyLength: Infinity,
+      url: `${endPoint}/mint/get-minted`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${user?.token}`,
+      },
+    };
+
+    const tx = await axios.request(config);
+
+    return tx?.data?.data;
+  };
+
+  return useQuery({
+    queryKey,
+    queryFn,
+    onError: (error) => {
+      console.error('Query Error:', error);
+    },
+    onSuccess: (data) => {
+      console.log('Query Success:', data);
+    },
+  });
+};

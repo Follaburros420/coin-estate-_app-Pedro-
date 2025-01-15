@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 
-const PropertyTable = ({ data = [], handleMintNft }) => {
+const PropertyTable = ({ data = [], handleMintNft,rowsPerPage }) => {
   // Define table columns
   const columns = useMemo(
     () => [
@@ -34,13 +34,14 @@ const PropertyTable = ({ data = [], handleMintNft }) => {
       // },
       // },
       { accessorKey: 'email', header: 'Email' },
+      { accessorKey: 'minted', header: 'Status' },
       { accessorKey: 'propertyPrice', header: 'Property Price' },
       { accessorKey: 'saleStatus', header: 'Sale Status' },
       { accessorKey: 'houseType', header: 'House Type' },
       { accessorKey: 'totalInvestmentPrice', header: 'Investment Price' },
       { accessorKey: 'constructionYear', header: 'Construction Year' },
       {
-        Header: 'Actions',
+        header: 'Actions',
         accessorKey: 'actions',
       },
     ],
@@ -54,7 +55,7 @@ const PropertyTable = ({ data = [], handleMintNft }) => {
   // Pagination state
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: rowsPerPage ||5,
   });
 
   // Create table instance
