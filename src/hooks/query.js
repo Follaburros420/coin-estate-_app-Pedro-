@@ -99,7 +99,7 @@ export const useQueryInitiatePayment = () => {
     queryKey,
     queryFn,
     onError: (error) => {
-      console.error('Query Error:', error);
+      console.log('Query Error:', error);
     },
     onSuccess: (data) => {
       console.log('Query Success:', data);

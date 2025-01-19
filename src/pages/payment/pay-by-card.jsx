@@ -6,6 +6,7 @@ import * as config from '@/config';
 import getStripe from '@/utils/get-stripejs';
 import CheckoutPage from '@/components/Checkout';
 import TransferModal from '@/components/Dashboard/TransferModal';
+import Layout from '@/layout/Dashboard';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -34,16 +35,18 @@ export default function Page() {
 
   return (
     <div>
-      <Elements stripe={stripePromise} options={options}>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <CheckoutPage amount={amount} />
-        </form>
-      </Elements>
-      {/* <button onClick={() => setIsOpenModal(true)}>Open</button> */}
+      <Layout>
+        <Elements stripe={stripePromise} options={options}>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <CheckoutPage amount={amount} />
+          </form>
+        </Elements>
+        {/* <button onClick={() => setIsOpenModal(true)}>Open</button> */}
 
-      <TransferModal title='Transfer Nft' isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
-        <p>Wait Nft Transfer under processing</p>
-      </TransferModal>
+        <TransferModal title='Transfer Nft' isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
+          <p>Wait Nft Transfer under processing</p>
+        </TransferModal>
+      </Layout>
     </div>
   );
 }

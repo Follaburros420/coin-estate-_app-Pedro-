@@ -9,7 +9,7 @@ const CheckoutComponent = ({ amount, handleModal }) => {
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
   const { data: clientSecret } = useQueryInitiatePayment(amount);
-  // console.log({ elements, stripe, amount, clientSecret });
+  console.log({ elements, stripe, amount, clientSecret });
 
   const handleSubmit = async (event) => {
     setLoading(true);
