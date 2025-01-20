@@ -14,7 +14,7 @@ export default function Properties({  handleFilter, sortByMostRecent, handleSear
   const [title, setTitle] = useState("Más rentables");
   return (
     <div className="max-w-[1161px] mx-auto w-full ">
-      <h1 className="font-inter font-bold text-center lg:text-start text-36 text-black-100 mt-[52px]">
+      <h1 className="font-inter font-bold text-center lg:text-start text-36  mt-[52px]">
         Marketplace
       </h1>
       <div className="mt-8">
@@ -51,7 +51,7 @@ export default function Properties({  handleFilter, sortByMostRecent, handleSear
                 // setFilters({ ...filters, search: e.target.value })
               }}
               placeholder="Busca Propiedades "
-              className="text-grey-100 bg-lightblue w-full outline-none text-16 font-inter font-regular"
+              className="text-grey-100 bg-[transparent] py-1 w-full outline-none text-16 font-inter font-regular"
             />
           </div>
 

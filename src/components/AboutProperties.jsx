@@ -16,7 +16,7 @@ export default function AboutProperties({ getPropertyList }) {
           return (
             <div
               key={`${items?.id}___${idx}`}
-              onClick={() => router.push(`/dashboard/marketplace/${items.id}`)}
+              onClick={() => router.push(`/dashboard/market-place/${items.id}`)}
               className="max-w-[371px] bg-white mx-auto lg:mx-0  rounded-[8px] border border-black-100"
             >
               <div className="relative">

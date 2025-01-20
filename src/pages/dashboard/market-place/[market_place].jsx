@@ -9,10 +9,8 @@ export default function MarketPlace() {
   const { data: getPropertyList } = useQueryGetProperty();
 
   const params = useParams();
-  console.log(params?.market_place)
 
   const selectedNFT = getPropertyList?.filter((item) => item.id === params?.market_place)?.[0];
-  console.log({ selectedNFT })
 
 
   return (
