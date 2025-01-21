@@ -4,7 +4,7 @@ export const useGlobalStates = create((set) => ({
   activeTab: null,
   secSelectedToken: null,
   selectedToken: null,
-  isOpenModal:false,
+  isOpenModal: false,
   setToken: (value) =>
     set({
       selectedToken: value,
@@ -18,8 +18,8 @@ export const useGlobalStates = create((set) => ({
       activeTab: value,
     }),
 
-    setModal: (value) =>
-      set({
-        isOpenModal: value,
-      }),
+  setModal: (value) =>
+    set({
+      isOpenModal: value,
+    }),
 }));

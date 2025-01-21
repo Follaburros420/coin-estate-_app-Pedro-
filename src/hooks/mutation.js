@@ -3,8 +3,9 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { endPoint, user_auth } from './queryContants';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useQueryGetUser } from './query';
+import { usePropertyStates } from '@/store/useProduct';
 // import createBlog from '@/app/server/blog/action';
 // import getBlogsList from '@/app/server/blog/deleteBlog';
 // import createProperty from '@/app/api/v2/property/action';
@@ -160,7 +161,7 @@ export const useMutateDeleteBlog = (onSuccess) => {
 
     const config = {
       method: 'DELETE', // Use DELETE method for deletion
-      url: `${endPoint}/blog/deleteBlog`, // Update to the correct deletion endpoint
+      url: `${endPoint}/blog/deleteBlog`,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${user?.token}`,
@@ -194,12 +195,12 @@ export const useMutateUpdateBlog = (onSuccess) => {
 
     const config = {
       method: 'PUT', // Use PUT or PATCH for updating
-      url: `${endPoint}/blog/update`, // Update to the correct update endpoint
+      url: `${endPoint}/blog/update`,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${user?.token}`,
       },
-      data: { id: data?.id, ...data, email: user?.email }, // Include ID and updated data in the request body
+      data: { id: data?.id, ...data, email: user?.email },
     };
 
     const response = await axios.request(config);
@@ -333,18 +334,19 @@ export const useMutateLoginUser = () => {
 export const useMutateTransferFunds = () => {
   const { data: user } = useQueryGetUser();
 
-  const mutationFn = async ({ address }) => {
+  const mutationFn = async ({ address, amount }) => {
+    if (!address) throw new Error('Property data is required for creation.');
+
     const config = {
       method: 'POST', // Use DELETE method for deletion
-      url: `${endPoint}/userInstants/transfer`, // Update to the correct deletion endpoint
+      url: `${endPoint}/userInstants/send-token`, // Update to the correct deletion endpoint
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${user?.token}`,
       },
       data: {
-        recipient: address,
-        amount: '0.05',
-        email: user?.email,
+        tokenAddress: address,
+        amount: '1',
       }, // Pass the ID in the request body
     };
 
@@ -356,8 +358,11 @@ export const useMutateTransferFunds = () => {
     mutationFn,
     enabled: !!user?.email,
     onError: (res) => {
-      console.log({ res });
-      toast.error(`Error: ${res?.message}`);
+      console.log({ error: res?.response?.data?.error, res });
+      const message = res?.response?.data?.error;
+      console.log({ message });
+      toast.error(`Error: ${message}`);
+      // toast.error(`Error: ${res?.response?.data?.error}`);
     },
     onSuccess: (res) => {
       toast.success(`Purchased`);
@@ -390,7 +395,7 @@ export const useMutateMinteToken = () => {
   return useMutation({
     mutationFn,
     onError: (error) => {
-      console.log({error})
+      console.log({ error });
       const message = error.message || 'An unexpected error occurred.';
       console.error('Mutation error:', message);
       toast.error(`Failed to create property: ${message}`);
@@ -398,6 +403,98 @@ export const useMutateMinteToken = () => {
     onSuccess: (res) => {
       console.log('Mutation success:', res);
       toast.success(`Property created successfully!`);
+    },
+  });
+};
+
+// ====================
+
+export const useMutatePDUpdate = () => {
+  const { data: user } = useQueryGetUser();
+
+  const mutationFn = async (id) => {
+    if (!id) throw new Error('Property data is required for creation.');
+
+    const config = {
+      method: 'POST',
+      url: `${endPoint}/userInstants/update-b-details`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${user?.token}`,
+      },
+      data: { id },
+    };
+
+    const response = await axios.request(config);
+    return response?.data;
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.log({ error });
+      const message = error.message || 'An unexpected error occurred.';
+      console.error('Mutation error:', message);
+      toast.error(`Failed to create property: ${message}`);
+    },
+    onSuccess: (res) => {
+      console.log('Mutation success:', res);
+      toast.success(`${res?.message}`);
+    },
+  });
+};
+
+export const useMutationInitiatePayment = (onSuccess) => {
+  const router = useRouter();
+  const params = useParams();
+  const setInitailPropert = usePropertyStates((state) => state.setInitailPropert);
+
+  const { data: user } = useQueryGetUser();
+
+  const mutationFn = async (id) => {
+    if (!id) {
+      throw new Error('Property ID is required');
+    }
+
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/userInstants/create-payment-intent`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${user?.token}`,
+        },
+        data: { id }, // Correctly pass the body as `data` in axios
+      };
+
+      const response = await axios.request(config);
+
+      // Axios doesn't have an `ok` property; check `status` instead
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(`Error: ${response.status} - ${response.statusText || 'Unknown error'}`);
+      }
+
+      return response?.data; // Ensure response structure matches API
+    } catch (error) {
+      // Improve error handling for better debugging
+      throw new Error(error.response?.data?.error || error.message || 'An error occurred');
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.log({ error });
+      const message = error.message || 'An unexpected error occurred.';
+      console.error('Mutation error:', message);
+      toast.error(`Failed to create property: ${message}`);
+    },
+    onSuccess: (res) => {
+      if (res?.message) {
+        onSuccess();
+        setInitailPropert(res);
+        console.log('Mutation success:', res);
+      }
     },
   });
 };

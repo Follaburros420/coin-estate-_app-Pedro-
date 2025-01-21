@@ -72,40 +72,54 @@ export const useQueryGetProperty = () => {
   });
 };
 
-export const useQueryInitiatePayment = () => {
-  const { data: user } = useQueryGetUser();
-  const queryKey = [queryKeys.getUserDetails];
+// export const useQueryInitiatePayment = (id) => {
+//   const { data: user } = useQueryGetUser();
+//   const queryKey = [queryKeys.getUserIntendDetails, id];
 
-  const queryFn = async () => {
-    const config = {
-      method: 'POST',
-      maxBodyLength: Infinity,
-      url: `${endPoint}/userInstants/create-payment-intent`,
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${user?.token}`,
-      },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
-    };
+//   const queryFn = async () => {
+//     if (!id) {
+//       throw new Error('Property ID is required');
+//     }
 
-    const response = await axios.request(config);
-    if (!response.ok) {
-      throw console.log(`Error: ${response.status} - ${response.statusText}`);
-    }
-    return response?.data?.data;
-  };
+//     try {
+//       const config = {
+//         method: 'POST',
+//         url: `${endPoint}/userInstants/create-payment-intent`,
+//         headers: {
+//           Accept: 'application/json',
+//           Authorization: `Bearer ${user?.token}`,
+//         },
+//         data: { id }, // Correctly pass the body as `data` in axios
+//       };
 
-  return useQuery({
-    queryKey,
-    queryFn,
-    onError: (error) => {
-      console.log('Query Error:', error);
-    },
-    onSuccess: (data) => {
-      console.log('Query Success:', data);
-    },
-  });
-};
+//       const response = await axios.request(config);
+
+//       // Axios doesn't have an `ok` property; check `status` instead
+//       if (response.status < 200 || response.status >= 300) {
+//         throw new Error(
+//           `Error: ${response.status} - ${response.statusText || 'Unknown error'}`
+//         );
+//       }
+
+//       return response?.data?.init; // Ensure response structure matches API
+//     } catch (error) {
+//       // Improve error handling for better debugging
+//       throw new Error(error.response?.data?.error || error.message || 'An error occurred');
+//     }
+//   };
+
+//   return useQuery({
+//     queryKey,
+//     queryFn,
+//     enabled: !!id, // Ensures the query runs only when `id` is truthy
+//     onError: (error) => {
+//       console.error('Query Error:', error.message);
+//     },
+//     onSuccess: (data) => {
+//       console.log('Query Success:', data);
+//     },
+//   });
+// };
 
 export const useQueryGetUser = () => {
   const queryKey = [queryKeys.getUserDetails];

@@ -13,3 +13,6 @@ export const useGlobalStates = create((set) => ({
       contract: abis,
     }),
 }));
+
+
+// useMutationInitiatePayment

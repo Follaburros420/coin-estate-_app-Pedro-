@@ -15,6 +15,7 @@ import {
 } from '@/hooks/contract/mutateContract';
 import { useYupValidationResolver } from '@/utils/helper';
 import { toast } from 'react-toastify';
+import { useAccount } from 'wagmi';
 
 const validationSchemaProperty = yup.object({
   name: yup.string().required('House Type is required'),
@@ -65,6 +66,7 @@ const validationSchemaProperty = yup.object({
 
 export default function Home({ options }) {
   const resolver = useYupValidationResolver(validationSchemaProperty);
+  const { address } = useAccount();
   const { data: user } = useQueryGetUser();
   const [selected, setSelected] = useState();
   const {
@@ -87,7 +89,7 @@ export default function Home({ options }) {
       image: mainImageData?.IpfsHash || 'QmTsTAMASbvwfGUxhqdV48h8HG55v3PT4eGVjLYQ8SCE1R',
       subImages: multiFilesList || ['QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU'],
       email: user?.email || 'demo@gmail.com',
-      address: user?.address,
+      address: address,
     };
     createProperty(defaultValues);
   };
@@ -101,10 +103,10 @@ export default function Home({ options }) {
 
   function handleFormSubmit(value) {
     // if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
-      setSelected(value);
-      createNftProperty({ name: value?.name, symbols: value?.saleStatus });
+    setSelected(value);
+    createNftProperty({ name: value?.name, symbols: value?.saleStatus });
     // } else {
-      // toast.error('data is missing');
+    // toast.error('data is missing');
     // }
   }
 

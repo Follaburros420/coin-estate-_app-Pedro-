@@ -7,12 +7,14 @@ import { useQueryGetBlogList, useQueryGetMintedTokenlist, useQueryGetProperty } 
 import Layout from '@/layout/admin';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useAccount } from 'wagmi';
 
 export default function Dashboard() {
   const router = useRouter();
+  const { address } = useAccount();
   const [selected, setSelected] = useState(null);
   const { mutate: mintToken } = useMutateMinteToken();
-  
+
   const { data: mintedTokensList, refetch } = useQueryGetMintedTokenlist();
   const { data: getPropertyDetails, refetch: propertyRefetch } = useQueryGetProperty();
 
@@ -20,7 +22,7 @@ export default function Dashboard() {
     const values = {
       name: selected?.name,
       tokenId: selected?.id,
-      address: selected?.address,
+      address: address,
       price: selected?.propertyPrice,
       tokenAddress: selected?.tokenAddress,
     };
@@ -40,7 +42,6 @@ export default function Dashboard() {
 
   const { mutate: mintNfts, isPending: isLoadingMint } = useMutateMint(onSuccess);
   const { data: getNftsList } = useQueryGetNftsFromContract();
-  console.log({ getNftsList });
 
   const { mutate: mutateDeleteBlog, isPending: isLoadingDelete } = useMutateDeleteBlog();
   const { data: blogList } = useQueryGetBlogList();

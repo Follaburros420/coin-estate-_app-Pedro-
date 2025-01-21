@@ -10,6 +10,7 @@ import Layout from '@/layout/Dashboard';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import { useQueryGetProperty } from '@/hooks/query';
 import { SourceUrl } from '@/hooks/queryContants';
+import { useMutateTransferFunds } from '@/hooks/mutation';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -19,16 +20,19 @@ const stripePromise = loadStripe(
 
 export default function Page() {
   const { data: getPropertyList } = useQueryGetProperty();
+  const { mutate: sendTokens } = useMutateTransferFunds();
 
   const searchParams = useSearchParams();
   const paramsId = searchParams.get('id');
+  const amount = searchParams.get('amount');
+  const tokenAddress = searchParams.get('tokenAddress');
+
+  console.log({ amount, tokenAddress });
 
   const selectedNFT = getPropertyList?.filter((item) => item.id === paramsId)?.[0];
-  console.log('🚀 ~ Page ~ selectedNFT:', selectedNFT);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const amount = selectedNFT?.propertyPrice;
   const options = {
     appearance: {
       variables: {
@@ -38,31 +42,39 @@ export default function Page() {
     },
     currency: config.CURRENCY,
     mode: 'payment',
-    // amount: Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP),
+    amount: Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP),
+  };
+
+  const handleModal = () => {
+    console.log('success');
+    sendTokens({ address: tokenAddress, amount });
   };
 
   return (
     <Layout>
       <div className='border border-red-400 w-full lg:flex gap-5 mt-10 px-5 glass py-6'>
         <div className='w-full h-full'>
-          <Elements stripe={stripePromise} options={options}>
-            <CheckoutPage amount={amount} />
-          </Elements>
+          {selectedNFT?.id && (
+            <Elements stripe={stripePromise} options={options}>
+              <CheckoutPage selectedNFT={selectedNFT} id={selectedNFT?.id} handleModal={handleModal} />
+            </Elements>
+          )}
 
+          <button onClick={handleModal}>sendTokens</button>
           <TransferModal title='Transfer Nft' isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
             <p>Wait Nft Transfer under processing</p>
           </TransferModal>
         </div>
         <div className='bg-lightGray-800 max-w-[320px] w-full p-4 rounded-lg '>
           <div className=' justify-center gap-4 items-start '>
-            <img src={SourceUrl + selectedNFT.image} alt='' className='max-h-[300px] w-full' />
+            <img src={SourceUrl + selectedNFT?.image} alt='' className='max-h-[300px] w-full' />
             <div className='w-full'>
               <p className='font-bold font-ubuntu my-2'>{selectedNFT?.name}</p>
               <div className='grid grid-cols-2 gap-2'>
                 <p>Price: </p>
                 <p className='uppercase ml-auto'>$ {selectedNFT?.propertyPrice}</p>
                 <p>Property Type: </p>
-                <p className='uppercase ml-auto'>{selectedNFT.houseType}</p>
+                <p className='uppercase ml-auto'>{selectedNFT?.houseType}</p>
               </div>
             </div>
           </div>

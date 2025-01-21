@@ -2,13 +2,24 @@
 /* eslint-disable jsx-a11y/alt-text */
 'use client';
 import StyledImage from '@/components/StyedImage';
+import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
+import { useMutationInitiatePayment } from '@/hooks/mutation';
 import clsxm from '@/utils/clsxm';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-export default function HeaderSection({ selectedNFT }) {
+export default function HeaderSection({ selectedNFT, tokenAddress }) {
   const router = useRouter();
+  const [amount, setAmount] = useState(0);
+
+  const onSuccess = () => {
+    router.push(
+      `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${tokenAddress}`,
+    );
+  };
+  const { mutate: createIntend, isPending:isLoading } = useMutationInitiatePayment(onSuccess);
+
   const [isSelected, setIsSelected] = useState(false);
   const location = usePathname();
   const paths = {
@@ -126,10 +137,19 @@ export default function HeaderSection({ selectedNFT }) {
               })}
             </div>
           </div>
+          <div>
+            <input
+              min={1}
+              type='number'
+              value={amount}
+              className='text-black-100'
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
           <button
-            onClick={() => router.push(`/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}`)}
+            onClick={() => createIntend(selectedNFT?.id)}
             className='bg-Yellow-100 p-3 rounded-[8px] text-20 sm:text-28 w-full mt-4 font-medium text-black-100 '>
-            Investing
+            {isLoading ? 'Laoding...' : 'Investing'}
           </button>
         </div>
       </div>

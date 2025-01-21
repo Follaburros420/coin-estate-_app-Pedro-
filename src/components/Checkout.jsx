@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 import { useQueryGetUser, useQueryInitiatePayment } from '@/hooks/query';
 import TransferModal from './Dashboard/TransferModal';
+import { useMutatePDUpdate } from '@/hooks/mutation';
+import { usePropertyStates } from '@/store/useProduct';
 
-const CheckoutComponent = ({ amount, handleModal }) => {
+const CheckoutComponent = ({ id, handleModal,selectedNFT }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
-  const { data: clientSecret } = useQueryInitiatePayment(amount);
-  console.log({ elements, stripe, amount, clientSecret });
+  const initailPropert = usePropertyStates((state) => state.initailPropert);
+  const clientSecret = initailPropert?.init
+
+  const { mutate: fixUriDetails } = useMutatePDUpdate();
+  console.log({ elements, stripe, id, clientSecret: initailPropert });
 
   const handleSubmit = async (event) => {
     setLoading(true);
@@ -29,8 +34,9 @@ const CheckoutComponent = ({ amount, handleModal }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
+      redirect: 'if_required',
       confirmParams: {
-        // return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        return_url: `http://www.localhost:3000/payment-success?amount=${selectedNFT?.propertyPrice}`,
       },
     });
     if (error) {
@@ -39,7 +45,8 @@ const CheckoutComponent = ({ amount, handleModal }) => {
       setErrorMessage(error.message);
     } else {
       handleModal();
-
+      console.log('Success Complete')
+      fixUriDetails(initailPropert?.values);
       // The payment UI automatically closes with a success animation.
       // Your customer is redirected to your `return_url`.
     }
@@ -63,7 +70,10 @@ const CheckoutComponent = ({ amount, handleModal }) => {
   }
 
   return (
+    <div>
+      <button onClick={()=>fixUriDetails('678e17f74c1b7f03e4545b09')}>Complete</button>
     <div className='bg-white p-2 rounded-md'>
+
       {clientSecret && <PaymentElement />}
 
       {errorMessage && <div>{errorMessage}</div>}
@@ -72,8 +82,9 @@ const CheckoutComponent = ({ amount, handleModal }) => {
         disabled={!stripe || loading}
         onClick={() => handleSubmit()}
         className='text-white w-full p-5 bg-blue-400 mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse'>
-        {!loading ? `Pay $${amount}` : 'Processing...'}
+        {!loading ? `Pay $${selectedNFT?.propertyPrice}` : 'Processing...'}
       </button>
+    </div>
     </div>
   );
 };
