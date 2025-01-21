@@ -346,7 +346,7 @@ export const useMutateTransferFunds = () => {
       },
       data: {
         tokenAddress: address,
-        amount: '1',
+        amount: amount,
       }, // Pass the ID in the request body
     };
 
@@ -365,7 +365,7 @@ export const useMutateTransferFunds = () => {
       // toast.error(`Error: ${res?.response?.data?.error}`);
     },
     onSuccess: (res) => {
-      toast.success(`Purchased`);
+      toast.success(`${res?.message} Transaction Hash:${res.transactionHash}`);
     },
   });
 };
@@ -402,7 +402,7 @@ export const useMutateMinteToken = () => {
     },
     onSuccess: (res) => {
       console.log('Mutation success:', res);
-      toast.success(`Property created successfully!`);
+      // toast.success(`Property created successfully!`);
     },
   });
 };

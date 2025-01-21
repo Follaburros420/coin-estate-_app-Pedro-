@@ -5,16 +5,15 @@ import TransferModal from './Dashboard/TransferModal';
 import { useMutatePDUpdate } from '@/hooks/mutation';
 import { usePropertyStates } from '@/store/useProduct';
 
-const CheckoutComponent = ({ id, handleModal,selectedNFT }) => {
+const CheckoutComponent = ({ id, handleModal, selectedNFT }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState(false);
   const initailPropert = usePropertyStates((state) => state.initailPropert);
-  const clientSecret = initailPropert?.init
+  const clientSecret = initailPropert?.init;
 
   const { mutate: fixUriDetails } = useMutatePDUpdate();
-  console.log({ elements, stripe, id, clientSecret: initailPropert });
 
   const handleSubmit = async (event) => {
     setLoading(true);
@@ -45,7 +44,7 @@ const CheckoutComponent = ({ id, handleModal,selectedNFT }) => {
       setErrorMessage(error.message);
     } else {
       handleModal();
-      console.log('Success Complete')
+      console.log('Success Complete');
       fixUriDetails(initailPropert?.values);
       // The payment UI automatically closes with a success animation.
       // Your customer is redirected to your `return_url`.
@@ -71,20 +70,19 @@ const CheckoutComponent = ({ id, handleModal,selectedNFT }) => {
 
   return (
     <div>
-      <button onClick={()=>fixUriDetails('678e17f74c1b7f03e4545b09')}>Complete</button>
-    <div className='bg-white p-2 rounded-md'>
+      <button onClick={() => fixUriDetails('678e17f74c1b7f03e4545b09')}>Complete</button>
+      <div className='bg-white p-2 rounded-md'>
+        {clientSecret && <PaymentElement />}
 
-      {clientSecret && <PaymentElement />}
+        {errorMessage && <div>{errorMessage}</div>}
 
-      {errorMessage && <div>{errorMessage}</div>}
-
-      <button
-        disabled={!stripe || loading}
-        onClick={() => handleSubmit()}
-        className='text-white w-full p-5 bg-blue-400 mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse'>
-        {!loading ? `Pay $${selectedNFT?.propertyPrice}` : 'Processing...'}
-      </button>
-    </div>
+        <button
+          disabled={!stripe || loading}
+          onClick={() => handleSubmit()}
+          className='text-white w-full p-5 bg-blue-400 mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse'>
+          {!loading ? `Pay $${selectedNFT?.totalInvestmentPrice}` : 'Processing...'}
+        </button>
+      </div>
     </div>
   );
 };

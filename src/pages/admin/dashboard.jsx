@@ -88,7 +88,7 @@ export default function Dashboard() {
     const tokenAddress = getNftsList?.[index];
     setSelected({ ...res, tokenAddress });
 
-    mintNfts({ tokenAddress, amount: res?.propertyPrice });
+    mintNfts({ tokenAddress, amount: res?.totalInvestmentPrice });
   };
 
   return (

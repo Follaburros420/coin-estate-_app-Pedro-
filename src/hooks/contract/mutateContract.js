@@ -42,10 +42,10 @@ export const useMutateMint = (onSuccess) => {
   const { FACTORY_CONTRACT } = useGlobalStates((state) => state.contract);
 
   const mutationFn = async ({ tokenAddress, amount }) => {
+    const tokenValues = ethers.utils.parseEther(`${amount}`);
     const TOKEN_CONTRACT = new ethers.Contract(tokenAddress, tokenAbi, signer);
-    console.log({ tokenAddress, TOKEN_CONTRACT, amount });
 
-    const tx = await TOKEN_CONTRACT.mint(user.address, amount);
+    const tx = await TOKEN_CONTRACT.mint(address, tokenValues);
     return tx?.wait();
   };
 

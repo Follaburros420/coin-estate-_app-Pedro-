@@ -28,14 +28,14 @@ async function transferTokens(recipient, CONTRACT_ADDRESS, amount) {
 
     // Convert amount to the correct format (if needed, e.g., decimals)
     const decimals = 18; // Replace with your token's decimals
-    const formattedAmount = ethers.utils.parseUnits(amount.toString(), decimals);
+    const formattedAmount = ethers.utils.parseEther(amount);
 
     // Call the `transfer` function
-    console.log(`Initiating transfer to ${recipient}...`);
-    const tx = await contract.adminTransfer(process.env.WALLET_ADDRESS, recipient, 1);
-    if (tx) {
-      return res.status(401).json({ error: tx });
-    }
+    console.log(`Initiating transfer to ${recipient}...`, formattedAmount);
+    const tx = await contract.adminTransfer(process.env.WALLET_ADDRESS, recipient, formattedAmount);
+    // if (tx) {
+    //   return res.status(401).json({ error: tx });
+    // }
     console.log('Transfer successful:', { tx });
 
     // Wait for transaction to be mined
