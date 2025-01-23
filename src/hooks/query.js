@@ -173,3 +173,38 @@ export const useQueryGetMintedTokenlist = () => {
     },
   });
 };
+
+// ==================== Get Transactioin ========================================
+
+export const useQueryGetTransaction = () => {
+  const { data: user } = useQueryGetUser();
+
+  const queryKey = [queryKeys.getMintedList];
+
+  const queryFn = async () => {
+    const config = {
+      method: 'POST',
+      maxBodyLength: Infinity,
+      url: `${endPoint}/mint/get-minted`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${user?.token}`,
+      },
+    };
+
+    const tx = await axios.request(config);
+
+    return tx?.data?.data;
+  };
+
+  return useQuery({
+    queryKey,
+    queryFn,
+    onError: (error) => {
+      console.error('Query Error:', error);
+    },
+    onSuccess: (data) => {
+      console.log('Query Success:', data);
+    },
+  });
+};
