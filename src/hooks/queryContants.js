@@ -7,6 +7,8 @@ export const queryKeys = {
   getNftsFromContract: 'getNftsFromContract',
   getMintedList: 'getMintedList',
   getUserIntendDetails: 'getUserIntendDetails',
+  getMarketPlaceList: 'getMarketPlaceList',
+  getActiveResults: 'getActiveResults',
 };
 
 //? openssl rand -hex 32

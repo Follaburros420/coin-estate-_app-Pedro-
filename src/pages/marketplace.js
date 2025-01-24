@@ -3,12 +3,12 @@ import AboutMarketPlace from '@/components/AboutMarketPlace';
 import AboutProperties from '@/components/AboutProperties';
 import Properties from '@/components/Properties';
 import RegisterBottomBanner from '@/components/RegisterBottomBanner';
-import { useQueryGetProperty } from '@/hooks/query';
+import { useQueryGetMarketPlaceList } from '@/hooks/query';
 import Layout from '@/layout';
 import React, { useEffect, useState } from 'react';
 
 export default function Page() {
-  const { data: getPropertyList } = useQueryGetProperty();
+  const { data: getPropertyList } = useQueryGetMarketPlaceList();
   const [filtered, setFiltered] = useState();
 
   const handleFilter = (value) => {

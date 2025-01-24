@@ -1034,7 +1034,7 @@ export const Sidebar_Data = [
     activeImg: "/assets/svg/sidebarIcons/active/Wallet.svg",
     nonActiveImg: "/assets/svg/sidebarIcons/non-active/Wallet.svg",
     title: "Wallet",
-    routes: "/dashboard/dashboard-wallet",
+    routes: "/dashboard/",
   },
   {
     id: 2,

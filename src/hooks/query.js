@@ -176,16 +176,51 @@ export const useQueryGetMintedTokenlist = () => {
 
 // ==================== Get Transactioin ========================================
 
-export const useQueryGetTransaction = () => {
+export const useQueryGetActiveResults = () => {
   const { data: user } = useQueryGetUser();
 
-  const queryKey = [queryKeys.getMintedList];
+  const queryKey = [queryKeys.getActiveResults];
 
   const queryFn = async () => {
     const config = {
       method: 'POST',
       maxBodyLength: Infinity,
-      url: `${endPoint}/mint/get-minted`,
+      url: `${endPoint}/user/get-user-data`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${user?.token}`,
+      },
+    };
+
+    const tx = await axios.request(config);
+
+    return tx?.data?.data;
+  };
+
+  return useQuery({
+    queryKey,
+    queryFn,
+    onError: (error) => {
+      console.error('Query Error:', error);
+    },
+    onSuccess: (data) => {
+      console.log('Query Success:', data);
+    },
+  });
+};
+
+//========================== list of details ====================
+
+export const useQueryGetMarketPlaceList = () => {
+  const { data: user } = useQueryGetUser();
+
+  const queryKey = [queryKeys.getMarketPlaceList];
+
+  const queryFn = async () => {
+    const config = {
+      method: 'POST',
+      maxBodyLength: Infinity,
+      url: `${endPoint}/mint/get-minted-properties`,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${user?.token}`,

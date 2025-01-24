@@ -3,12 +3,13 @@ import HeaderSection from '@/components/Dashboard/MarketPlace/HeaderSection';
 import Tabs from '@/components/Dashboard/MarketPlace/Tabs';
 import Properties from '@/components/Properties';
 import RegisterBottomBanner from '@/components/RegisterBottomBanner';
-import { useQueryGetProperty } from '@/hooks/query';
+import { useQueryGetMarketPlaceList, useQueryGetProperty } from '@/hooks/query';
 import Layout from '@/layout/Dashboard';
 import React, { useEffect, useState } from 'react';
 
 export default function Page() {
-  const { data: getPropertyList } = useQueryGetProperty();
+  const { data: getPropertyList } = useQueryGetMarketPlaceList();
+
   const [filtered, setFiltered] = useState();
 
   const handleFilter = (value) => {
@@ -44,7 +45,7 @@ export default function Page() {
                     setFiltered(getPropertyList);
                   }
                 }}
-                className={""}
+                className={''}
               />
               {filtered?.length ? <AboutProperties getPropertyList={filtered} /> : 'Loading...'}
               <RegisterBottomBanner />

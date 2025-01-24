@@ -4,21 +4,22 @@
 import StyledImage from '@/components/StyedImage';
 import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
 import { useMutationInitiatePayment } from '@/hooks/mutation';
+import { SourceUrl } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-export default function HeaderSection({ selectedNFT, tokenAddress }) {
+export default function HeaderSection({ selectedNFT }) {
   const router = useRouter();
   const [amount, setAmount] = useState(0);
 
   const onSuccess = () => {
     router.push(
-      `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${tokenAddress}`,
+      `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
     );
   };
-  const { mutate: createIntend, isPending:isLoading } = useMutationInitiatePayment(onSuccess);
+  const { mutate: createIntend, isPending: isLoading } = useMutationInitiatePayment(onSuccess);
 
   const [isSelected, setIsSelected] = useState(false);
   const location = usePathname();
@@ -62,7 +63,7 @@ export default function HeaderSection({ selectedNFT, tokenAddress }) {
       </p>
       <div className='mt-5 lg:mt-0 '>
         <div className='grid grid-rows-2 grid-cols-4 gap-2 rounded-[10px] overflow-hidden '>
-          <img src='/assets/images/MarketPlaceGridImgOne.png' className='w-full h-full row-span-2 col-span-2 ' />
+          <img src={SourceUrl + selectedNFT?.image} className='w-full h-full row-span-2 col-span-2 ' />
           <img src='/assets/images/MarketPlaceGridImgTwo.png' className='w-full h-full ' />
           <img src='/assets/images/MarketPlaceGridImgThree.png' className='w-full h-full ' />
           <img src='/assets/images/MarketPlaceGridImgFour.png' className='w-full h-full ' />
@@ -142,7 +143,7 @@ export default function HeaderSection({ selectedNFT, tokenAddress }) {
               min={1}
               type='number'
               value={amount}
-              className='text-black-100'
+              className='text-black-100 w-full p-2 rounded-sm mt-4'
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
