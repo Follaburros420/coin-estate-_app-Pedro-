@@ -11,6 +11,7 @@ import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import { useQueryGetProperty } from '@/hooks/query';
 import { SourceUrl } from '@/hooks/queryContants';
 import { useMutateTransferFunds } from '@/hooks/mutation';
+import { usePropertyStates } from '@/store/useProduct';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -21,13 +22,14 @@ const stripePromise = loadStripe(
 export default function Page() {
   const { data: getPropertyList } = useQueryGetProperty();
   const { mutate: sendTokens } = useMutateTransferFunds();
+  const initailPropert = usePropertyStates((state) => state.initailPropert);
 
   const searchParams = useSearchParams();
   const paramsId = searchParams.get('id');
   const amount = searchParams.get('amount');
   const tokenAddress = searchParams.get('tokenAddress');
 
-  console.log({ amount, tokenAddress });
+  // console.log({ amount, tokenAddress, amounts1: initailPropert.values });
 
   const selectedNFT = getPropertyList?.filter((item) => item.id === paramsId)?.[0];
 
@@ -47,7 +49,7 @@ export default function Page() {
 
   const handleModal = () => {
     console.log('success');
-    sendTokens({ address: tokenAddress, amount });
+    sendTokens({ address: tokenAddress, amount: initailPropert?.values });
   };
 
   return (
@@ -56,11 +58,11 @@ export default function Page() {
         <div className='w-full h-full'>
           {selectedNFT?.id && (
             <Elements stripe={stripePromise} options={options}>
-              <CheckoutPage selectedNFT={selectedNFT} id={selectedNFT?.id} handleModal={handleModal} />
+              <CheckoutPage selectedNFT={selectedNFT} amount={amount} id={selectedNFT?.id} handleModal={handleModal} />
             </Elements>
           )}
 
-          <button onClick={handleModal}>sendTokens</button>
+          {/* <button onClick={handleModal}>sendTokens</button> */}
           <TransferModal title='Transfer Nft' isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
             <p>Wait Nft Transfer under processing</p>
           </TransferModal>

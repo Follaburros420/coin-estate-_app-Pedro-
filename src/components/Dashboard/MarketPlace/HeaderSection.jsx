@@ -61,6 +61,7 @@ export default function HeaderSection({ selectedNFT }) {
       <p className='text-28 text-center -mt-5 font-ubuntu font-bold lg:hidden leading-none text-white w-full '>
         {paths[location]}
       </p>
+      {/* <button onClick={()=>router.back()}>back</button> */}
       <div className='mt-5 lg:mt-0 '>
         <div className='grid grid-rows-2 grid-cols-4 gap-2 rounded-[10px] overflow-hidden '>
           <img src={SourceUrl + selectedNFT?.image} className='w-full h-full row-span-2 col-span-2 ' />
@@ -148,7 +149,7 @@ export default function HeaderSection({ selectedNFT }) {
             />
           </div>
           <button
-            onClick={() => createIntend(selectedNFT?.id)}
+            onClick={() => createIntend({ id: selectedNFT?.id, amount })}
             className='bg-Yellow-100 p-3 rounded-[8px] text-20 sm:text-28 w-full mt-4 font-medium text-black-100 '>
             {isLoading ? 'Laoding...' : 'Investing'}
           </button>

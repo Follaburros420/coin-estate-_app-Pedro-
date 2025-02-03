@@ -1,7 +1,4 @@
-import { Blockchain_Tab_Data } from "@/_mock/data";
 import StyledImage from "@/components/StyedImage";
-import clsxm from "@/utils/clsxm";
-import React from "react";
 
 export default function BlockChainTab({nft}) {
   return (
@@ -16,7 +13,7 @@ export default function BlockChainTab({nft}) {
         </div>
         <div>
           <p className="text-Yellow-100 font-bold text-20 ">
-            Total tokens: <span className="text-white ">5.000</span>
+            Total tokens: <span className="text-white ">{nft?.tokenPrice}</span>
           </p>
         </div>
       </div>
@@ -29,12 +26,12 @@ export default function BlockChainTab({nft}) {
       >
         <div className="grid sm:grid-cols-2 place-items-center sm:place-items-start py-3 border-b border-b-white  ">
           <p className="text-24 font-bold  ">Identificador</p>
-          <p className="mt-2 ">Anderson-IN-46012-221EWebster</p>
+          <p className="mt-2 ">{nft?.location}</p>
         </div>
         <div className="grid sm:grid-cols-2 place-items-center sm:place-items-start py-3 border-b border-b-white ">
           <p className="text-24 font-bold  ">Dirección del Contrato</p>
           <p className="text-blue-400 mt-2 truncate ">
-            0x32Be343B94f860124dC4fEe278FDCBD38C102D88
+            {nft?.address}
           </p>
         </div>
       </div>

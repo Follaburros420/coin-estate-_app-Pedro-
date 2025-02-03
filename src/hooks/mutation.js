@@ -410,6 +410,7 @@ export const useMutateMinteToken = () => {
 // ====================
 
 export const useMutatePDUpdate = () => {
+  const router = useRouter()
   const { data: user } = useQueryGetUser();
 
   const mutationFn = async (id) => {
@@ -440,6 +441,7 @@ export const useMutatePDUpdate = () => {
     onSuccess: (res) => {
       console.log('Mutation success:', res);
       toast.success(`${res?.message}`);
+      router.back()
     },
   });
 };
@@ -451,7 +453,7 @@ export const useMutationInitiatePayment = (onSuccess) => {
 
   const { data: user } = useQueryGetUser();
 
-  const mutationFn = async (id) => {
+  const mutationFn = async ({ id, amount }) => {
     if (!id) {
       throw new Error('Property ID is required');
     }
@@ -464,7 +466,7 @@ export const useMutationInitiatePayment = (onSuccess) => {
           Accept: 'application/json',
           Authorization: `Bearer ${user?.token}`,
         },
-        data: { id }, // Correctly pass the body as `data` in axios
+        data: { id, amount: Number(amount) }, // Correctly pass the body as `data` in axios
       };
 
       const response = await axios.request(config);

@@ -1,9 +1,8 @@
 "use client";
 import { useState } from "react";
-import FinancialTab from "./FinancialTab";
 import BlockChainTab from "./BlockChainTab";
+import FinancialTab from "./FinancialTab";
 import ProjectionTab from "./ProjectionTab";
-import MoreInfoTab from "./MoreInfoTab";
 
 function Tabs({ selectedNFT }) {
   const [activeTab, setActiveTab] = useState(0); // Manage active tab

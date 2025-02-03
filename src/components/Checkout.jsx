@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
-import { useQueryGetUser, useQueryInitiatePayment } from '@/hooks/query';
-import TransferModal from './Dashboard/TransferModal';
 import { useMutatePDUpdate } from '@/hooks/mutation';
 import { usePropertyStates } from '@/store/useProduct';
+import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { useState } from 'react';
 
-const CheckoutComponent = ({ id, handleModal, selectedNFT }) => {
+const CheckoutComponent = ({ id, handleModal, amount, selectedNFT }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
@@ -70,17 +68,17 @@ const CheckoutComponent = ({ id, handleModal, selectedNFT }) => {
 
   return (
     <div>
-      <button onClick={() => fixUriDetails('678e17f74c1b7f03e4545b09')}>Complete</button>
+      {/* <button onClick={() => fixUriDetails('678e17f74c1b7f03e4545b09')}>Complete</button> */}
       <div className='bg-white p-2 rounded-md'>
         {clientSecret && <PaymentElement />}
 
-        {errorMessage && <div>{errorMessage}</div>}
+        {errorMessage && <div className='text-red-100 text-sm my-2'>{errorMessage}</div>}
 
         <button
           disabled={!stripe || loading}
           onClick={() => handleSubmit()}
           className='text-white w-full p-5 bg-blue-400 mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse'>
-          {!loading ? `Pay $${selectedNFT?.totalInvestmentPrice}` : 'Processing...'}
+          {!loading ? `Pay $${amount}` : 'Processing...'}
         </button>
       </div>
     </div>

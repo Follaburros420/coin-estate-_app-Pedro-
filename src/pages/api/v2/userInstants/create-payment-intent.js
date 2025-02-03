@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       }
 
       // Extract the property ID from the request body
-      const { id } = req.body;
+      const { id, amount } = req.body;
 
       if (!id) {
         return res.status(400).json({ error: 'Property ID is required.' });
@@ -36,13 +36,11 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Property not found.' });
       }
 
-      const amount = property.totalInvestmentPrice;
+      // const amount = property.totalInvestmentPrice;
 
       // Ensure the property price is valid
       if (!amount || typeof amount !== 'number') {
-        return res
-          .status(400)
-          .json({ error: 'Property price is invalid or not available.' });
+        return res.status(400).json({ error: 'Property price is invalid or not available.' });
       }
 
       // Convert the amount to sub-currency (cents)
@@ -66,7 +64,7 @@ export default async function handler(req, res) {
           status: 'PENDING', // Update this based on webhook events if needed
         },
       });
-      console.log("🚀 ~ handler ~ paymentRecord:", paymentRecord)
+      console.log('🚀 ~ handler ~ paymentRecord:', paymentRecord);
 
       // Respond with the client secret for the PaymentIntent
       res.status(201).json({

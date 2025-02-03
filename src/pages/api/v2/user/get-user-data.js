@@ -4,6 +4,13 @@ import jwt from 'jsonwebtoken';
 const calculateTotal = (array, field) => {
   return array.reduce((total, item) => total + (item[field] || 0), 0);
 };
+function getPropertyPayments(propertyId, payments) {
+  const properties = payments.filter((payment) => payment.propertyId === propertyId);
+  return{
+    properties,
+    remaning:calculateTotal(properties,'amount')
+  }
+}
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -34,6 +41,7 @@ export default async function handler(req, res) {
         },
       });
       const properties = await prisma.property.findMany();
+      const completePaymentList = await prisma.payment.findMany();
       const payments = await prisma.payment.findMany({ where: { userId: decoded.userId } });
       const transcations = await prisma.transaction.findMany({ where: { userId: decoded.userId } });
 
@@ -47,7 +55,23 @@ export default async function handler(req, res) {
         }
       });
 
-      const userData = { ...user, totalInvest, invest: { transcations, payments }, userProperties: propertyList };
+      // const values = properties.map((property) =>
+      //   payments.map((item) => {
+      //     if (item.propertyId === property.id) {
+      //       return { item, property };
+      //     }
+      //   }),
+      // );
+      const valueslatest = properties.map((property) => getPropertyPayments(property.id, completePaymentList));
+
+      const userData = {
+        ...user,
+        totalInvest,
+        invest: { transcations, payments },
+        userProperties: propertyList,
+        values: properties,
+        valueslatest,
+      };
 
       // Map blogs to their respective items
 

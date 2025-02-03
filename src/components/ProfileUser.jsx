@@ -56,7 +56,7 @@ export default function ProfileMenu() {
           onClick={toggleMenu}
           className="flex justify-center items-center rounded-md border ring-orange bg-yellow w-8 h-8 rounded-full uppercase"
         >
-          <span class="font-bold text-22 mt-1 text-black-100 ">{user?.email?.charAt(0)}</span>
+          <span className="font-bold text-22 mt-1 text-black-100 ">{user?.email?.charAt(0)}</span>
         </button>
 
         {/* Dropdown Menu */}

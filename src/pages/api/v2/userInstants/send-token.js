@@ -28,7 +28,7 @@ async function transferTokens(recipient, CONTRACT_ADDRESS, amount) {
 
     // Convert amount to the correct format (if needed, e.g., decimals)
     const decimals = 18; // Replace with your token's decimals
-    const formattedAmount = ethers.utils.parseEther(amount);
+    const formattedAmount = ethers.utils.parseEther(`${amount}`);
 
     // Call the `transfer` function
     console.log(`Initiating transfer to ${recipient}...`, formattedAmount);
@@ -80,8 +80,12 @@ export default async function handler(req, res) {
       if (!decoded || !decoded.userId) {
         return res.status(401).json({ error: 'Unauthorized. Invalid token.' });
       }
-      const { amount, tokenAddress } = req.body;
+      const { amount: paymentId, tokenAddress } = req.body;
       const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+      // console.log({ paymentId, tokenAddress });
+      const paymentInfo = await prisma.payment.findUnique({ where: { id: paymentId } });
+      const amount = paymentInfo?.amount
+      // console.log({ amount });
       const userAddress = decrypt(user.destinationValues);
       // console.log({ amount, tokenAddress,userAddress, decoded });
       // Validate the amount is positive
@@ -92,7 +96,7 @@ export default async function handler(req, res) {
       // Alchemy RPC URL (Ethereum Mainnet)
 
       const receipt = await transferTokens(userAddress, tokenAddress, amount);
-      console.log({ receipt });
+      // console.log({ receipt });
 
       if (receipt?.error) {
         return res.status(400).json({ error: receipt?.error });
@@ -104,7 +108,7 @@ export default async function handler(req, res) {
           userId: decoded.userId,
           sender: process.env.WALLET_ADDRESS,
           recipient: userAddress,
-          amount,
+          amount: `${amount}`,
           transactionHash: receipt.transactionHash,
           status: 'SUCCESS',
         },
