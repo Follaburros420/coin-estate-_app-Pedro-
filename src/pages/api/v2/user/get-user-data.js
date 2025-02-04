@@ -5,11 +5,12 @@ const calculateTotal = (array, field) => {
   return array.reduce((total, item) => total + (item[field] || 0), 0);
 };
 function getPropertyPayments(propertyId, payments) {
-  const properties = payments.filter((payment) => payment.propertyId === propertyId);
-  return{
-    properties,
-    remaning:calculateTotal(properties,'amount')
-  }
+  const paymentList = payments.filter((payment) => payment.propertyId === propertyId);
+  return {
+    // properties,
+    propertyId,
+    remaning: calculateTotal(paymentList, 'amount'),
+  };
 }
 
 export default async function handler(req, res) {
@@ -69,8 +70,8 @@ export default async function handler(req, res) {
         totalInvest,
         invest: { transcations, payments },
         userProperties: propertyList,
-        values: properties,
-        valueslatest,
+        values: valueslatest,
+        // valueslatest,
       };
 
       // Map blogs to their respective items

@@ -1,11 +1,9 @@
 import AboutProperties from '@/components/AboutProperties';
-import HeaderSection from '@/components/Dashboard/MarketPlace/HeaderSection';
-import Tabs from '@/components/Dashboard/MarketPlace/Tabs';
 import Properties from '@/components/Properties';
 import RegisterBottomBanner from '@/components/RegisterBottomBanner';
-import { useQueryGetMarketPlaceList, useQueryGetProperty } from '@/hooks/query';
+import { useQueryGetMarketPlaceList } from '@/hooks/query';
 import Layout from '@/layout/Dashboard';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Page() {
   const { data: getPropertyList } = useQueryGetMarketPlaceList();

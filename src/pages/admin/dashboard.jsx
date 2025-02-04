@@ -104,7 +104,7 @@ export default function Dashboard() {
           <h1 className='text-2xl text-center uppercase font-bold mb-6'>Properties</h1>
           <button onClick={handleRefresh}>handleRefresh</button>
           {getPropertyDetails?.length > 0 && (
-            <PropertyTable data={latestData} handleMintNft={handleMintNft} rowsPerPage={10} />
+            <PropertyTable data={latestData} handleMintNft={handleMintNft} rowsPerPage={5} />
           )}
         </div>
       </Layout>

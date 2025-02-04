@@ -410,7 +410,7 @@ export const useMutateMinteToken = () => {
 // ====================
 
 export const useMutatePDUpdate = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { data: user } = useQueryGetUser();
 
   const mutationFn = async (id) => {
@@ -441,7 +441,7 @@ export const useMutatePDUpdate = () => {
     onSuccess: (res) => {
       console.log('Mutation success:', res);
       toast.success(`${res?.message}`);
-      router.back()
+      router.back();
     },
   });
 };

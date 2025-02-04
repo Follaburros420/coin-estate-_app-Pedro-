@@ -6,14 +6,16 @@ import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
 import { useMutationInitiatePayment } from '@/hooks/mutation';
 import { SourceUrl } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-export default function HeaderSection({ selectedNFT }) {
+export default function HeaderSection({ selectedNFT, userData }) {
   const router = useRouter();
+  const params = useParams();
   const [amount, setAmount] = useState(0);
-
+  const remaning = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
+  console.log("🚀 ~ HeaderSection ~ remaning:", remaning)
   const onSuccess = () => {
     router.push(
       `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
@@ -78,7 +80,7 @@ export default function HeaderSection({ selectedNFT }) {
               <div className='flex items-center pr-5 gap-2 border-r border-r-base-800 '>
                 <StyledImage src='/assets/svg/GoldenTokens.svg' className='w-14 h-14 ' />
                 <div className='text-center '>
-                  <p className='text-20 text-Yellow-100  '>{selectedNFT?.availableTokens}</p>
+                  <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaning?.remaning }</p>
                   <p className='sm:text-20 font-bold text-white sm:mt-2 leading-none '>Tokens Disponibles</p>
                 </div>
               </div>
