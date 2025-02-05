@@ -15,7 +15,6 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const params = useParams();
   const [amount, setAmount] = useState(0);
   const remaning = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
-  console.log("🚀 ~ HeaderSection ~ remaning:", remaning)
   const onSuccess = () => {
     router.push(
       `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
@@ -33,7 +32,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
     {
       id: 1,
       title: 'Valor Total de la inversión ',
-      ratio: selectedNFT?.TotalPrice + '$' || '$ 50.000',
+      ratio: selectedNFT?.tokenPrice + '$' || '$ 50.000',
     },
     {
       id: 2,

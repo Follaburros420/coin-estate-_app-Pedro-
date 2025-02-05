@@ -139,7 +139,7 @@ export default function FinancialTab({ nft }) {
                 className="w-4 h-4 "
               />
             </div>
-            <p>{nft.totalInvestmentPrice}</p>
+            <p>{nft.totalInvestmentPrice}$</p>
           </div>
           <div className="mt-7">
             {Financial_Tab_QueryOne_Data.map((item, idx) => {
