@@ -1,0 +1,65 @@
+import React, { useCallback, useRef, useState } from 'react';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+
+const libraries = ['places'];
+
+const mapContainerStyle = {
+  height: '400px',
+  width: '100%',
+};
+
+const options = {
+  disableDefaultUI: true,
+  zoomControl: true,
+  fullscreenControl: false,
+};
+
+const defaultCenter = { lat: 3.488739139266961, lng: -73.12580392802624 };
+
+export default function GoogleMapAdmin({ setSelectedLocation, selectedLocation }) {
+  const { isLoaded, loadError } = useLoadScript({
+    // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+
+  const mapRef = useRef();
+
+  const onMapLoad = useCallback((map) => {
+    mapRef.current = map;
+    // console.log({ map, lat: mapRef?.current?.lat(), lng: mapRef?.current?.lng() });
+  }, []);
+
+  // Handle user clicks and store the selected location
+  const onMapClick = useCallback((event) => {
+    setSelectedLocation({
+      Latitude: event.latLng.lat(),
+      Longitude: event.latLng.lng(),
+    });
+  }, []);
+
+  if (loadError) return 'Error loading maps';
+  if (!isLoaded) return 'Loading maps...';
+
+  return (
+    <div>
+      <GoogleMap
+        id='map'
+        mapContainerStyle={mapContainerStyle}
+        zoom={7}
+        center={selectedLocation || defaultCenter}
+        options={options}
+        onLoad={onMapLoad}
+        onClick={onMapClick} // Listen for user clicks
+      >
+        {selectedLocation && (
+          <Marker
+            position={{
+              lat: selectedLocation.Latitude,
+              lng: selectedLocation.Longitude,
+            }}
+          />
+        )}
+      </GoogleMap>
+    </div>
+  );
+}

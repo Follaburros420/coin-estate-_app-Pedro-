@@ -1,21 +1,16 @@
-import { useCallback, useState } from 'react';
-import * as yup from 'yup';
+import GoogleMapAdmin from '@/components/Admin/GoogleLocation';
 import Input from '@/components/Input';
 import Previews from '@/components/PreviewSec';
 import CustomSelect from '@/components/Select';
+import { useMutateCreateERC884ProPerty } from '@/hooks/contract/mutateContract';
 import { useMutateCreateProperty, useMutateUploadFiles, useMutateUploadMultiFiles } from '@/hooks/mutation';
-import Layout from '@/layout/admin';
-import { useForm } from 'react-hook-form';
 import { useQueryGetUser } from '@/hooks/query';
-import {
-  useMutateApprove,
-  useMutateApproveNft,
-  useMutateCreateERC884ProPerty,
-  useMutateCreateProPerty,
-} from '@/hooks/contract/mutateContract';
+import Layout from '@/layout/admin';
 import { useYupValidationResolver } from '@/utils/helper';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useAccount } from 'wagmi';
+import * as yup from 'yup';
 
 const validationSchemaProperty = yup.object({
   name: yup.string().required('House Type is required'),
@@ -32,7 +27,7 @@ const validationSchemaProperty = yup.object({
   propertyMaintenance: yup.number().required('propertyMaintenance required'),
   saleStatus: yup.string().required('please select an option'),
   houseType: yup.string().required('location is required'),
-  location: yup.string().required('location is required'),
+  // location: yup.string().required('location is required'),
   netAnualIncome: yup.number().required('net anual income is required'),
   propertyType: yup.string().required('please select Property Type an option'),
   tokenPrice: yup.number().required('token price is required'),
@@ -65,6 +60,8 @@ const validationSchemaProperty = yup.object({
 });
 
 export default function Home({ options }) {
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
   const resolver = useYupValidationResolver(validationSchemaProperty);
   const { address } = useAccount();
   const { data: user } = useQueryGetUser();
@@ -90,6 +87,7 @@ export default function Home({ options }) {
       subImages: multiFilesList || ['QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU'],
       email: user?.email || 'demo@gmail.com',
       address: address,
+      location: JSON.stringify(selectedLocation),
     };
     createProperty(defaultValues);
   };
@@ -325,13 +323,16 @@ export default function Home({ options }) {
                     error={errors?.netAnualIncome}
                     register={register('netAnualIncome')}
                   />
-                  <Input
+                  <div className='col-span-2'>
+                    <GoogleMapAdmin selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+                  </div>
+                  {/* <Input
                     Label={'Location'}
                     type='text'
                     placeholder='6503 Castor Dr, Madison, AL 35757'
                     error={errors?.location}
                     register={register('location')}
-                  />
+                  /> */}
 
                   <div className='w-full'>
                     <CustomSelect
