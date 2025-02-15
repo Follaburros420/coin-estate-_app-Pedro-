@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 
-const PropertyTable = ({ data = [], handleMintNft,rowsPerPage }) => {
+const PropertyTable = ({ data = [], handleMintNft, rowsPerPage, handleSendPay }) => {
   // Define table columns
   const columns = useMemo(
     () => [
@@ -33,6 +33,7 @@ const PropertyTable = ({ data = [], handleMintNft,rowsPerPage }) => {
       //   return date?.toLocaleDateString(); // Format as readable date
       // },
       // },
+
       { accessorKey: 'email', header: 'Email' },
       { accessorKey: 'minted', header: 'Status' },
       { accessorKey: 'propertyPrice', header: 'Property Price' },
@@ -40,6 +41,10 @@ const PropertyTable = ({ data = [], handleMintNft,rowsPerPage }) => {
       { accessorKey: 'houseType', header: 'House Type' },
       { accessorKey: 'totalInvestmentPrice', header: 'Investment Price' },
       { accessorKey: 'constructionYear', header: 'Construction Year' },
+      {
+        accessorKey: 'monthly',
+        header: 'Monthly',
+      },
       {
         header: 'Actions',
         accessorKey: 'actions',
@@ -55,7 +60,7 @@ const PropertyTable = ({ data = [], handleMintNft,rowsPerPage }) => {
   // Pagination state
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: rowsPerPage ||5,
+    pageSize: rowsPerPage || 5,
   });
 
   // Create table instance
@@ -115,11 +120,13 @@ const PropertyTable = ({ data = [], handleMintNft,rowsPerPage }) => {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    onClick={() =>
+                    onClick={() => {
                       cell.column.id === 'actions' &&
-                      // ? deleteRow(row.original.id)
-                      handleMintNft(cell.row.original)
-                    }
+                        // ? deleteRow(row.original.id)
+                        handleMintNft(cell.row.original);
+
+                      cell.column.id === 'monthly' && handleSendPay(cell.row.original);
+                    }}
                     className='border text-center'>
                     {cell.column.id === 'image' ? cell.column.columnDef.cell({ row: cell.row }) : cell.getValue()}
                   </td>

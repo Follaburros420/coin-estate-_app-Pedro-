@@ -1,8 +1,9 @@
 import PropertyTable from '@/components/Admin/PropertyTable';
+import MonthlyInvestment from '@/components/Admin/SetMonthly';
 import SortableTable from '@/components/Admin/Table';
 import { useMutateMint } from '@/hooks/contract/mutateContract';
 import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
-import { useMutateDeleteBlog, useMutateMinteToken } from '@/hooks/mutation';
+import { useMutateDeleteBlog, useMutateMinteToken, useMutationMonthlyProcess } from '@/hooks/mutation';
 import { useQueryGetBlogList, useQueryGetMintedTokenlist, useQueryGetProperty } from '@/hooks/query';
 import Layout from '@/layout/admin';
 import { useRouter } from 'next/navigation';
@@ -13,6 +14,7 @@ export default function Dashboard() {
   const router = useRouter();
   const { address } = useAccount();
   const [selected, setSelected] = useState(null);
+  const [openModel, setOpenModel] = useState(false);
   const { mutate: mintToken } = useMutateMinteToken();
 
   const { data: mintedTokensList, refetch } = useQueryGetMintedTokenlist();
@@ -40,6 +42,13 @@ export default function Dashboard() {
     propertyRefetch();
   };
 
+  const handleSendPay = (value) => {
+    console.log('3243', value);
+    const mintedData = mintedTokensList.filter((item) => item.tokenId === value?.id)?.[0];
+    console.log({ mintedData });
+    setOpenModel({ ...value, tokenAddress: mintedData?.tokenAddress });
+  };
+
   const { mutate: mintNfts, isPending: isLoadingMint } = useMutateMint(onSuccess);
   const { data: getNftsList } = useQueryGetNftsFromContract();
 
@@ -60,6 +69,11 @@ export default function Dashboard() {
     minted: mintedTokensList?.filter((mint) => mint.tokenId === item.id)?.[0]?.name ? 'Minted' : 'Not Minted',
     ...item,
     rowNum: idx + 1,
+    monthly: (
+      <div className=''>
+        <button>Add</button>
+      </div>
+    ),
     actions: (
       <div className='flex items-center space-x-2 px-2'>
         {!mintedTokensList?.filter((mint) => mint.tokenId === item.id)?.[0]?.name ? (
@@ -104,9 +118,16 @@ export default function Dashboard() {
           <h1 className='text-2xl text-center uppercase font-bold mb-6'>Properties</h1>
           <button onClick={handleRefresh}>handleRefresh</button>
           {getPropertyDetails?.length > 0 && (
-            <PropertyTable data={latestData} handleMintNft={handleMintNft} rowsPerPage={5} />
+            <PropertyTable
+              data={latestData}
+              handleMintNft={handleMintNft}
+              handleSendPay={handleSendPay}
+              rowsPerPage={5}
+            />
           )}
         </div>
+
+        {openModel && <MonthlyInvestment setOpenModel={setOpenModel} openModel={openModel} />}
       </Layout>
     </div>
   );

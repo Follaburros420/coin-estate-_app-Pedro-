@@ -500,3 +500,58 @@ export const useMutationInitiatePayment = (onSuccess) => {
     },
   });
 };
+
+export const useMutationMonthlyProcess = (onSuccess) => {
+  const router = useRouter();
+  const params = useParams();
+  const setInitailPropert = usePropertyStates((state) => state.setInitailPropert);
+
+  const { data: user } = useQueryGetUser();
+
+  const mutationFn = async (data) => {
+    if (!data) {
+      throw new Error('Invalite amount is required');
+    }
+
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/mint/monthly/set-amount`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${user?.token}`,
+        },
+        data: data, // Correctly pass the body as `data` in axios
+      };
+
+      const response = await axios.request(config);
+
+      // Axios doesn't have an `ok` property; check `status` instead
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(`Error: ${response.status} - ${response.statusText || 'Unknown error'}`);
+      }
+
+      return response?.data; // Ensure response structure matches API
+    } catch (error) {
+      // Improve error handling for better debugging
+      throw new Error(error.response?.data?.error || error.message || 'An error occurred');
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.log({ error });
+      const message = error.message || 'An unexpected error occurred.';
+      console.error('Mutation error:', message);
+      toast.error(`Failed to create property: ${message}`);
+    },
+    onSuccess: (res) => {
+      if (res?.message) {
+        onSuccess();
+        setInitailPropert(res);
+        console.log('Mutation success:', res);
+      }
+    },
+  });
+};
