@@ -9,6 +9,7 @@ export const queryKeys = {
   getUserIntendDetails: 'getUserIntendDetails',
   getMarketPlaceList: 'getMarketPlaceList',
   getActiveResults: 'getActiveResults',
+  getTokenPercentage: 'getTokenPercentage',
 };
 
 //? openssl rand -hex 32

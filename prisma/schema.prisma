@@ -166,6 +166,7 @@ model monthlyProcess {
   userId       String
   percentage   Int
   address      String
+  totelPrice   Int
   price        Int
   tokenAddress String
 }

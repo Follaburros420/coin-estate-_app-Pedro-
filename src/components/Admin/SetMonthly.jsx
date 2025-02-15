@@ -5,7 +5,10 @@ import React, { useState } from 'react';
 export default function MonthlyInvestment({ setOpenModel, openModel }) {
   console.log('🚀 ~ MonthlyInvestment ~ openModel:', openModel);
   const [inputValue, setInputValue] = useState('');
-  const { mutate: mutateTokenPrice, isPending: isLoading } = useMutationMonthlyProcess();
+  const onSuccess = () => {
+    setOpenModel(null);
+  };
+  const { mutate: mutateTokenPrice, isPending: isLoading } = useMutationMonthlyProcess(onSuccess);
   const { data: user } = useQueryGetUser();
 
   return (
@@ -36,6 +39,7 @@ export default function MonthlyInvestment({ setOpenModel, openModel }) {
                   percentage: openModel?.percentage || 2,
                   price: Number(inputValue),
                   address: user?.address,
+                  totalPrice:openModel?.propertyPrice,
                   tokenAddress: openModel?.tokenAddress,
                 };
                 console.log({ allValues });

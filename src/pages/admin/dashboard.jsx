@@ -3,11 +3,17 @@ import MonthlyInvestment from '@/components/Admin/SetMonthly';
 import SortableTable from '@/components/Admin/Table';
 import { useMutateMint } from '@/hooks/contract/mutateContract';
 import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
-import { useMutateDeleteBlog, useMutateMinteToken, useMutationMonthlyProcess } from '@/hooks/mutation';
-import { useQueryGetBlogList, useQueryGetMintedTokenlist, useQueryGetProperty } from '@/hooks/query';
+import { useMutateDeleteBlog, useMutateMinteToken } from '@/hooks/mutation';
+import {
+  useQueryGetBlogList,
+  useQueryGetMintedTokenlist,
+  useQueryGetProperty,
+  useQueryGetTokenPercentage,
+} from '@/hooks/query';
 import Layout from '@/layout/admin';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useAccount } from 'wagmi';
 
 export default function Dashboard() {
@@ -16,7 +22,8 @@ export default function Dashboard() {
   const [selected, setSelected] = useState(null);
   const [openModel, setOpenModel] = useState(false);
   const { mutate: mintToken } = useMutateMinteToken();
-
+  const { data: getTokensPercentage, refetch: refetchPercentage } = useQueryGetTokenPercentage();
+  console.log({getTokensPercentage})
   const { data: mintedTokensList, refetch } = useQueryGetMintedTokenlist();
   const { data: getPropertyDetails, refetch: propertyRefetch } = useQueryGetProperty();
 
@@ -43,10 +50,12 @@ export default function Dashboard() {
   };
 
   const handleSendPay = (value) => {
-    console.log('3243', value);
-    const mintedData = mintedTokensList.filter((item) => item.tokenId === value?.id)?.[0];
-    console.log({ mintedData });
-    setOpenModel({ ...value, tokenAddress: mintedData?.tokenAddress });
+    if (value?.minted !== 'Not Minted') {
+      const mintedData = mintedTokensList.filter((item) => item.tokenId === value?.id)?.[0];
+      setOpenModel({ ...value, tokenAddress: mintedData?.tokenAddress });
+    } else {
+      toast.error('please mint it first');
+    }
   };
 
   const { mutate: mintNfts, isPending: isLoadingMint } = useMutateMint(onSuccess);
@@ -114,9 +123,12 @@ export default function Dashboard() {
             <SortableTable deleteRow={handleDelete} updateRow={handleUpdate} data={latestBlogList} rowsPerPage={7} />
           )}
         </div>
+        <div>
+          <button onClick={() => refetchPercentage()}> refetchPercentage</button>
+        </div>
         <div className='container mx-auto p-6'>
           <h1 className='text-2xl text-center uppercase font-bold mb-6'>Properties</h1>
-          <button onClick={handleRefresh}>handleRefresh</button>
+          {/* <button onClick={handleRefresh}>handleRefresh</button> */}
           {getPropertyDetails?.length > 0 && (
             <PropertyTable
               data={latestData}

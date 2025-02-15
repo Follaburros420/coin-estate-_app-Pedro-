@@ -20,7 +20,6 @@ export default async function handler(req, res) {
       }
 
       const data = req.body; // Access data from the request body
-      console.log('🚀 ~ handler ~ data:', data);
 
       // Ensure required fields are provided
       if (!data.name) {

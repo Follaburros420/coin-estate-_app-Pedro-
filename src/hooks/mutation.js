@@ -504,7 +504,6 @@ export const useMutationInitiatePayment = (onSuccess) => {
 export const useMutationMonthlyProcess = (onSuccess) => {
   const router = useRouter();
   const params = useParams();
-  const setInitailPropert = usePropertyStates((state) => state.setInitailPropert);
 
   const { data: user } = useQueryGetUser();
 
@@ -549,7 +548,7 @@ export const useMutationMonthlyProcess = (onSuccess) => {
     onSuccess: (res) => {
       if (res?.message) {
         onSuccess();
-        setInitailPropert(res);
+        toast.success('success');
         console.log('Mutation success:', res);
       }
     },
