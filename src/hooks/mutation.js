@@ -280,9 +280,9 @@ export const useMutateRegisterUser = () => {
   return useMutation({
     mutationFn,
     onError: (error) => {
-      const message = error.message || 'An unexpected error occurred.';
-      console.log('Mutation error:', message);
-      toast.error(`Failed to create property: ${message}`);
+      const message = error?.response?.data?.error || 'An unexpected error occurred.';
+      console.log('Mutation error:', error?.response?.data?.error);
+      toast.error(`Failed: ${message}`);
     },
     onSuccess: (res) => {
       router.push('/auth/log-in');
