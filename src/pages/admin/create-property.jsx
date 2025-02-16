@@ -57,6 +57,7 @@ const validationSchemaProperty = yup.object({
   vacancyReserve: yup.number().required('vacancy reserve is required'),
   SPVCreation: yup.number().required('SPVCreation is required'),
   closingCosts: yup.number().required('closing costs is required'),
+  documents: yup.string().required('documents is required'),
 });
 
 export default function Home({ options }) {
@@ -547,6 +548,15 @@ export default function Home({ options }) {
                   placeholder='Closing Costs'
                   error={errors?.closingCosts}
                   register={register('closingCosts')}
+                  className='py-2'
+                />
+                <Input
+                  type='text'
+                  // step={step}
+                  Label={'Documents Link'}
+                  placeholder='Enter...'
+                  error={errors?.documents}
+                  register={register('documents')}
                   className='py-2'
                 />
               </div>

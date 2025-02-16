@@ -114,9 +114,10 @@ model property {
   closingCosts         Float
 
   // Owner details
-  email   String
-  userId  String
-  address String
+  email     String
+  userId    String
+  address   String
+  documents String?
 
   // New Fields for Image Data
   image     String

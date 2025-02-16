@@ -22,7 +22,6 @@ export default function Dashboard() {
   const [selected, setSelected] = useState(null);
   const [openModel, setOpenModel] = useState(false);
   const { mutate: mintToken } = useMutateMinteToken();
-  const { data: getTokensPercentage, refetch: refetchPercentage } = useQueryGetTokenPercentage();
   const { data: mintedTokensList, refetch } = useQueryGetMintedTokenlist();
   const { data: getPropertyDetails, refetch: propertyRefetch } = useQueryGetProperty();
 
@@ -123,7 +122,6 @@ export default function Dashboard() {
           )}
         </div>
         <div>
-          <button onClick={() => refetchPercentage()}> refetchPercentage</button>
         </div>
         <div className='container mx-auto p-6'>
           <h1 className='text-2xl text-center uppercase font-bold mb-6'>Properties</h1>

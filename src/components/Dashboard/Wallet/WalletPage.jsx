@@ -14,7 +14,7 @@ import ExchangeRateGraph from '../ExchangeChart';
 export default function WalletPage() {
   const location = usePathname();
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
-  const { data: getTokenCalculation, } = useQueryGetTokenPercentage();
+  const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const total = getTokenCalculation?.totalTokenBalance + Number(getTokenCalculation?.totalEarnings);
 
   const paths = {
@@ -49,12 +49,12 @@ export default function WalletPage() {
       title: 'Total of Tokens',
       availableTokens: getTokenCalculation?.totalTokenBalance || 0,
     },
-    // {
-    //   id: 3,
-    //   imgUrl: "/assets/svg/RedGraph.svg",
-    //   title: "Annual Income from Rent",
-    //   availableTokens: "$3,646.03",
-    // },
+    {
+      id: 3,
+      imgUrl: '/assets/svg/RedGraph.svg',
+      title: 'Approximate Net Income',
+      availableTokens: '$3,646.03',
+    },
   ];
   return (
     <div className='max-w-[1161px] mx-auto px-6 lg:px-10  '>

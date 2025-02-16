@@ -103,7 +103,7 @@ export default async function handler(req, res) {
       // Example Usage
       const result = distributeFunds(monthlyValues, tokenHolders);
 
-      const userId = '676800b0d4500d3e82649466'; // User we are calculating for
+      const userId = decoded.userId; // User we are calculating for
 
       // Step 1: Calculate user earnings per token
       let totalEarnings = 0;
@@ -113,30 +113,33 @@ export default async function handler(req, res) {
       monthlyValues.forEach(({ tokenId, price, totalPrice }) => {
         if (result[tokenId] && result[tokenId][userId]) {
           const userShare = result[tokenId][userId]; // User's % share of token
+          const purchased = groupedTransactionsAmount[tokenId][userId];
           // const earnings = price * userShare; // Calculate earnings for this token
           const earnings = userShare; // Calculate earnings for this token
           console.log({ earnings, price, userShare });
-          userEarnings[tokenId] = { earned: earnings, purchased: price, totalPrice };
+          userEarnings[tokenId] = { earned: earnings, monthly: price, purchased, totalPrice };
           totalEarnings += earnings;
-          totalTokenBalance += price;
+          totalTokenBalance += purchased;
         }
       });
 
       // Output results
-      console.log("User's Token Earnings:", { monthlyValues, userEarnings, totalTokenBalance });
-      console.log("User's Total Monthly Earnings:", totalEarnings);
 
       // console.log({ result });
       // console.log({ groupedTransactions, monthlyValues });
 
       // console.log({ monthlyValues, tokenHolders, LIST:JSON.stringify(groupedTransactions) });
 
-      res
-        .status(200)
-        .json({
-          message: 'get monthly recodes',
-          data: { ...userEarnings, totalEarnings: totalEarnings?.toFixed(4), totalTokenBalance },
-        });
+      res.status(200).json({
+        message: 'get monthly recodes',
+        data: {
+          ...userEarnings,
+          totalEarnings: totalEarnings?.toFixed(4),
+          totalTokenBalance,
+          groupedTransactionsAmount,
+          groupedTransactions,
+        },
+      });
     } catch (error) {
       console.error('Error creating property:', error);
 
