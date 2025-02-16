@@ -1,10 +1,13 @@
 import UserProfile from '@/components/ProfileUser';
 import StyledImage from '@/components/StyedImage';
-import { useQueryGetActiveResults } from '@/hooks/query';
+import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
 import { usePathname, useRouter } from 'next/navigation';
 
 export default function Navbar({ toggleSidebar }) {
   const { data: userData, refetch } = useQueryGetActiveResults();
+  const { data: tokenPrice } = useQueryGetTokenCopPrice();
+  const { data: getTokenCalculation } = useQueryGetTokenPercentage();
+  console.log({getTokenCalculation, userData})
   const location = usePathname();
   const paths = {
     '/dashboard/dashboard-wallet': 'Wallet',

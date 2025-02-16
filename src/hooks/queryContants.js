@@ -9,6 +9,7 @@ export const queryKeys = {
   getUserIntendDetails: 'getUserIntendDetails',
   getMarketPlaceList: 'getMarketPlaceList',
   getActiveResults: 'getActiveResults',
+  getTokenPercentageExchange:'getTokenPercentageExchange',
   getTokenPercentage: 'getTokenPercentage',
 };
 

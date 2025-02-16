@@ -248,6 +248,7 @@ export const useQueryGetMarketPlaceList = () => {
 
 export const useQueryGetTokenPercentage = () => {
   const { data: user } = useQueryGetUser();
+  const { data: userData } = useQueryGetActiveResults();
 
   const queryKey = [queryKeys.getTokenPercentage];
 
@@ -260,11 +261,43 @@ export const useQueryGetTokenPercentage = () => {
         Accept: 'application/json',
         Authorization: `Bearer ${user?.token}`,
       },
+      data: userData?.userTokens,
     };
 
     const tx = await axios.request(config);
-
     return tx?.data?.data;
+  };
+
+  return useQuery({
+    queryKey,
+    queryFn,
+    onError: (error) => {
+      console.error('Query Error:', error);
+    },
+    onSuccess: (data) => {
+      console.log('Query Success:', data);
+    },
+  });
+};
+
+
+
+export const useQueryGetTokenCopPrice = () => {
+
+  const queryKey = [queryKeys.getTokenPercentageExchange];
+
+  const queryFn = async () => {
+    const config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=COP`,
+      headers: {
+        Accept: 'application/json',
+      },
+    };
+
+    const tx = await axios.request(config);
+    return tx?.data?.COP;
   };
 
   return useQuery({

@@ -1,39 +1,6 @@
-export const Estimate_Balance_Data = [
-  {
-    id: 1,
-    status: "Available",
-    price: "1000",
-    cop: "=4´200.000.00 COP",
-  },
-  {
-    id: 2,
-    status: "Total",
-    price: "10,000",
-    cop: "=42´200.000.00 COP",
-  },
-];
 
-export const Estimate_Balance_Tokens_Data = [
-  {
-    id: 1,
-    imgUrl: "/assets/svg/Dollar.svg",
-    title: "Invested in CoinEstate",
-    availableTokens: "$3,245.03",
-    exclamationImg: "/assets/svg/exclamation.svg",
-  },
-  {
-    id: 2,
-    imgUrl: "/assets/svg/GoldenTokens.svg",
-    title: "Total of Tokens",
-    availableTokens: "3,342.03",
-  },
-  {
-    id: 3,
-    imgUrl: "/assets/svg/RedGraph.svg",
-    title: "Annual Income from Rent",
-    availableTokens: "$3,646.03",
-  },
-];
+
+
 export const Wallet_Investments_Data = [
   {
     id: 1,

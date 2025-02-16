@@ -23,7 +23,6 @@ export default function Dashboard() {
   const [openModel, setOpenModel] = useState(false);
   const { mutate: mintToken } = useMutateMinteToken();
   const { data: getTokensPercentage, refetch: refetchPercentage } = useQueryGetTokenPercentage();
-  console.log({getTokensPercentage})
   const { data: mintedTokensList, refetch } = useQueryGetMintedTokenlist();
   const { data: getPropertyDetails, refetch: propertyRefetch } = useQueryGetProperty();
 
