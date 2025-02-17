@@ -1,10 +1,12 @@
 import { useMutationMonthlyProcess } from '@/hooks/mutation';
 import { useQueryGetUser } from '@/hooks/query';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function MonthlyInvestment({ setOpenModel, openModel }) {
-  console.log('🚀 ~ MonthlyInvestment ~ openModel:', openModel);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(null);
+  const [percentage, setPercentage] = useState(null);
+
   const onSuccess = () => {
     setOpenModel(null);
   };
@@ -22,6 +24,14 @@ export default function MonthlyInvestment({ setOpenModel, openModel }) {
           placeholder='Enter...'
           className='w-full p-2 rounded-sm text-black-100'
         />
+        <input
+          type='number'
+          name='amount'
+          onChange={(e) => setPercentage(e.target.value)}
+          placeholder='Enter...'
+          className='w-full p-2 rounded-sm text-black-100'
+        />
+
         <div className='grid grid-cols-2 gap-3'>
           <button
             onClick={() => setOpenModel(false)}
@@ -30,13 +40,13 @@ export default function MonthlyInvestment({ setOpenModel, openModel }) {
           </button>
           <button
             onClick={() => {
-              console.log({ inputValue, openModel });
+              console.log({ percentage });
 
-              if (inputValue) {
+              if (inputValue && percentage) {
                 const allValues = {
                   name: openModel?.name,
                   tokenId: openModel?.id,
-                  percentage: openModel?.percentage || 2,
+                  percentage: Number(percentage) || 2,
                   price: Number(inputValue),
                   address: user?.address,
                   totalPrice: Number(openModel?.propertyPrice),
@@ -44,6 +54,8 @@ export default function MonthlyInvestment({ setOpenModel, openModel }) {
                 };
                 console.log({ allValues });
                 mutateTokenPrice(allValues);
+              } else {
+                toast.error('invalid details');
               }
             }}
             className='bg-yellow w-full mt-2 rounded-md text-black-100 py-2 font-bold'>
