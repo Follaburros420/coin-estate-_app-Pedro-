@@ -1,4 +1,4 @@
-import Token from './token.json';
+import Token from './Token.json';
 import FactoryContract from './factory.json';
 
 export const tokenAddress = '0x0c6429f1762F3BC36B9f3f997DBb0f644B73Ad49';
