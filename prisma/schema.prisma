@@ -174,7 +174,7 @@ model monthlyProcess {
 
 model ExchangeRate {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  timestamp BigInt   @map("timestamp")
+  timestamp String
   cop       Float    @map("cop")
   createdAt DateTime @default(now())
 }

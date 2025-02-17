@@ -8,11 +8,13 @@ import WalletCompartiment from './WalletCompartiment';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
 import { usePathname } from 'next/navigation';
-import { useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
+import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
 import ExchangeRateGraph from '../ExchangeChart';
 
 export default function WalletPage() {
   const location = usePathname();
+  const { data: userData } = useQueryGetActiveResults();
+  console.log('🚀 ~ WalletPage ~ userData:', userData);
 
   const [data, setData] = useState([
     { timestamp: 1707206400000, cop: 4050 },
@@ -162,7 +164,7 @@ export default function WalletPage() {
       <WalletCurrency />
       <div className='w-full grid grid-cols-1 xl:grid-cols-3 gap-5 2xl:gap-10 mt-6 lg:mt-12 '>
         <div className='xl:col-span-1 '>
-          <WalletInvestments />
+          <WalletInvestments data={userData?.invest?.payments} />
         </div>
         <div className='xl:col-span-2 '>
           {/* <WalletCompartiment /> */}

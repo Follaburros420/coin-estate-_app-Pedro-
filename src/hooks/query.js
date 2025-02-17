@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 
 // export const useAutoUpdateExchangeRate = () => {
 
-
 //   useEffect(() => {
 //     if (copRate) {
 //       mutation.mutate(copRate);
@@ -313,6 +312,35 @@ export const useQueryGetTokenCopPrice = () => {
 
     const tx = await axios.request(config);
     return tx?.data?.COP;
+  };
+
+  return useQuery({
+    queryKey,
+    queryFn,
+    onError: (error) => {
+      console.error('Query Error:', error);
+    },
+    onSuccess: (data) => {
+      console.log('Query Success:', data);
+    },
+    refetchInterval: 5000, // Fetch every 5 seconds
+  });
+};
+
+export const useQueryGetExchangeList = () => {
+  const queryKey = [queryKeys.getTokenListExchange];
+
+  const queryFn = async () => {
+    const config = {
+      method: 'POST',
+      url: `${endPoint}/blog/get-exchange`,
+      headers: {
+        Accept: 'application/json',
+      },
+    };
+
+    const tx = await axios.request(config);
+    return tx?.data?.data;
   };
 
   return useQuery({

@@ -569,7 +569,6 @@ export const useMutationSendExchangeRate = () => {
           Accept: 'application/json',
         },
         data: {
-          timestamp: time,
           cop: value,
         }, // Correctly pass the body as `data` in axios
       };

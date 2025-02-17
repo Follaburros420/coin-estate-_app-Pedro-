@@ -9,8 +9,9 @@ export const queryKeys = {
   getUserIntendDetails: 'getUserIntendDetails',
   getMarketPlaceList: 'getMarketPlaceList',
   getActiveResults: 'getActiveResults',
-  getTokenPercentageExchange:'getTokenPercentageExchange',
+  getTokenPercentageExchange: 'getTokenPercentageExchange',
   getTokenPercentage: 'getTokenPercentage',
+  getTokenListExchange: 'getTokenListExchange',
 };
 
 //? openssl rand -hex 32

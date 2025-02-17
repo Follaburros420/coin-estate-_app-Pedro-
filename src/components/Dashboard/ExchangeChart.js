@@ -67,7 +67,7 @@
 
 // export default ExchangeRateChart;
 import { useMutationSendExchangeRate } from '@/hooks/mutation';
-import { useQueryGetTokenCopPrice } from '@/hooks/query';
+import { useQueryGetExchangeList, useQueryGetTokenCopPrice } from '@/hooks/query';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -80,12 +80,17 @@ const fetchExchangeRate = async () => {
 };
 
 export default function ExchangeRateChart() {
-  const [data, setData] = useState([]);
   // const values = useAutoUpdateExchangeRate();
+  const { data: dataList } = useQueryGetExchangeList();
+  const [data, setData] = useState([]);
   const { data: copRate } = useQueryGetTokenCopPrice();
   const { mutate: sendData } = useMutationSendExchangeRate();
+  useEffect(() => {
+    if (copRate) {
+      sendData({ value: copRate });
+    }
+  }, [copRate]); // Runs every time `copRate` updates (every 5 sec)
 
-  console.log('🚀 ~ ExchangeRateChart ~ data:', copRate);
   const [filter, setFilter] = useState('1D');
 
   // Use Query to fetch data every 5 seconds
@@ -111,12 +116,12 @@ export default function ExchangeRateChart() {
       '1M': 30 * 24 * 60 * 60 * 1000,
       '1Y': 365 * 24 * 60 * 60 * 1000,
     };
-    return data.filter((d) => now - d.timestamp <= timeRanges[filter]);
+    return dataList?.filter((d) => now - d.timestamp <= timeRanges[filter]) || [];
   };
 
   return (
     <div className='p-4'>
-      <button onClick={() => sendData({ value: copRate, time: Date.now() })}>Click to send</button>
+      <button onClick={() => sendData({ value: copRate })}>Click to send</button>
       <h2 className='text-xl font-bold mb-4'>USD to COP Exchange Rate</h2>
 
       {/* Filter Buttons */}
@@ -137,7 +142,7 @@ export default function ExchangeRateChart() {
           <CartesianGrid strokeDasharray='3 3' />
           <XAxis
             dataKey='timestamp'
-            tickFormatter={(time) => new Date(time).toLocaleTimeString('en-US', { hour12: false })}
+            tickFormatter={(time) => new Date(Number(time)).toLocaleTimeString('en-US', { hour12: true })}
           />
           <YAxis />
           <Tooltip labelFormatter={(time) => new Date(time).toLocaleString()} />
