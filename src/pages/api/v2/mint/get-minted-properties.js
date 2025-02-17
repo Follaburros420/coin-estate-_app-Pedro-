@@ -1,23 +1,22 @@
 import prisma from '@/libs/prisma';
-import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     // Validate the Bearer token
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Unauthorized. Missing or invalid token.' });
-    }
+    // const authHeader = req.headers.authorization;
+    // if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    //   return res.status(401).json({ error: 'Unauthorized. Missing or invalid token.' });
+    // }
 
-    const token = authHeader.split(' ')[1];
+    // const token = authHeader.split(' ')[1];
 
     try {
       // Verify the JWT token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      // const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      if (!decoded || !decoded.userId) {
-        return res.status(401).json({ error: 'Unauthorized. Invalid token.' });
-      }
+      // if (!decoded || !decoded.userId) {
+      //   return res.status(401).json({ error: 'Unauthorized. Invalid token.' });
+      // }
 
       // Fetch blogs and items
       const mintedProperties = await prisma.minted.findMany();

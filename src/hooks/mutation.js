@@ -554,3 +554,38 @@ export const useMutationMonthlyProcess = (onSuccess) => {
     },
   });
 };
+
+// ===================================== send data to database =======================
+
+// Send exchange rate to backend
+export const useMutationSendExchangeRate = () => {
+  const mutationFn = async ({ value, time }) => {
+    console.log({ value, time });
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/blog/exchange`,
+        headers: {
+          Accept: 'application/json',
+        },
+        data: {
+          timestamp: time,
+          cop: value,
+        }, // Correctly pass the body as `data` in axios
+      };
+      return await axios.request(config);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.error('Mutation Error:', error);
+    },
+    onSuccess: () => {
+      console.log('Exchange Rate Sent Successfully');
+    },
+  });
+};

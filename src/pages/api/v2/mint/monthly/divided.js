@@ -116,7 +116,6 @@ export default async function handler(req, res) {
           const purchased = groupedTransactionsAmount[tokenId][userId];
           // const earnings = price * userShare; // Calculate earnings for this token
           const earnings = userShare; // Calculate earnings for this token
-          console.log({ earnings, price, userShare });
           userEarnings[tokenId] = { earned: earnings, monthly: price, purchased, totalPrice };
           totalEarnings += earnings;
           totalTokenBalance += purchased;

@@ -3,6 +3,24 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { endPoint, queryKeys, user_auth } from './queryContants';
+import { useMutationSendExchangeRate } from './mutation';
+import { useEffect } from 'react';
+
+// export const useAutoUpdateExchangeRate = () => {
+
+
+//   useEffect(() => {
+//     if (copRate) {
+//       mutation.mutate(copRate);
+//     }
+//   }, [copRate]); // Runs every time `copRate` updates (every 5 sec)
+
+//   return (
+//     <div>
+//       <button onClick={() => mutation.mutate(copRate)}>hello</button>
+//     </div>
+//   );
+// };
 
 function convertToSubcurrency(amount, factor = 100) {
   return Math.round(amount * factor);
@@ -280,10 +298,7 @@ export const useQueryGetTokenPercentage = () => {
   });
 };
 
-
-
 export const useQueryGetTokenCopPrice = () => {
-
   const queryKey = [queryKeys.getTokenPercentageExchange];
 
   const queryFn = async () => {
@@ -309,5 +324,6 @@ export const useQueryGetTokenCopPrice = () => {
     onSuccess: (data) => {
       console.log('Query Success:', data);
     },
+    refetchInterval: 5000, // Fetch every 5 seconds
   });
 };

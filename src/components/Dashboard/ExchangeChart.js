@@ -1,128 +1,149 @@
-// import { useEffect, useState } from "react";
-// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-// // import { Card, CardContent } from "@/components/ui/card";
-// http://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR
-// https://min-api.cryptocompare.com/data/blockchain/histo/day?fsym=USD
-// export default function ExchangeRateGraph() {
-//   const [data, setData] = useState([]);
-//   const [latestRate, setLatestRate] = useState(null);
+// import React, { useState, useEffect } from "react";
+// import Highcharts from "highcharts/highstock";
+// import HighchartsReact from "highcharts-react-official";
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         // https://v6.exchangerate-api.com/v6/06d5eb34217e56efbf17063c/latest/USD
-//         const response = await fetch("https://v6.exchangerate-api.com/v6/06d5eb34217e56efbf17063c/latest/USD");
-//         const result = await response.json();
-//         const copRate = result.conversion_rates.COP;
+// const ExchangeRateChart = ({ data }) => {
+//   const [filteredData, setFilteredData] = useState(data);
+//   const [range, setRange] = useState("ALL");
 
-//         setLatestRate(copRate);
-
-//         setData((prevData) => {
-//           const newData = [...prevData, { time: new Date().toLocaleTimeString(), cop: copRate }];
-//           return newData.slice(-50); // Keep only the last 50 entries
-//         });
-//       } catch (error) {
-//         console.error("Error fetching exchange rate:", error);
-//       }
+//   // Function to filter data based on range
+//   const filterData = (range) => {
+//     const now = new Date().getTime();
+//     const ranges = {
+//       "1D": 24 * 60 * 60 * 1000,
+//       "1W": 7 * 24 * 60 * 60 * 1000,
+//       "1M": 30 * 24 * 60 * 60 * 1000,
+//       "1Y": 365 * 24 * 60 * 60 * 1000,
+//       ALL: Infinity,
 //     };
 
-//     fetchData();
-//     const interval = setInterval(fetchData, 5000); // Update every 5 seconds
+//     const newData = data.filter(({ timestamp }) => now - timestamp <= ranges[range]);
+//     setFilteredData(newData);
+//     setRange(range);
+//   };
 
-//     return () => clearInterval(interval);
-//   }, []);
+//   // Update chart when data changes
+//   useEffect(() => {
+//     filterData(range);
+//   }, [data]);
+
+//   // Highcharts options
+//   const options = {
+//     chart: { zoomType: "x" },
+//     title: { text: "USD to COP Exchange Rate" },
+//     xAxis: { type: "datetime" },
+//     yAxis: { title: { text: "Exchange Rate (COP)" } },
+//     series: [
+//       {
+//         name: "USD/COP",
+//         data: filteredData.map(({ timestamp, cop }) => [timestamp, cop]),
+//         tooltip: { valueDecimals: 2 },
+//       },
+//     ],
+//   };
+
 //   return (
 //     <div className="p-4">
-//       <div>
-//         <h2 className="text-xl font-bold mb-4">USD to COP Exchange Rate</h2>
-//         <ResponsiveContainer width="100%" height={300}>
-//           <LineChart data={data}>
-//             <CartesianGrid strokeDasharray="3 3" />
-//             <XAxis dataKey="date" />
-//             <YAxis />
-//             <Tooltip />
-//             <Line type="monotone" dataKey="cop" stroke="#8884d8" strokeWidth={2} />
-//           </LineChart>
-//         </ResponsiveContainer>
+//       <h2 className="text-xl font-bold mb-4">USD to COP Exchange Rate Chart</h2>
+
+//       {/* Filter Buttons */}
+//       <div className="mb-4 space-x-2">
+//         {["1D", "1W", "1M", "1Y", "ALL"].map((r) => (
+//           <button
+//             key={r}
+//             className={`px-4 py-2 rounded-md ${range === r ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+//             onClick={() => filterData(r)}
+//           >
+//             {r}
+//           </button>
+//         ))}
 //       </div>
+
+//       {/* Highcharts Graph */}
+//       <HighchartsReact highcharts={Highcharts} constructorType="stockChart" options={options} />
 //     </div>
 //   );
-// }
+// };
 
-import React, { useState, useEffect } from 'react';
-import Highcharts, { theme } from 'highcharts/highstock';
-import HighchartsReact from 'highcharts-react-official';
+// export default ExchangeRateChart;
+import { useMutationSendExchangeRate } from '@/hooks/mutation';
+import { useQueryGetTokenCopPrice } from '@/hooks/query';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const ExchangeRateChart = () => {
-  const [data, setData] = useState([]);
-  const [range, setRange] = useState('1M'); // Default range is 1 Month
-
-  // Function to fetch USD to COP exchange rate
-  const fetchExchangeRate = async () => {
-    try {
-      const response = await fetch(`https://v6.exchangerate-api.com/v6/06d5eb34217e56efbf17063c/latest/USD`);
-      const json = await response.json();
-      const rate = json.conversion_rates.COP;
-      const timestamp = new Date().getTime();
-      setData((prevData) => [...prevData, [timestamp, rate]]);
-    } catch (error) {
-      console.error('Error fetching exchange rate:', error);
-    }
-  };
-
-  // Fetch data every 5 seconds (for live updates)
-  useEffect(() => {
-    fetchExchangeRate();
-    const interval = setInterval(fetchExchangeRate, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getRangeData = () => {
-    const now = new Date().getTime();
-    const ranges = {
-      '1D': 24 * 60 * 60 * 1000,
-      '7D': 7 * 24 * 60 * 60 * 1000,
-      '1M': 30 * 24 * 60 * 60 * 1000,
-      '3M': 90 * 24 * 60 * 60 * 1000,
-      '6M': 180 * 24 * 60 * 60 * 1000,
-      '1Y': 365 * 24 * 60 * 60 * 1000,
-      ALL: Infinity,
-    };
-    return data?.filter(([timestamp]) => now - timestamp <= ranges[range]);
-  };
-
-  const options = {
-    chart: {
-      zoomType: 'x',
-      theme: 'dark',
-    },
-    title: {
-      text: 'Live USD to COP Exchange Rate',
-    },
-    rangeSelector: {
-      selected: 2,
-      buttons: [
-        { type: 'day', count: 1, text: '1D', events: { click: () => setRange('1D') } },
-        { type: 'week', count: 1, text: '7D', events: { click: () => setRange('7D') } },
-        { type: 'month', count: 1, text: '1M', events: { click: () => setRange('1M') } },
-        { type: 'month', count: 3, text: '3M', events: { click: () => setRange('3M') } },
-        { type: 'month', count: 6, text: '6M', events: { click: () => setRange('6M') } },
-        { type: 'year', count: 1, text: '1Y', events: { click: () => setRange('1Y') } },
-        { type: 'all', text: 'ALL', events: { click: () => setRange('ALL') } },
-      ],
-    },
-    series: [
-      {
-        name: 'USD/COP',
-        data: getRangeData(),
-        tooltip: {
-          valueDecimals: 2,
-        },
-      },
-    ],
-  };
-
-  return <HighchartsReact highcharts={Highcharts} constructorType='stockChart' options={options} />;
+// Fetch USD to COP exchange rate
+const fetchExchangeRate = async () => {
+  const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=COP');
+  return { timestamp: Date.now(), cop: response.data.COP };
 };
 
-export default ExchangeRateChart;
+export default function ExchangeRateChart() {
+  const [data, setData] = useState([]);
+  // const values = useAutoUpdateExchangeRate();
+  const { data: copRate } = useQueryGetTokenCopPrice();
+  const { mutate: sendData } = useMutationSendExchangeRate();
+
+  console.log('🚀 ~ ExchangeRateChart ~ data:', copRate);
+  const [filter, setFilter] = useState('1D');
+
+  // Use Query to fetch data every 5 seconds
+  const { data: newRate } = useQuery({
+    queryKey: ['exchangeRate'],
+    queryFn: fetchExchangeRate,
+    refetchInterval: 5000, // Fetch every 5 seconds
+  });
+
+  // Store API data in state
+  useEffect(() => {
+    if (newRate) {
+      setData((prev) => [...prev, newRate].slice(-100)); // Keep last 100 records
+    }
+  }, [newRate]);
+
+  // Filter Data by Time Range
+  const getFilteredData = () => {
+    const now = Date.now();
+    const timeRanges = {
+      '1D': 24 * 60 * 60 * 1000,
+      '1W': 7 * 24 * 60 * 60 * 1000,
+      '1M': 30 * 24 * 60 * 60 * 1000,
+      '1Y': 365 * 24 * 60 * 60 * 1000,
+    };
+    return data.filter((d) => now - d.timestamp <= timeRanges[filter]);
+  };
+
+  return (
+    <div className='p-4'>
+      <button onClick={() => sendData({ value: copRate, time: Date.now() })}>Click to send</button>
+      <h2 className='text-xl font-bold mb-4'>USD to COP Exchange Rate</h2>
+
+      {/* Filter Buttons */}
+      <div className='mb-4 flex gap-2'>
+        {['1D', '1W', '1M', '1Y'].map((range) => (
+          <button
+            key={range}
+            className={`px-4 py-2 rounded ${filter === range ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+            onClick={() => setFilter(range)}>
+            {range}
+          </button>
+        ))}
+      </div>
+
+      {/* Chart */}
+      <ResponsiveContainer width='100%' height={300}>
+        <LineChart data={getFilteredData()}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis
+            dataKey='timestamp'
+            tickFormatter={(time) => new Date(time).toLocaleTimeString('en-US', { hour12: false })}
+          />
+          <YAxis />
+          <Tooltip labelFormatter={(time) => new Date(time).toLocaleString()} />
+          <Line type='monotone' dataKey='cop' stroke='#8884d8' strokeWidth={2} />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}

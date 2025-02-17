@@ -2,7 +2,7 @@
 import { Estimate_Balance_Data, Estimate_Balance_Tokens_Data } from '@/_mock/data';
 import StyledImage from '@/components/StyedImage';
 import clsxm from '@/utils/clsxm';
-import React from 'react';
+import React, { useState } from 'react';
 import WalletCurrency from './WalletCurrency';
 import WalletCompartiment from './WalletCompartiment';
 import WalletInvestments from './WalletInvestments';
@@ -13,6 +13,13 @@ import ExchangeRateGraph from '../ExchangeChart';
 
 export default function WalletPage() {
   const location = usePathname();
+
+  const [data, setData] = useState([
+    { timestamp: 1707206400000, cop: 4050 },
+    { timestamp: 1707292800000, cop: 4075 },
+    { timestamp: 1707379200000, cop: 4030 },
+    { timestamp: 1707465600000, cop: 4090 },
+  ]);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const total = getTokenCalculation?.totalTokenBalance + Number(getTokenCalculation?.totalEarnings);
@@ -159,7 +166,7 @@ export default function WalletPage() {
         </div>
         <div className='xl:col-span-2 '>
           {/* <WalletCompartiment /> */}
-          <ExchangeRateGraph />
+          <ExchangeRateGraph data={data} />
         </div>
       </div>
       <WalletTransactionHistory />
