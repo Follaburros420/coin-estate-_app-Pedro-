@@ -1,20 +1,25 @@
 'use client';
-import { Estimate_Balance_Data, Estimate_Balance_Tokens_Data } from '@/_mock/data';
 import StyledImage from '@/components/StyedImage';
+import {
+  useQueryGetActiveResults,
+  useQueryGetTokenCopPrice,
+  useQueryGetTokenPercentage,
+  useQueryGetUser,
+} from '@/hooks/query';
 import clsxm from '@/utils/clsxm';
-import React, { useState } from 'react';
+import { conciseAddress, formatNumberIndianStyle, sumOfValues } from '@/utils/wagmiConfig';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import ExchangeRateGraph from '../ExchangeChart';
 import WalletCurrency from './WalletCurrency';
-import WalletCompartiment from './WalletCompartiment';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
-import { usePathname } from 'next/navigation';
-import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
-import ExchangeRateGraph from '../ExchangeChart';
 
 export default function WalletPage() {
   const location = usePathname();
   const { data: userData } = useQueryGetActiveResults();
-  console.log('🚀 ~ WalletPage ~ userData:', userData);
+  console.log('🚀 ~ WalletPage ~ userData:', userData?.userProperties?.[0]?.netAnualIncome);
+  const { data: user } = useQueryGetUser();
 
   const [data, setData] = useState([
     { timestamp: 1707206400000, cop: 4050 },
@@ -25,6 +30,9 @@ export default function WalletPage() {
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const total = getTokenCalculation?.totalTokenBalance + Number(getTokenCalculation?.totalEarnings);
+  let totalNetIncome = 0;
+  const anualNetIncome = userData?.userProperties?.map((item) => (totalNetIncome += item?.netAnualIncome));
+  // console.log('🚀 ~ WalletPage ~ anualNetIncome:', totalNetIncome);
 
   const paths = {
     '/dashboard/admin-wallet': 'Wallet',
@@ -40,7 +48,7 @@ export default function WalletPage() {
     {
       id: 2,
       status: 'Total',
-      price: getTokenCalculation?.totalTokenBalance + Number(getTokenCalculation?.totalEarnings) || 0,
+      price: formatNumberIndianStyle(total) || 0,
       cop: total * tokenPrice || 0,
     },
   ];
@@ -49,20 +57,20 @@ export default function WalletPage() {
       id: 1,
       imgUrl: '/assets/svg/Dollar.svg',
       title: 'Invested in CoinEstate',
-      availableTokens: getTokenCalculation?.totalTokenBalance || 0,
+      availableTokens: formatNumberIndianStyle(getTokenCalculation?.totalTokenBalance) + '$' || 0,
       exclamationImg: '/assets/svg/exclamation.svg',
     },
     {
       id: 2,
       imgUrl: '/assets/svg/GoldenTokens.svg',
       title: 'Total of Tokens',
-      availableTokens: getTokenCalculation?.totalTokenBalance || 0,
+      availableTokens: formatNumberIndianStyle(getTokenCalculation?.totalTokenBalance) || 0,
     },
     {
       id: 3,
       imgUrl: '/assets/svg/RedGraph.svg',
       title: 'Approximate Net Income',
-      availableTokens: '$3,646.03',
+      availableTokens: formatNumberIndianStyle(totalNetIncome) + '$',
     },
   ];
   return (
@@ -88,7 +96,7 @@ export default function WalletPage() {
                 <StyledImage src={'/assets/svg/Exclamation.svg'} className='w-3 h-3 mt-1 ' />
               </div>
               <div className='flex items-center gap-[6px] '>
-                <p className='text-16 font-ubuntu font-medium text-grey-700 '>647364374637463</p>
+                <p className='text-16 font-ubuntu font-medium text-grey-700 '>{conciseAddress(user?.address)}</p>
                 <StyledImage src='/assets/svg/Blocks.svg' className='w-9 h-3 ' />
               </div>
             </div>
@@ -128,7 +136,7 @@ export default function WalletPage() {
                           <span className='text-22 font-regular ml-3 '>USD</span>
                         </p>
                       </div>
-                      <p className='text-14 text-base-100 opacity-60 '>={item.cop} COP</p>
+                      <p className='text-14 text-base-100 opacity-60 '>= {formatNumberIndianStyle(item.cop)} COP</p>
                     </div>
                     {/* {idx === 0 && <div className='p-2 rounded-full bg-darkCyan -mt-4 ' />} */}
                   </div>
@@ -161,7 +169,7 @@ export default function WalletPage() {
           </div>
         </div>
       </div>
-      <WalletCurrency />
+      <WalletCurrency total={total} available={getTokenCalculation?.totalEarnings} />
       <div className='w-full grid grid-cols-1 xl:grid-cols-3 gap-5 2xl:gap-10 mt-6 lg:mt-12 '>
         <div className='xl:col-span-1 '>
           <WalletInvestments data={userData?.invest?.payments} />

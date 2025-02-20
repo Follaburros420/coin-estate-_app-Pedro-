@@ -8,12 +8,12 @@ import { useBalance } from "wagmi";
 import useWalletBalance from "../hooks/WalletBalance";
 import { toast } from "react-toastify";
 
-export default function ProfileMenu() {
+export default function ProfileMenu({balance}) {
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { data: user, refetch } = useQueryGetUser();
-  const { balance } = useWalletBalance(user?.address)
+  // const { balance } = useWalletBalance(user?.address)
   const router = useRouter();
   const { mutate: mutateLogout } = useMutateLogout()
 

@@ -1,71 +1,71 @@
-// import React, { useState, useEffect } from "react";
-// import Highcharts from "highcharts/highstock";
-// import HighchartsReact from "highcharts-react-official";
+// // import React, { useState, useEffect } from "react";
+// // import Highcharts from "highcharts/highstock";
+// // import HighchartsReact from "highcharts-react-official";
 
-// const ExchangeRateChart = ({ data }) => {
-//   const [filteredData, setFilteredData] = useState(data);
-//   const [range, setRange] = useState("ALL");
+// // const ExchangeRateChart = ({ data }) => {
+// //   const [filteredData, setFilteredData] = useState(data);
+// //   const [range, setRange] = useState("ALL");
 
-//   // Function to filter data based on range
-//   const filterData = (range) => {
-//     const now = new Date().getTime();
-//     const ranges = {
-//       "1D": 24 * 60 * 60 * 1000,
-//       "1W": 7 * 24 * 60 * 60 * 1000,
-//       "1M": 30 * 24 * 60 * 60 * 1000,
-//       "1Y": 365 * 24 * 60 * 60 * 1000,
-//       ALL: Infinity,
-//     };
+// //   // Function to filter data based on range
+// //   const filterData = (range) => {
+// //     const now = new Date().getTime();
+// //     const ranges = {
+// //       "1D": 24 * 60 * 60 * 1000,
+// //       "1W": 7 * 24 * 60 * 60 * 1000,
+// //       "1M": 30 * 24 * 60 * 60 * 1000,
+// //       "1Y": 365 * 24 * 60 * 60 * 1000,
+// //       ALL: Infinity,
+// //     };
 
-//     const newData = data.filter(({ timestamp }) => now - timestamp <= ranges[range]);
-//     setFilteredData(newData);
-//     setRange(range);
-//   };
+// //     const newData = data.filter(({ timestamp }) => now - timestamp <= ranges[range]);
+// //     setFilteredData(newData);
+// //     setRange(range);
+// //   };
 
-//   // Update chart when data changes
-//   useEffect(() => {
-//     filterData(range);
-//   }, [data]);
+// //   // Update chart when data changes
+// //   useEffect(() => {
+// //     filterData(range);
+// //   }, [data]);
 
-//   // Highcharts options
-//   const options = {
-//     chart: { zoomType: "x" },
-//     title: { text: "USD to COP Exchange Rate" },
-//     xAxis: { type: "datetime" },
-//     yAxis: { title: { text: "Exchange Rate (COP)" } },
-//     series: [
-//       {
-//         name: "USD/COP",
-//         data: filteredData.map(({ timestamp, cop }) => [timestamp, cop]),
-//         tooltip: { valueDecimals: 2 },
-//       },
-//     ],
-//   };
+// //   // Highcharts options
+// //   const options = {
+// //     chart: { zoomType: "x" },
+// //     title: { text: "USD to COP Exchange Rate" },
+// //     xAxis: { type: "datetime" },
+// //     yAxis: { title: { text: "Exchange Rate (COP)" } },
+// //     series: [
+// //       {
+// //         name: "USD/COP",
+// //         data: filteredData.map(({ timestamp, cop }) => [timestamp, cop]),
+// //         tooltip: { valueDecimals: 2 },
+// //       },
+// //     ],
+// //   };
 
-//   return (
-//     <div className="p-4">
-//       <h2 className="text-xl font-bold mb-4">USD to COP Exchange Rate Chart</h2>
+// //   return (
+// //     <div className="p-4">
+// //       <h2 className="text-xl font-bold mb-4">USD to COP Exchange Rate Chart</h2>
 
-//       {/* Filter Buttons */}
-//       <div className="mb-4 space-x-2">
-//         {["1D", "1W", "1M", "1Y", "ALL"].map((r) => (
-//           <button
-//             key={r}
-//             className={`px-4 py-2 rounded-md ${range === r ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-//             onClick={() => filterData(r)}
-//           >
-//             {r}
-//           </button>
-//         ))}
-//       </div>
+// //       {/* Filter Buttons */}
+// //       <div className="mb-4 space-x-2">
+// //         {["1D", "1W", "1M", "1Y", "ALL"].map((r) => (
+// //           <button
+// //             key={r}
+// //             className={`px-4 py-2 rounded-md ${range === r ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+// //             onClick={() => filterData(r)}
+// //           >
+// //             {r}
+// //           </button>
+// //         ))}
+// //       </div>
 
-//       {/* Highcharts Graph */}
-//       <HighchartsReact highcharts={Highcharts} constructorType="stockChart" options={options} />
-//     </div>
-//   );
-// };
+// //       {/* Highcharts Graph */}
+// //       <HighchartsReact highcharts={Highcharts} constructorType="stockChart" options={options} />
+// //     </div>
+// //   );
+// // };
 
-// export default ExchangeRateChart;
+// // export default ExchangeRateChart;
 import { useMutationSendExchangeRate } from '@/hooks/mutation';
 import { useQueryGetExchangeList, useQueryGetTokenCopPrice } from '@/hooks/query';
 import { useQuery } from '@tanstack/react-query';
@@ -82,7 +82,7 @@ const fetchExchangeRate = async () => {
 export default function ExchangeRateChart() {
   // const values = useAutoUpdateExchangeRate();
   const { data: dataList } = useQueryGetExchangeList();
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const { data: copRate } = useQueryGetTokenCopPrice();
   const { mutate: sendData } = useMutationSendExchangeRate();
   useEffect(() => {
@@ -94,34 +94,45 @@ export default function ExchangeRateChart() {
   const [filter, setFilter] = useState('1D');
 
   // Use Query to fetch data every 5 seconds
-  const { data: newRate } = useQuery({
-    queryKey: ['exchangeRate'],
-    queryFn: fetchExchangeRate,
-    refetchInterval: 5000, // Fetch every 5 seconds
-  });
+  // const { data: newRate } = useQuery({
+  //   queryKey: ['exchangeRate'],
+  //   queryFn: fetchExchangeRate,
+  //   refetchInterval: 5000, // Fetch every 5 seconds
+  // });
 
-  // Store API data in state
-  useEffect(() => {
-    if (newRate) {
-      setData((prev) => [...prev, newRate].slice(-100)); // Keep last 100 records
-    }
-  }, [newRate]);
+  // // Store API data in state
+  // useEffect(() => {
+  //   if (newRate) {
+  //     setData((prev) => [...prev, newRate].slice(-100)); // Keep last 100 records
+  //   }
+  // }, [newRate]);
 
+  const formattedData = dataList?.map((item) => ({
+    ...item,
+    date: new Date(Number(item?.timestamp)).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+    }),
+  }));
   // Filter Data by Time Range
   const getFilteredData = () => {
-    const now = Date.now();
     const timeRanges = {
-      '1D': 24 * 60 * 60 * 1000,
-      '1W': 7 * 24 * 60 * 60 * 1000,
-      '1M': 30 * 24 * 60 * 60 * 1000,
-      '1Y': 365 * 24 * 60 * 60 * 1000,
+      "1D": 24 * 60 * 60 * 1000,
+      "1W": 7 * 24 * 60 * 60 * 1000,
+      "1M": 30 * 24 * 60 * 60 * 1000,
+      "1Y": 365 * 24 * 60 * 60 * 1000,
     };
-    return dataList?.filter((d) => now - d.timestamp <= timeRanges[filter]) || [];
+  
+    const currentTime = Date.now(); // Get current timestamp
+    const selectedRange = timeRanges[filter]; // Get range in milliseconds
+  
+    return formattedData?.filter((d) => currentTime - Number(d.timestamp) <= selectedRange) || [];
   };
+  
 
   return (
     <div className='p-4'>
-      <button onClick={() => sendData({ value: copRate })}>Click to send</button>
+      {/* <button onClick={() => sendData({ value: copRate })}>Click to send</button> */}
       <h2 className='text-xl font-bold mb-4'>USD to COP Exchange Rate</h2>
 
       {/* Filter Buttons */}
@@ -137,18 +148,106 @@ export default function ExchangeRateChart() {
       </div>
 
       {/* Chart */}
-      <ResponsiveContainer width='100%' height={300}>
-        <LineChart data={getFilteredData()}>
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis
-            dataKey='timestamp'
-            tickFormatter={(time) => new Date(Number(time)).toLocaleTimeString('en-US', { hour12: true })}
-          />
-          <YAxis />
-          <Tooltip labelFormatter={(time) => new Date(time).toLocaleString()} />
-          <Line type='monotone' dataKey='cop' stroke='#8884d8' strokeWidth={2} />
-        </LineChart>
-      </ResponsiveContainer>
+      <div style={{ background: '#1e1e1e', padding: '20px', borderRadius: '10px' }}>
+        <ResponsiveContainer width='100%' height={300}>
+          <LineChart data={getFilteredData()}>
+            <CartesianGrid strokeDasharray='3 3' stroke='#333' />
+            <XAxis dataKey='date' tick={{ fill: '#fff' }} />
+            <YAxis
+              tick={{ fill: '#fff' }}
+              domain={[4000, 4400]} // Y-axis range
+              tickCount={5}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Line type='monotone' dataKey='cop' stroke='#ff6b6b' strokeWidth={2} dot={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
+// import React from 'react';
+// import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+
+// const rawData = [
+//   {
+//     id: '67b311d9403f6f6aa460cc06',
+//     timestamp: 1739788761989,
+//     cop: 4087,
+//   },
+//   {
+//     id: '67b311e0403f6f6aa460cc07',
+//     timestamp: 1739788768258,
+//     cop: 4087,
+//   },
+//   {
+//     id: '67b31207403f6f6aa460cc08',
+//     timestamp: 1739788807627,
+//     cop: 4087,
+//   },
+//   {
+//     id: '67b3121e403f6f6aa460cc09',
+//     timestamp: 1739788830449,
+//     cop: 4087,
+//   },
+//   {
+//     id: '67b31253403f6f6aa460cc0a',
+//     timestamp: 1739788883804,
+//     cop: 4087,
+//   },
+//   {
+//     id: '67b3125b403f6f6aa460cc0b',
+//     timestamp: 1739788891988,
+//     cop: 4087,
+//   },
+// ];
+
+// Convert timestamps to a readable format
+// const formattedData = rawData.map((item) => ({
+//   ...item,
+//   date: new Date(item.timestamp).toLocaleDateString('en-GB', {
+//     day: '2-digit',
+//     month: 'short',
+//   }),
+// }));
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div
+        style={{
+          background: '#1e1e1e',
+          color: '#fff',
+          padding: '8px',
+          borderRadius: '5px',
+          border: '1px solid #ff6b6b',
+        }}>
+        <p>{`${label}`}</p>
+        <p style={{ fontWeight: 'bold' }}>{`${payload[0].value}`}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
+// const StyledChart = () => {
+//   return (
+//     <div style={{ background: '#1e1e1e', padding: '20px', borderRadius: '10px' }}>
+//       <ResponsiveContainer width='100%' height={300}>
+//         <LineChart data={formattedData}>
+//           <CartesianGrid strokeDasharray='3 3' stroke='#333' />
+//           <XAxis dataKey='date' tick={{ fill: '#fff' }} />
+//           <YAxis
+//             tick={{ fill: '#fff' }}
+//             domain={[4000, 4400]} // Y-axis range
+//             tickCount={5}
+//           />
+//           <Tooltip content={<CustomTooltip />} />
+//           <Line type='monotone' dataKey='cop' stroke='#ff6b6b' strokeWidth={2} dot={false} />
+//         </LineChart>
+//       </ResponsiveContainer>
+//     </div>
+//   );
+// };
+
+// export default StyledChart;

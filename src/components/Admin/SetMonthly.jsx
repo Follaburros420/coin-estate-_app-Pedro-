@@ -17,6 +17,7 @@ export default function MonthlyInvestment({ setOpenModel, openModel }) {
     <div className='fixed inset-0 z-10 glass flex items-center justify-center'>
       <div className='w-full max-w-[400px] rounded-lg p-10 bg-black-900'>
         <p className='font-bold text-center mb-6 text-20'>Monthly Percentage</p>
+        <label htmlFor="">Amount</label>
         <input
           type='number'
           name='amount'
@@ -24,6 +25,7 @@ export default function MonthlyInvestment({ setOpenModel, openModel }) {
           placeholder='Enter...'
           className='w-full p-2 rounded-sm text-black-100'
         />
+        <label htmlFor="">percentage</label>
         <input
           type='number'
           name='amount'

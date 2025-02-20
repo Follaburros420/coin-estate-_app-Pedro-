@@ -4,3 +4,13 @@ export const conciseAddress = (address, startSlice = 6, endSlice = 3) => {
   }
   return '';
 };
+
+export function formatNumberIndianStyle(number) {
+  return number.toLocaleString("en-IN");
+}
+
+
+export const sumOfValues = (value) => {
+  let initialValue
+  return initialValue += value
+}

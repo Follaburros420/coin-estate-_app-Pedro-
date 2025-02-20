@@ -352,6 +352,6 @@ export const useQueryGetExchangeList = () => {
     onSuccess: (data) => {
       console.log('Query Success:', data);
     },
-    refetchInterval: 5000, // Fetch every 5 seconds
+    // refetchInterval: 5000, // Fetch every 5 seconds
   });
 };

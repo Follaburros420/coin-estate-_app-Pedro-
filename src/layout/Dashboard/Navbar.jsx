@@ -4,10 +4,8 @@ import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPer
 import { usePathname, useRouter } from 'next/navigation';
 
 export default function Navbar({ toggleSidebar }) {
-  const { data: userData, refetch } = useQueryGetActiveResults();
-  const { data: tokenPrice } = useQueryGetTokenCopPrice();
+  const { data: userData } = useQueryGetActiveResults();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
-  console.log({getTokenCalculation, userData})
   const location = usePathname();
   const paths = {
     '/dashboard/dashboard-wallet': 'Wallet',
@@ -40,15 +38,15 @@ export default function Navbar({ toggleSidebar }) {
               <div className='bg-black-700 w-full max-w-9 h-9 flex items-center justify-center rounded-[8px] p-1 '>
                 <StyledImage src='/assets/svg/Dollar.svg' className='w-9 h-9 ' />
               </div>
-              <p>0,00</p>
+              <p>{getTokenCalculation?.totalEarnings}</p>
             </div>
             <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' />
           </div>
-          <div className='bg-black-600 px-5 py-[14px] w-full max-w-[76px] flex items-center justify-center rounded-[8px] '>
+          {/* <div className='bg-black-600 px-5 py-[14px] w-full max-w-[76px] flex items-center justify-center rounded-[8px] '>
             <StyledImage src='/assets/svg/Notification.svg' className='w-[38px] h-[38px] ' />
-          </div>
+          </div> */}
         </div>
-        <UserProfile />
+        <UserProfile balance={getTokenCalculation?.totalEarnings} />
       </div>
       <button onClick={toggleSidebar} className='lg:hidden block bg-black-600 p-1 rounded-[8px] '>
         <StyledImage src='/assets/svg/Menu.svg' className='w-6 h-6 ' />
