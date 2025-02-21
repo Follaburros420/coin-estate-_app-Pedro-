@@ -17,6 +17,9 @@ export default function MarketPlace() {
       <Layout>
         <div className='px-6 lg:px-10 '>
           <div className='w-full max-w-[1161px] mx-auto my-10 '>
+          <div className='font-bold text-32 text-yellow'>{selectedNFT?.name}</div>
+          <hr className=' text-yellow' />
+          <hr className='mb-5 mt-1 text-yellow' />
             <HeaderSection userData={userData?.values} selectedNFT={selectedNFT} />
             <Tabs selectedNFT={selectedNFT} />
           </div>

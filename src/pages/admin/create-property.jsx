@@ -81,6 +81,12 @@ export default function Home({ options }) {
   // const { mutate: approveChange, isPending: isLoadingApprove } = useMutateApprove()
 
   const { mutate: createProperty, isPending: isLoadingCreateNfts } = useMutateCreateProperty();
+  const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
+  const {
+    mutate: mutateMultiImages,
+    isPending: isUploadingMultiFiles,
+    data: multiFilesList,
+  } = useMutateUploadMultiFiles();
   const onSuccess = () => {
     const defaultValues = {
       ...selected,
@@ -89,24 +95,19 @@ export default function Home({ options }) {
       email: user?.email || 'demo@gmail.com',
       address: address,
       location: JSON.stringify(selectedLocation),
+      // locationTitle: '',
     };
     createProperty(defaultValues);
   };
   const { mutate: createNftProperty, isPending: isLoadingCreateNftProperty } = useMutateCreateERC884ProPerty(onSuccess);
-  const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
-  const {
-    mutate: mutateMultiImages,
-    isPending: isUploadingMultiFiles,
-    data: multiFilesList,
-  } = useMutateUploadMultiFiles();
 
   function handleFormSubmit(value) {
-    // if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
-    setSelected(value);
-    createNftProperty({ name: value?.name, symbols: value?.saleStatus });
-    // } else {
-    // toast.error('data is missing');
-    // }
+    if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
+      setSelected(value);
+      createNftProperty({ name: value?.name, symbols: value?.saleStatus });
+    } else {
+      toast.error('Add Images');
+    }
   }
 
   const step = '0.001';

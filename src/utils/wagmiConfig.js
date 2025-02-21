@@ -6,11 +6,14 @@ export const conciseAddress = (address, startSlice = 6, endSlice = 3) => {
 };
 
 export function formatNumberIndianStyle(number) {
-  return number.toLocaleString("en-IN");
+  if (number) {
+    return number?.toLocaleString('en-IN');
+  } else {
+    return '0.0';
+  }
 }
-
 
 export const sumOfValues = (value) => {
-  let initialValue
-  return initialValue += value
-}
+  let initialValue;
+  return (initialValue += value);
+};

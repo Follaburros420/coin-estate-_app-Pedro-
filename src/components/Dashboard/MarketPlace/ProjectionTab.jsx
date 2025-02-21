@@ -67,7 +67,7 @@ export default function ProjectionTab({ nft }) {
                 </p>
                 <div className='flex items-center justify-center md:justify-start gap-2 mt-3 '>
                   <StyledImage src='/assets/svg/LocationIcon.svg' className='w-4 h-4 ' />
-                  <p className='text-12 text-grey-600'>{nft?.location}</p>
+                  <p className='text-12 text-grey-600'>{nft?.name}</p>
                 </div>
               </div>
               <div className='border border-Yellow-100 w-10 h-[2px] my-5 mx-auto md:mx-0 ' />
@@ -109,14 +109,12 @@ export default function ProjectionTab({ nft }) {
             <div className='flex items-center justify-between '>
               <div className='flex items-center '>
                 <StyledImage src='/assets/svg/LocationWhite.svg' className='w-5 h-5 ' />
-                <p className='text-20 font-medium font-ubuntu '>Location</p>
+                <p className='text-20 font-medium font-ubuntu '>Description</p>
               </div>
-              <button className='text-Yellow-300 font-ubuntu '>Read More</button>
+              {/* <button className='text-Yellow-300 font-ubuntu '>Read More</button> */}
             </div>
-            <p className='font-bold font-ubuntu border border-base-800 rounded-[8px] px-8 py-4 mt-4 '>
-              Lorem ipsum dolor sit amet consectetur. Pellentesque imperdiet ipsum sit convallis viverra risus
-              tristique. Dolor quam venenatis sollicitudin pulvinar vt elementum diam urna aliquam arcu. Semper ut
-              lacinia massa volutpat ac mi interdum donec. Et sit diam turpis id.
+            <p className='font-bold font-ubuntu border border-base-800 rounded-[8px] px-4 py-4 mt-4 '>
+              {nft?.description}
             </p>
           </div>
         </div>
@@ -127,12 +125,7 @@ export default function ProjectionTab({ nft }) {
       <div className='w-full mt-6 md:mt-1 '>
         <p className='text-20 font-medium font-ubuntu text-center md:text-start '>why is it attractive?</p>
         <div className='w-full border border-base-800 rounded-[8px] mt-4 p-4 '>
-          <p className='font-bold font-ubuntu w-full max-w-[880px] mx-auto opacity-60 '>
-            olutpat quisque turpis. Sit gravida vitae sem mi vitae donec eros facilisi consectetur. Tellus ipsum sit
-            ornare sed consequat. Velit in suspendisse eu mauris sit nulla neque dictum sagittis. Habitant massa elit
-            ultricies consequat est. Et dictum tempor pulvinar risus. Quam ornare fermentum nec ut sit fermentum euismod
-            amet iaculis. Vel nisl ut lacinia dolor augue. Duis e
-          </p>
+          <p className='font-bold font-ubuntu w-full '>{nft?.attractive}</p>
         </div>
       </div>
       <Projections />

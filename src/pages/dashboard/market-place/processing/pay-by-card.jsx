@@ -32,6 +32,7 @@ export default function Page() {
   // console.log({ amount, tokenAddress, amounts1: initailPropert.values });
 
   const selectedNFT = getPropertyList?.filter((item) => item.id === paramsId)?.[0];
+  console.log("🚀 ~ Page ~ selectedNFT:", selectedNFT)
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -74,7 +75,7 @@ export default function Page() {
               <p className='font-bold font-ubuntu my-2'>{selectedNFT?.name}</p>
               <div className='grid grid-cols-2 gap-2'>
                 <p>Price: </p>
-                <p className='uppercase ml-auto'>$ {selectedNFT?.propertyPrice}</p>
+                <p className='uppercase ml-auto'>$ {selectedNFT?.tokenPrice}</p>
                 <p>Property Type: </p>
                 <p className='uppercase ml-auto'>{selectedNFT?.houseType}</p>
               </div>

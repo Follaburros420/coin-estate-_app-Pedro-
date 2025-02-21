@@ -1,11 +1,11 @@
-import React, { useCallback, useRef } from "react";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import React, { useCallback, useRef } from 'react';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
-const libraries = ["places"];
+const libraries = ['places'];
 
 const mapContainerStyle = {
-  height: "400px",
-  width: "100%",
+  height: '400px',
+  width: '100%',
 };
 
 const options = {
@@ -18,7 +18,7 @@ const defaultCenter = { lat: 3.6532, lng: 17.3832 };
 
 export default function GoogleMapNew({ coordinates = [], icon }) {
   const { isLoaded, loadError } = useLoadScript({
-    // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     libraries,
   });
 
@@ -28,25 +28,22 @@ export default function GoogleMapNew({ coordinates = [], icon }) {
     mapRef.current = map;
   }, []);
 
-  if (loadError) return "Error loading maps";
-  if (!isLoaded) return "Loading maps...";
+  if (loadError) return 'Error loading maps';
+  if (!isLoaded) return 'Loading maps...';
 
   // Set the map center to the first location or the default
   const center =
-    coordinates.length > 0
-      ? { lat: coordinates[0].Latitude, lng: coordinates[0].Longitude }
-      : defaultCenter;
+    coordinates.length > 0 ? { lat: coordinates[0].Latitude, lng: coordinates[0].Longitude } : defaultCenter;
 
   return (
     <div>
       <GoogleMap
-        id="map"
+        id='map'
         mapContainerStyle={mapContainerStyle}
         zoom={8}
         center={center}
         options={options}
-        onLoad={onMapLoad}
-      >
+        onLoad={onMapLoad}>
         {coordinates.map((location, index) => (
           <Marker
             key={index}

@@ -18,7 +18,7 @@ const defaultCenter = { lat: 3.488739139266961, lng: -73.12580392802624 };
 
 export default function GoogleMapAdmin({ setSelectedLocation, selectedLocation }) {
   const { isLoaded, loadError } = useLoadScript({
-    // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     libraries,
   });
 
@@ -26,6 +26,7 @@ export default function GoogleMapAdmin({ setSelectedLocation, selectedLocation }
 
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
+
     // console.log({ map, lat: mapRef?.current?.lat(), lng: mapRef?.current?.lng() });
   }, []);
 

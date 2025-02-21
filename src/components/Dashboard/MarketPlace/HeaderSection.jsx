@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 'use client';
+import ProgressBar from '@/components/ProgressBar';
 import StyledImage from '@/components/StyedImage';
 import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
 import { useMutationInitiatePayment } from '@/hooks/mutation';
@@ -15,6 +16,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const params = useParams();
   const [amount, setAmount] = useState(0);
   const remaning = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
+  console.log({ selectedNFT, userData });
   const onSuccess = () => {
     router.push(
       `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
@@ -79,7 +81,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
               <div className='flex items-center pr-5 gap-2 border-r border-r-base-800 '>
                 <StyledImage src='/assets/svg/GoldenTokens.svg' className='w-14 h-14 ' />
                 <div className='text-center '>
-                  <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaning?.remaning }</p>
+                  <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaning?.remaning}</p>
                   <p className='sm:text-20 font-bold text-white sm:mt-2 leading-none '>Tokens Disponibles</p>
                 </div>
               </div>
@@ -95,11 +97,12 @@ export default function HeaderSection({ selectedNFT, userData }) {
           </div>
           <div className='mt-7 md:mt-14 '>
             <p className='text-20 font-bold mt-8 '>Progreso de Venta:</p>
-            <StyledImage src='/assets/images/LoadingBar.png' className='h-8 w-full mt-6 ' />
+            <ProgressBar totalValue={selectedNFT?.tokenPrice} value={remaning?.remaning} />
+            {/* <StyledImage src='/assets/images/LoadingBar.png' className='h-8 w-full mt-6 ' /> */}
             <div className='flex items-center justify-between mt-4 '>
-              <p className='sm:text-20 font-bold '>82.3%</p>
+              <p className='sm:text-20 font-bold '>{remaning?.remaning}</p>
               <div className='sm:text-20 font-bold text-center leading-none '>
-                <p className=' '>99.72</p>
+                <p className=' '>{selectedNFT?.tokenPrice}</p>
                 <p>Total Tokens</p>
               </div>
             </div>
