@@ -65,44 +65,47 @@ export default function FinancialTab({ nft }) {
     {
       id: 1,
       title: 'Ingreso Bruto',
-      price: nft?.grossIncome || '$34,800',
+      price: nft?.grossIncome || '34,800',
     },
     {
       id: 2,
       title: 'Administración',
-      price: nft?.management || '$3,480',
+      price: nft?.management || '3,480',
     },
     {
       id: 3,
       title: 'Impuestos',
-      price: nft?.taxes || '$1,740',
+      price: nft?.taxes || '1,740',
     },
     {
       id: 4,
       title: 'Seguros',
-      price: nft?.insurance || '$1,044',
+      price: nft?.insurance || '1,044',
     },
     {
       id: 5,
       title: 'Mantenimiento Propiedad',
-      price: nft?.propertyMaintenance || '$1,700',
+      price: nft?.propertyMaintenance || '1,700',
     },
     {
       id: 6,
       title: 'Mantenimiento SPV',
-      price: nft?.propertyMaintenance || '$1,740',
+      price: nft?.SPVMaintenance || '1,740',
     },
     {
       id: 5,
       title: 'Reserva de Vacancia',
-      price: nft?.SPVMaintenance || '$1,700',
+      price: nft?.vacancyReserve || '1,700',
     },
     {
       id: 5,
       title: 'Ingreso Neto',
+      price: nft?.netAnualIncome || '1,700',
       imgUrl: '/assets/svg/Exclamation.svg',
     },
   ];
+  console.log(nft)
+
 
   // nft?.vacancyReserve
 
@@ -192,7 +195,7 @@ export default function FinancialTab({ nft }) {
                     </p>
                     {item.imgUrl && <StyledImage src={item.imgUrl} className='w-4 h-4' />}
                   </div>
-                  <p className='text-brown-100 '> {item.price && '$' + item.price}</p>
+                  <p className='text-white '> {item.price && '$' + item.price}</p>
                 </div>
               );
             })}

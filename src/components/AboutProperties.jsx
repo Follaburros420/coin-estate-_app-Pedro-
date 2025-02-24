@@ -60,7 +60,8 @@ export default function AboutProperties({ getPropertyList }) {
                         Token Price
                       </p>
                       <p className="text-14 font-inter  mt-1 font-semibold text-black-100">
-                        {items.tokenPrice}
+                        {/* {items.tokenPrice} */}
+                        {items?.totalInvestmentPrice}
                       </p>
                     </div>
                     <img src={'/assets/svg/questionMark.svg'} alt="" />
