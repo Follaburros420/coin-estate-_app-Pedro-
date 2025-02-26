@@ -117,39 +117,38 @@ export default function ExchangeRateChart() {
   // Filter Data by Time Range
   const getFilteredData = () => {
     const timeRanges = {
-      "1D": 24 * 60 * 60 * 1000,
-      "1W": 7 * 24 * 60 * 60 * 1000,
-      "1M": 30 * 24 * 60 * 60 * 1000,
-      "1Y": 365 * 24 * 60 * 60 * 1000,
+      '1D': 24 * 60 * 60 * 1000,
+      '1W': 7 * 24 * 60 * 60 * 1000,
+      '1M': 30 * 24 * 60 * 60 * 1000,
+      '1Y': 365 * 24 * 60 * 60 * 1000,
     };
-  
+
     const currentTime = Date.now(); // Get current timestamp
     const selectedRange = timeRanges[filter]; // Get range in milliseconds
-  
+
     return formattedData?.filter((d) => currentTime - Number(d.timestamp) <= selectedRange) || [];
   };
-  
 
   return (
-    <div className='p-4'>
+    <div className='p-4 md:p-0'>
       {/* <button onClick={() => sendData({ value: copRate })}>Click to send</button> */}
       <h2 className='text-xl font-bold mb-4'>USD to COP Exchange Rate</h2>
 
       {/* Filter Buttons */}
-      <div className='mb-4 flex gap-2'>
-        {['1D', '1W', '1M', '1Y'].map((range) => (
-          <button
-            key={range}
-            className={`px-4 py-2 rounded ${filter === range ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
-            onClick={() => setFilter(range)}>
-            {range}
-          </button>
-        ))}
-      </div>
-
-      {/* Chart */}
       <div style={{ background: '#1e1e1e', padding: '20px', borderRadius: '10px' }}>
-        <ResponsiveContainer width='100%' height={300}>
+        <div className='mb-4 flex gap-2'>
+          {['1D', '1W', '1M', '1Y'].map((range) => (
+            <button
+              key={range}
+              className={`px-4 py-2 rounded ${filter === range ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+              onClick={() => setFilter(range)}>
+              {range}
+            </button>
+          ))}
+        </div>
+
+        {/* Chart */}
+        <ResponsiveContainer width='100%' height={350}>
           <LineChart data={getFilteredData()}>
             <CartesianGrid strokeDasharray='3 3' stroke='#333' />
             <XAxis dataKey='date' tick={{ fill: '#fff' }} />
@@ -159,7 +158,7 @@ export default function ExchangeRateChart() {
               tickCount={5}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Line type='monotone' dataKey='cop' stroke='#ff6b6b' strokeWidth={2} dot={false} />
+            <Line type='monotone' dataKey='cop' stroke='#ffc96b' strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -220,7 +219,7 @@ const CustomTooltip = ({ active, payload, label }) => {
           color: '#fff',
           padding: '8px',
           borderRadius: '5px',
-          border: '1px solid #ff6b6b',
+          border: '1px solid #ffc96b',
         }}>
         <p>{`${label}`}</p>
         <p style={{ fontWeight: 'bold' }}>{`${payload[0].value}`}</p>

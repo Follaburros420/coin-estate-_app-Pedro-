@@ -3,15 +3,19 @@ import React from "react";
 import RegisterBottomBanner from "./RegisterBottomBanner";
 import { SourceUrl } from "@/hooks/queryContants";
 import { useRouter } from "next/navigation";
+import { useQueryGetActiveResults } from "@/hooks/query";
 
 
 export default function AboutProperties({ getPropertyList }) {
   const router = useRouter()
+    const { data: userData } = useQueryGetActiveResults();
+  
   return (
     <div className="mt-16 max-w-[1161px] mx-auto w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {getPropertyList?.map((items, idx) => {
           const mainImage = SourceUrl + items?.image
+          const remaning = userData?.values?.filter((item) => item.propertyId === items?.id)?.[0];
 
           return (
             <div
@@ -25,9 +29,9 @@ export default function AboutProperties({ getPropertyList }) {
                   <img src={mainImage} alt="" className="h-full object-cover w-full" />
                 </div>
                 <div className="flex justify-between">
-                  <button className="absolute top-4 left-4 py-1.5 px-4 bg-skyblue rounded-full text-12 font-inter font-semibold text-black-100 ">
+                  {/* <button className="absolute top-4 left-4 py-1.5 px-4 bg-skyblue rounded-full text-12 font-inter font-semibold text-black-100 ">
                     30%
-                  </button>
+                  </button> */}
                   <button className="absolute top-4 right-4 py-1.5 px-4 bg-black-100 rounded-full text-12 font-inter font-semibold text-white ">
                     {items.propertyType}
                   </button>
@@ -106,7 +110,7 @@ export default function AboutProperties({ getPropertyList }) {
                 </div>
                 <p className="mt-4 font-inter text-14 text-end font-semibold text-black-100">
                   Tokens Disponibles:{" "}
-                  <span className="text-yellow  font-regular">{items?.availableTokens} </span>{" "}
+                  <span className="text-yellow  font-regular">{items?.tokenPrice - remaning?.remaning} </span>{" "}
                 </p>
               </div>
             </div>

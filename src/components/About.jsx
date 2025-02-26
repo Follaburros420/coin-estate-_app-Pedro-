@@ -3,7 +3,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="px-6 ">
+    <div className="px-6 mt-10 border-t border-gray-light pt-6">
       <div className="max-w-[1161px] mx-auto w-full">
         <div className=" pb-8">
           <div className="grid grid-cols-2 md:grid-cols-3 ">

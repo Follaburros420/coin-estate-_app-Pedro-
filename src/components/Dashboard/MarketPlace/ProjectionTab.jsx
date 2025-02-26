@@ -5,6 +5,7 @@ import clsxm from '@/utils/clsxm';
 import React, { useState } from 'react';
 import Simulator from './Simulator';
 import Projections from './Projections';
+import GoogleMapNew from '@/components/GoogleMap';
 
 export default function ProjectionTab({ nft }) {
   const [isSelected, setIsSelected] = useState(false);
@@ -116,6 +117,11 @@ export default function ProjectionTab({ nft }) {
             <p className='font-bold font-ubuntu border border-base-800 rounded-[8px] px-4 py-4 mt-4 '>
               {nft?.description}
             </p>
+            <div className='my-4'>
+              <GoogleMapNew
+              // coordinates={nft?.location}
+              />
+            </div>
           </div>
         </div>
         <div className='col-span-3 w-full xl:col-span-1 '>

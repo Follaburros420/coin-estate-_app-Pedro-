@@ -7,7 +7,7 @@ export const conciseAddress = (address, startSlice = 6, endSlice = 3) => {
 
 export function formatNumberIndianStyle(number) {
   if (number) {
-    return number?.toLocaleString('en-IN');
+    return number?.toLocaleString('es-CO');
   } else {
     return '0.0';
   }

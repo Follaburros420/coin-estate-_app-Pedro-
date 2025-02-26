@@ -31,8 +31,8 @@ export default async function handler(req, res) {
   await prisma.session.create({
     data: { userId: user.id, expiresAt: sessionExpiresAt },
   });
-   
-  const address = decrypt(user.destinationValues)
 
-  res.status(200).json({ token, expiresAt: sessionExpiresAt, email, address: address });
+  const address = decrypt(user.destinationValues);
+
+  res.status(200).json({ token, expiresAt: sessionExpiresAt, email, address: address, username: user?.username });
 }

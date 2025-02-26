@@ -18,7 +18,7 @@ const defaultCenter = { lat: 3.6532, lng: 17.3832 };
 
 export default function GoogleMapNew({ coordinates = [], icon }) {
   const { isLoaded, loadError } = useLoadScript({
-    // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     libraries,
   });
 
@@ -33,7 +33,7 @@ export default function GoogleMapNew({ coordinates = [], icon }) {
 
   // Set the map center to the first location or the default
   const center =
-    coordinates.length > 0 ? { lat: coordinates[0].Latitude, lng: coordinates[0].Longitude } : defaultCenter;
+    coordinates?.length > 0 ? { lat: coordinates[0].Latitude, lng: coordinates[0].Longitude } : defaultCenter;
 
   return (
     <div>
@@ -44,7 +44,7 @@ export default function GoogleMapNew({ coordinates = [], icon }) {
         center={center}
         options={options}
         onLoad={onMapLoad}>
-        {coordinates.map((location, index) => (
+        {coordinates?.map((location, index) => (
           <Marker
             key={index}
             position={{ lat: location.Latitude, lng: location.Longitude }}

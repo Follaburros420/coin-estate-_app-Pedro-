@@ -36,7 +36,7 @@ function encrypt(text) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
 
   // Check if user already exists
   const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -54,6 +54,7 @@ export default async function handler(req, res) {
   const newUser = await prisma.user.create({
     data: {
       email,
+      username: username,
       listHash: hashedPassword,
       destinationValues: destinationValues,
       destinationCalculation: destinationCalculation,

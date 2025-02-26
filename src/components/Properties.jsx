@@ -19,7 +19,7 @@ export default function Properties({  handleFilter, sortByMostRecent, handleSear
       </h1>
       <div className="mt-8">
         <div className="flex flex-col md:flex-row items-center justify-between w-full gap-6 sm:gap-10 ">
-          <div className="flex items-center justify-between sm:justify-center md:justify-start gap-2 ">
+          {/* <div className="flex items-center justify-between sm:justify-center md:justify-start gap-2 ">
             {MarketPlace_List_Content.map((item, idx) => {
               return (
                 <button
@@ -36,7 +36,7 @@ export default function Properties({  handleFilter, sortByMostRecent, handleSear
                 </button>
               );
             })}
-          </div>
+          </div> */}
           <div className="max-w-[375px] w-full rounded-full border border-grey-200 py-2 px-3 mt-4 lg:mt-0 hidden lg:flex items-center gap-2.5">
             <StyledImage
               src="/assets/svg/search.svg"
@@ -55,7 +55,7 @@ export default function Properties({  handleFilter, sortByMostRecent, handleSear
             />
           </div>
 
-          <div className="flex gap-2 items-center justify-between w-full sm:max-w-[250px] ">
+          <div className="flex gap-2 items-center justify-between w-full sm:max-w-[270px] ">
             <p className="text-12 font-semibold font-inter text-grey-100 ">
               Ordenado por:
             </p>

@@ -9,6 +9,7 @@ import Layout from '@/layout/admin';
 import { useYupValidationResolver } from '@/utils/helper';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { useAccount } from 'wagmi';
 import * as yup from 'yup';
 
@@ -566,7 +567,7 @@ export default function Home({ options }) {
 
               <div className='w-full max-w-[500px] mt-8 mx-auto'>
                 <button
-                  className=' text-13 md:text-16 px-4 md:px-5 py-3 mt-4 w-full  text-black font-bold uppercase rounded-lg border'
+                  className='text-13 md:text-16 px-4 md:px-5 py-3 mt-4 w-full text-black font-bold uppercase rounded-lg border'
                   type='submit'>
                   {buttonState}
                 </button>

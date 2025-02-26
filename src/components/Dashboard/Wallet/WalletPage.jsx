@@ -14,11 +14,12 @@ import ExchangeRateGraph from '../ExchangeChart';
 import WalletCurrency from './WalletCurrency';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
+import Link from 'next/link';
+import { baseScan } from '@/hooks/queryContants';
 
 export default function WalletPage() {
   const location = usePathname();
   const { data: userData } = useQueryGetActiveResults();
-  console.log('🚀 ~ WalletPage ~ userData:', userData?.userProperties?.[0]?.netAnualIncome);
   const { data: user } = useQueryGetUser();
 
   const [data, setData] = useState([
@@ -87,16 +88,18 @@ export default function WalletPage() {
           </div>
           <div>
             <div className='lg:mt-6 '>
-              <p className='text-18 font-ubuntu font-medium leading-none '>Maria Moñitos</p>
-              <p className='text-16 font-ubuntu font-medium text-grey-700 '>User-ertw2</p>
+              <p className='text-18 font-ubuntu font-medium leading-none '>{user?.username}</p>
+              <p className='text-16 font-ubuntu font-medium text-grey-700 '>{conciseAddress(user?.email)}</p>
             </div>
             <div className='mt-1 lg:mt-4 '>
               <div className='flex items-center gap-2 '>
-                <p className='text-18 font-medium font-ubuntu w- '>Blockchain Address</p>
+                <p className='text-18 font-medium font-ubuntu'>Blockchain Address</p>
                 <StyledImage src={'/assets/svg/Exclamation.svg'} className='w-3 h-3 mt-1 ' />
               </div>
               <div className='flex items-center gap-[6px] '>
-                <p className='text-16 font-ubuntu font-medium text-grey-700 '>{conciseAddress(user?.address)}</p>
+                <Link target='_blank' href={baseScan + user?.address} className='text-16 font-ubuntu font-medium text-grey-700 '>
+                  {conciseAddress(user?.address)}
+                </Link>
                 <StyledImage src='/assets/svg/Blocks.svg' className='w-9 h-3 ' />
               </div>
             </div>
@@ -170,11 +173,11 @@ export default function WalletPage() {
         </div>
       </div>
       <WalletCurrency total={total} available={getTokenCalculation?.totalEarnings} />
-      <div className='w-full grid grid-cols-1 xl:grid-cols-3 gap-5 2xl:gap-10 mt-6 lg:mt-12 '>
+      <div className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5 2xl:gap-10 mt-6 lg:mt-12 '>
         <div className='xl:col-span-1 '>
           <WalletInvestments data={userData?.invest?.payments} />
         </div>
-        <div className='xl:col-span-2 '>
+        <div className='xl:col-span-1 '>
           {/* <WalletCompartiment /> */}
           <ExchangeRateGraph data={data} />
         </div>

@@ -23,3 +23,5 @@ export const SourceUrl = 'https://gateway.pinata.cloud/ipfs/';
 
 export const user_auth = 'coin';
 export const admins = ['admin@gmail.com', 'superadmin@gmail.com'];
+
+export const baseScan ='https://testnet.bscscan.com/address/'

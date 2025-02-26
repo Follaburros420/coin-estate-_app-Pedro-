@@ -6,9 +6,8 @@ import { useParams } from 'next/navigation';
 
 export default function MarketPlace() {
   const params = useParams();
-  const { data: mintedNftsList } = useQueryGetMintedTokenlist();
   const { data: getPropertyList } = useQueryGetMarketPlaceList();
-  const { data: userData, refetch } = useQueryGetActiveResults();
+  const { data: userData } = useQueryGetActiveResults();
 
   const selectedNFT = getPropertyList?.filter((item) => item.id === params?.market_place)?.[0];
 

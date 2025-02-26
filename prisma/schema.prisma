@@ -16,6 +16,7 @@ datasource db {
 model User {
   id                     String    @id @default(auto()) @map("_id") @db.ObjectId
   email                  String    @unique
+  username               String?
   listHash               String
   destinationValues      String
   userTokens             String[]  @default([]) // Default to an empty array
@@ -78,7 +79,7 @@ model property {
   bathRoom             Int
   roomSize             Float
   constructionYear     String
-  // attributes           Attribute[]
+  // attributes           Attribute[] total investment price we need to use every ware as a total amount of token
   saleStatus           String
   houseType            String
   location             String
