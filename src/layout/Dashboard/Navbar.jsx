@@ -15,16 +15,16 @@ export default function Navbar({ toggleSidebar }) {
   };
   const router = useRouter();
   return (
-    <div className='bg-black-500 lg:px-11 px-4 py-5 fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-28 shadow-lg border-b border-black-600'>
+    <div className='glass lg:px-11 px-4 py-2 fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-28 shadow-lg border-b border-black-600'>
       <button onClick={() => router.push('/')}>
         <StyledImage src={'/assets/svg/LogoLight.svg'} className='w-[157px] h-9 ' />
       </button>
       <div className='w-full max-w-[83%] ml-auto hidden lg:flex items-center justify-between gap-10 '>
-        <p className='text-24 font-ubuntu font-medium leading-none text-white h-[50px] w-full pt-4 '>
+        {/* <p className='text-20 uppercase font-ubuntu font-medium leading-none text-white h-[50px] w-full pt-4 '>
           {paths[location]}
-        </p>
+        </p> */}
         <div className='hidden lg:flex items-center gap-4 sm:gap-7 w-full justify-end  '>
-          <div className='bg-black-600 py-[14px] px-4 rounded-[6px] w-full max-w-[183px] flex items-center justify-between '>
+          <div className='bg-black-600 py-3 px-4 rounded-[6px] w-full max-w-[183px] flex items-center justify-between '>
             <div className='flex items-center gap-3 w-full '>
               <div className='bg-black-700 w-full max-w-9 h-9 flex items-center justify-center rounded-[8px] p-1 '>
                 <StyledImage src='/assets/svg/Token.svg' className='w-9 h-9 ' />
@@ -33,7 +33,7 @@ export default function Navbar({ toggleSidebar }) {
             </div>
             <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' />
           </div>
-          <div className='bg-black-600 py-[14px] px-4 rounded-[6px] w-full max-w-[183px] flex items-center justify-between '>
+          <div className='bg-black-600 py-3 px-4 rounded-[6px] w-full max-w-[183px] flex items-center justify-between '>
             <div className='flex items-center gap-3 w-full '>
               <div className='bg-black-700 w-full max-w-9 h-9 flex items-center justify-center rounded-[8px] p-1 '>
                 <StyledImage src='/assets/svg/Dollar.svg' className='w-9 h-9 ' />

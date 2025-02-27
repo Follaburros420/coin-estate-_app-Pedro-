@@ -14,7 +14,7 @@ export default function MyProperties() {
   return (
     <div>
       <Layout>
-        <div className="bg-black-800 text-white my-10 ">
+        <div className=" text-white my-10 ">
           <p className="text-28 text-center -mt-5 mb-5 font-ubuntu font-bold lg:hidden leading-none text-white w-full ">
             {paths[location]}
           </p>

@@ -36,7 +36,7 @@ export default function GoogleMapNew({ coordinates = [], icon }) {
     coordinates?.length > 0 ? { lat: coordinates[0].Latitude, lng: coordinates[0].Longitude } : defaultCenter;
 
   return (
-    <div>
+    <div className='rounded-lg overflow-hidden'>
       <GoogleMap
         id='map'
         mapContainerStyle={mapContainerStyle}

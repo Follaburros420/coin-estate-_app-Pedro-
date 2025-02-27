@@ -45,7 +45,7 @@ export default function Page() {
                 }}
                 className={''}
               />
-              {filtered?.length ? <AboutProperties getPropertyList={filtered} /> : 'Loading...'}
+              {filtered?.length ? <AboutProperties isDark={true} getPropertyList={filtered} /> : 'Loading...'}
               <RegisterBottomBanner />
             </div>
           </div>

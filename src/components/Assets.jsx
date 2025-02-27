@@ -51,19 +51,18 @@ export default function Assets() {
   const { data: userData } = useQueryGetActiveResults();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
 
-  console.log({ userData, getTokenCalculation });
 
   return (
-    <div className='px-6 md:px-12 '>
+    <div className='px-6 md:px-12 mt-10 '>
       <div className='max-w-[1161px] mx-auto w-full mt-10 lg:mt-0 '>
         <p className='text-26 md:text-32 text-center md:text-start font-ubuntu font-medium text-Yellow-100'>
           My Assets
         </p>
 
-        <div className='w-full overflow-x-auto hide-scrollbar '>
-          <div className='border min-w-[1000px] border-grey-400 mt-4 p-6 rounded-[26px]'>
+        <div className='w-full overflow-x-auto hide-scrollbar  '>
+          <div className='border min-w-[1000px] border-grey-400 mt-4 p-6 glass_css rounded-[8px]'>
             <table className='table-fixed w-full '>
-              <thead className='text-16 md:text-20 font-regular w-full'>
+              <thead className='text-16 font-regular w-full'>
                 <tr className=' '>
                   <th className='text-start '>Projects</th>
                   <th>Address</th>
@@ -77,7 +76,7 @@ export default function Assets() {
                   return (
                     <tr
                       key={`${items.id}____${idx}`}
-                      className={clsxm('text-center', idx === 3 ? '' : 'border-b border-b-lightGray-500 ')}>
+                      className={clsxm('text-center', idx === userData?.userProperties?.length - 1 ? '' : 'border-b border-b-lightGray-500 ')}>
                       <td className='py-6 '>
                         <img
                           src={SourceUrl + items.image}

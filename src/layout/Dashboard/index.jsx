@@ -10,7 +10,7 @@ export default function Layout({ children }) {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="h-full w-full bg-[#121315] min-h-screen text-white ">
+    <div className="h-full w-full bg-[#000000] min-h-screen text-white ">
       <Navbar toggleSidebar={toggleSidebar} />
       <div>
         <div className="flex lg:gap-5 w-full h-full pt-28 ">

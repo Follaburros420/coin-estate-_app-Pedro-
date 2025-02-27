@@ -10,11 +10,12 @@ export default function Sidebar({ isOpen }) {
   const [isActive, setIsActive] = useState();
   const [isDark, setIsDark] = useState(true);
   const location = usePathname();
+  console.log({location})
 
   return (
     <div
       className={clsxm(
-        ' transform transition-transform duration-300 ease-in-out w-full shadow-lg max-w-[292px] block fixed left-0 top-[75px] lg:top-[105px] bottom-0 z-50 bg-black-900',
+        ' transform transition-transform duration-300 ease-in-out w-full shadow-lg max-w-[292px] block fixed left-0 top-[75px] lg:top-[80px] bottom-0 z-50 glass',
         isOpen ? 'translate-x-0 ' : '-translate-x-full xl:translate-x-0',
       )}>
       <div className='w-full px-4 py-9 h-full flex flex-col justify-between '>
@@ -112,7 +113,7 @@ export default function Sidebar({ isOpen }) {
             }}
             className='flex items-center justify-center mt-12 rounded-[8px] gap-5 bg-red-400 w-full p-2 '>
             <StyledImage src='/assets/svg/Logout.svg' className='w-6 h-6 ' />
-            <p className='text-red-300 text-18 font-ubuntu '>Logout</p>
+            <p className='text-red-300 text-18 font-ubuntu'>Logout</p>
           </button>
         </div>
       </div>

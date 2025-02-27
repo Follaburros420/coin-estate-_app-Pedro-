@@ -10,6 +10,21 @@
   --foreground: #171717;
 }
 
+.glass_css {
+  /* From https://css.glass */
+  /* background: rgba(55, 53, 53, 0.759);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0);
+  backdrop-filter: blur(9.4px);
+  -webkit-backdrop-filter: blur(9.4px);
+  border: 1px solid rgba(255, 255, 255, 0.3); */
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 16px;
+  color: white;
+  background-color: #111
+  /* background: radial-gradient(120% 111.00000000000001% at 0% 0%, #212121 0%, rgba(0, 0, 0, .93) 100%) */
+}
+
 input[type='range'].range-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
