@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import GoogleMapComponent from './GoogleMap';
-import { useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
+import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
 
 const locations = [
   { Latitude: 37.7749, Longitude: -122.4194 }, // San Francisco
@@ -11,6 +11,22 @@ const locations = [
 export default function Income() {
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
+  const { data: userData } = useQueryGetActiveResults();
+
+  const locationsList = userData?.userProperties
+    ?.map((item) => {
+      try {
+        const coordinates = JSON.parse(item?.location); // Directly parse without template literals
+        return {
+          ...coordinates,
+        };
+      } catch (error) {
+        console.error('Invalid JSON format:', item?.location);
+        return null; // Return null or handle the error gracefully
+      }
+    })
+    .filter(Boolean);
+  console.log({ locationsList });
   return (
     <div className='max-w-[1161px] mx-auto w-full px-6 md:px-12'>
       <div className='grid grid-cols-2 gap-8'>
@@ -46,7 +62,7 @@ export default function Income() {
               <p className='font-semibold text-20 '>Map View</p>
             </div>
 
-            <GoogleMapComponent coordinates={locations} />
+            <GoogleMapComponent coordinates={locationsList || locations} />
           </div>
           <div className='max-w-[331px] w-full mx-auto flex items-center justify-between gap-5 mt-5 '>
             <div className='flex flex-col items-center lg:items-end gap-3 text-20 lg:h-[110px] xl:h-[60px] justify-between '>
@@ -54,8 +70,8 @@ export default function Income() {
               <p>in</p>
             </div>
             <div className='flex flex-col items-center lg:items-end gap-3 text-20 text-darkCyan font-semibold lg:h-[110px] xl:h-[60px] justify-between '>
-              <p>200</p>
-              <p>4</p>
+              <p>{getTokenCalculation?.totalTokenBalance}</p>
+              <p>{userData?.userProperties?.length}</p>
             </div>
             <div className='flex flex-col items-start gap-3 text-20 font-semibold lg:h-[110px] xl:h-[60px] justify-between '>
               <p className='text-Yellow-100 '>Tokens</p>

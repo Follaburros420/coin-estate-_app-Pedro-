@@ -103,11 +103,19 @@ export default function Home({ options }) {
   const { mutate: createNftProperty, isPending: isLoadingCreateNftProperty } = useMutateCreateERC884ProPerty(onSuccess);
 
   function handleFormSubmit(value) {
-    if (mainImageData?.IpfsHash && multiFilesList?.length > 0) {
-      setSelected(value);
-      createNftProperty({ name: value?.name, symbols: value?.saleStatus });
+    if (address) {
+      toast.error('Please connect your wallet');
     } else {
-      toast.error('Add Images');
+      if (mainImageData?.IpfsHash && multiFilesList?.length > 0 && selectedLocation) {
+        setSelected(value);
+        createNftProperty({ name: value?.name, symbols: value?.saleStatus });
+      } else {
+        if (!selectedLocation) {
+          toast.error('Please Select Location');
+        } else {
+          toast.error('Please Add Images');
+        }
+      }
     }
   }
 

@@ -1,10 +1,8 @@
 "use client"
-import AdminAbout from "@/components/AdminAbout";
 import Assets from "@/components/Assets";
 import Income from "@/components/Income";
 import Layout from "@/layout/Dashboard";
 import { usePathname } from "next/navigation";
-import React from "react";
 
 export default function MyProperties() {
   const location = usePathname();

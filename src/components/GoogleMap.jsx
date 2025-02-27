@@ -40,7 +40,7 @@ export default function GoogleMapNew({ coordinates = [], icon }) {
       <GoogleMap
         id='map'
         mapContainerStyle={mapContainerStyle}
-        zoom={8}
+        zoom={7}
         center={center}
         options={options}
         onLoad={onMapLoad}>
