@@ -66,6 +66,7 @@ export default function Home({ options }) {
 
   const resolver = useYupValidationResolver(validationSchemaProperty);
   const { address } = useAccount();
+  console.log("🚀 ~ Home ~ address:", address)
   const { data: user } = useQueryGetUser();
   const [selected, setSelected] = useState();
   const {
@@ -103,7 +104,7 @@ export default function Home({ options }) {
   const { mutate: createNftProperty, isPending: isLoadingCreateNftProperty } = useMutateCreateERC884ProPerty(onSuccess);
 
   function handleFormSubmit(value) {
-    if (address) {
+    if (!address) {
       toast.error('Please connect your wallet');
     } else {
       if (mainImageData?.IpfsHash && multiFilesList?.length > 0 && selectedLocation) {
