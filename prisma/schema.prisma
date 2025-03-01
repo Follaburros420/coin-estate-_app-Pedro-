@@ -80,8 +80,8 @@ model property {
   roomSize             Float
   constructionYear     String
   // attributes           Attribute[] total investment price we need to use every ware as a total amount of token
-  saleStatus           String
-  houseType            String
+  saleStatus           String?
+  houseType            String?
   location             String
   netAnualIncome       Float
   propertyType         String
@@ -89,7 +89,7 @@ model property {
   tokenPrice           Float
   expectedIncome       Float
   roiExpected          Float
-  availableTokens      Int
+  availableTokens      Int?
   expectedAnnual       Float
   averageDollar        Float
   totalReturn          Float

@@ -2,6 +2,7 @@
 import React from 'react';
 import GoogleMapComponent from './GoogleMap';
 import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
+import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 
 const locations = [
   { Latitude: 37.7749, Longitude: -122.4194 }, // San Francisco
@@ -26,7 +27,15 @@ export default function Income() {
       }
     })
     .filter(Boolean);
-  console.log({ locationsList });
+
+  let tokenCOPPrice = getTokenCalculation?.totalTokenBalance * tokenPrice;
+  tokenCOPPrice = tokenCOPPrice?.toFixed(2);
+  tokenCOPPrice = Number(tokenCOPPrice);
+
+  let totalCOPEarning = getTokenCalculation?.totalEarnings * tokenPrice;
+  totalCOPEarning = totalCOPEarning.toFixed(2);
+  totalCOPEarning = Number(totalCOPEarning);
+
   return (
     <div className='max-w-[1161px] mx-auto w-full px-6 md:px-12'>
       <div className='grid grid-cols-2 gap-8'>
@@ -36,22 +45,22 @@ export default function Income() {
               <p className='text-18 md:text-20 font-ubuntu font-medium'>Total Investment </p>
               <div className='mt-4  bg-grey-500 flex gap-5 items-center max-w-[200px] rounded-[8px] py-3 px-2'>
                 <p className='bg-Yellow-100 font-bold text-black-100 leading-6 px-[8px] rounded-[8px] py-1'>
-                  {getTokenCalculation?.totalTokenBalance}
+                  {formatNumberIndianStyle(getTokenCalculation?.totalTokenBalance)}
                 </p>
                 <p className='text-20 font-bold font-ubuntu'>USD</p>
               </div>
-              <p className='mt-4 text-14 font-regular text-grayTwo '>
-                ={getTokenCalculation?.totalTokenBalance * tokenPrice} COP
-              </p>
+              <p className='mt-4 text-14 font-regular text-grayTwo '>={formatNumberIndianStyle(tokenCOPPrice)} COP</p>
             </div>
             <div>
               <p className='text-18 md:text-20 font-ubuntu font-medium'>Monthly Income </p>
               <div className='mt-4  bg-grey-500 flex gap-5 items-center max-w-[200px] rounded-[8px] p-3'>
-                <p className='bg-zink  px-4 rounded-[8px] py-1'>{getTokenCalculation?.totalEarnings}</p>
+                <p className='bg-zink  px-4 rounded-[8px] py-1'>
+                  {formatNumberIndianStyle(getTokenCalculation?.totalEarnings)}
+                </p>
                 <p className='text-20 font-bold font-ubuntu'>USD</p>
               </div>
               <p className='mt-4 text-14 font-regular text-grayTwo '>
-                ={getTokenCalculation?.totalEarnings * tokenPrice || 0} COP
+                ={formatNumberIndianStyle(totalCOPEarning) || 0} COP
               </p>
             </div>
           </div>

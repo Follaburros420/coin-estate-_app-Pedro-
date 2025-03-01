@@ -44,14 +44,14 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                   <div className='mt-3 flex gap-6 items-center'>
                     <div>
                       <p className='text-14 font-inter  font-regular text-grey-100'>Token Price</p>
-                      <p className='text-14 font-inter  mt-1 font-semibold '>{items?.totalInvestmentPrice}</p>
+                      <p className='text-14 font-inter  mt-1 font-semibold '>{items?.tokenPrice}</p>
                     </div>
                   </div>
                   <hr className=' border border-r-1 mt-4 h-[44px] border-grey-100' />
                   <div className='mt-3 flex gap-6 items-center'>
                     <div>
                       <p className='text-14 font-inter  font-regular text-grey-100'>Total Price</p>
-                      <p className='text-14 font-inter  mt-1 font-semibold text-end '>{items.propertyPrice}</p>
+                      <p className='text-14 font-inter  mt-1 font-semibold text-end '>{items.totalInvestmentPrice}</p>
                     </div>
                   </div>
                 </div>

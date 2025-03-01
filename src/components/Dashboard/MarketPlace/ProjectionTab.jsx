@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import Simulator from './Simulator';
 import Projections from './Projections';
 import GoogleMapNew from '@/components/GoogleMap';
+import Link from 'next/link';
 
 export default function ProjectionTab({ nft }) {
   const [isSelected, setIsSelected] = useState(false);
@@ -18,13 +19,7 @@ export default function ProjectionTab({ nft }) {
       title: 'Bedroom',
       desc: nft?.bedRoom || '4',
     },
-    // {
-    //   id: 2,
-    //   imgUrlActive: "/assets/svg/ProjectionTab/active/TypeIcon.svg",
-    //   imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/TypeIcon.svg",
-    //   title: "Type",
-    //   desc: nft.bedRoom || "Home",
-    // },
+
     {
       id: 3,
       imgUrlActive: '/assets/svg/ProjectionTab/active/BathIcon.svg',
@@ -32,13 +27,6 @@ export default function ProjectionTab({ nft }) {
       title: 'Bath',
       desc: nft?.bathRoom || '3',
     },
-    // {
-    //   id: 4,
-    //   imgUrlActive: "/assets/svg/ProjectionTab/active/Parking.svg",
-    //   imgUrlUnActive: "/assets/svg/ProjectionTab/unActive/Parking.svg",
-    //   title: "Parking",
-    //   desc: "Yes",
-    // },
     {
       id: 5,
       imgUrlActive: '/assets/svg/ProjectionTab/active/Sqft.svg',
@@ -130,8 +118,16 @@ export default function ProjectionTab({ nft }) {
       </div>
       <div className='w-full mt-6 md:mt-1 '>
         <p className='text-20 font-medium font-ubuntu text-center md:text-start '>why is it attractive?</p>
-        <div className='w-full border border-base-800 rounded-[8px] mt-4 p-4 '>
+        <div className='w-full border border-base-800 rounded-[8px] mt-2 p-4 '>
           <p className='font-bold font-ubuntu w-full '>{nft?.attractive}</p>
+        </div>
+      </div>
+      <div className='w-full mt-6 md:mt-1 '>
+        <p className='text-20 font-medium font-ubuntu text-center md:text-start'>Property Documents</p>
+        <div className='w-full border border-base-800 rounded-[8px] mt-2 p-4  overflow-auto '>
+          <Link href={nft?.documents} target='_blank' className='font-bold font-ubuntu underline text-yellow w-full'>
+            {nft?.documents || 'Not Found...!'}
+          </Link>
         </div>
       </div>
       <Projections />

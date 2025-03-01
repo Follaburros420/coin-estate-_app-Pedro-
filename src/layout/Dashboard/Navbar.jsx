@@ -29,7 +29,7 @@ export default function Navbar({ toggleSidebar }) {
               <div className='bg-black-700 w-full max-w-9 h-9 flex items-center justify-center rounded-[8px] p-1 '>
                 <StyledImage src='/assets/svg/Token.svg' className='w-9 h-9 ' />
               </div>
-              <p>{userData?.totalInvest}</p>
+              <p>${userData?.totalInvest}</p>
             </div>
             <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' />
           </div>

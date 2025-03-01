@@ -26,15 +26,15 @@ const validationSchemaProperty = yup.object({
   roomSize: yup.number().required('roomSize required'),
   constructionYear: yup.string().required('constructionYear required'),
   propertyMaintenance: yup.number().required('propertyMaintenance required'),
-  saleStatus: yup.string().required('please select an option'),
-  houseType: yup.string().required('location is required'),
+  // saleStatus: yup.string().required('please select an option'),
+  // houseType: yup.string().required('location is required'),
   // location: yup.string().required('location is required'),
   netAnualIncome: yup.number().required('net anual income is required'),
   propertyType: yup.string().required('please select Property Type an option'),
   tokenPrice: yup.number().required('token price is required'),
   expectedIncome: yup.number().required('expected income is required'),
   roiExpected: yup.number().required('roi expected income is required'),
-  availableTokens: yup.number().required('available tokens income is required'),
+  // availableTokens: yup.number().required('available tokens income is required'),
   expectedAnnual: yup.number().required('expected annual is required'),
   averageDollar: yup.number().required('average dollar is required'),
   totalReturn: yup.number().required('total return is required'),
@@ -61,18 +61,18 @@ const validationSchemaProperty = yup.object({
   documents: yup.string().required('documents is required'),
 });
 
-export default function Home({ options }) {
+export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const resolver = useYupValidationResolver(validationSchemaProperty);
   const { address } = useAccount();
-  console.log("🚀 ~ Home ~ address:", address)
   const { data: user } = useQueryGetUser();
   const [selected, setSelected] = useState();
   const {
     handleSubmit,
     register,
     control,
+    setValue,
     getValues,
     reset,
     formState: { errors },
@@ -236,7 +236,7 @@ export default function Home({ options }) {
                     register={register('totalReturn')}
                   />
 
-                  <Input
+                  {/* <Input
                     type='number'
                     step={step}
                     Label={'Available Tokens'}
@@ -244,10 +244,11 @@ export default function Home({ options }) {
                     error={errors?.availableTokens}
                     register={register('availableTokens')}
                     className='py-2'
-                  />
+                  /> */}
 
                   <CustomSelect
                     label={'Property Type'}
+                    setValue={setValue}
                     error={errors.propertyType}
                     control={control}
                     name='propertyType'
@@ -346,8 +347,9 @@ export default function Home({ options }) {
                     register={register('location')}
                   /> */}
 
-                  <div className='w-full'>
-                    <CustomSelect
+                  {/* <div className='w-full'> */}
+                  {/* <CustomSelect
+                      setValue={setValue}
                       label={'Status'}
                       error={errors.saleStatus}
                       control={control}
@@ -364,7 +366,7 @@ export default function Home({ options }) {
                       name='houseType'
                       options={['new', 'old', 'refurnished']}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 

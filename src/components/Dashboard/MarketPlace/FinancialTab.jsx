@@ -113,7 +113,7 @@ export default function FinancialTab({ nft }) {
     {
       id: 1,
       title: 'Creación de SPV',
-      price: nft?.vacancyReserve || '$2,000',
+      price: nft?.SPVCreation || '$2,000',
     },
     {
       id: 2,
