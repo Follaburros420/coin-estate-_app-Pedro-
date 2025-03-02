@@ -7,6 +7,7 @@ import Simulator from './Simulator';
 import Projections from './Projections';
 import GoogleMapNew from '@/components/GoogleMap';
 import Link from 'next/link';
+import RealEstateSimulator from '../Simulater';
 
 export default function ProjectionTab({ nft }) {
   const [isSelected, setIsSelected] = useState(false);
@@ -113,7 +114,7 @@ export default function ProjectionTab({ nft }) {
           </div>
         </div>
         <div className='col-span-3 w-full xl:col-span-1 '>
-          <Simulator />
+          <Simulator nft={nft} />
         </div>
       </div>
       <div className='w-full mt-6 md:mt-1 '>
@@ -125,12 +126,16 @@ export default function ProjectionTab({ nft }) {
       <div className='w-full mt-6 md:mt-1 '>
         <p className='text-20 font-medium font-ubuntu text-center md:text-start'>Property Documents</p>
         <div className='w-full border border-base-800 rounded-[8px] mt-2 p-4  overflow-auto '>
-          <Link href={nft?.documents} target='_blank' className='font-bold font-ubuntu underline text-yellow w-full'>
+          <Link
+            href={nft?.documents || ''}
+            target='_blank'
+            className='font-bold font-ubuntu underline text-yellow w-full'>
             {nft?.documents || 'Not Found...!'}
           </Link>
         </div>
       </div>
-      <Projections />
+      {/* <Projections /> */}
+      <RealEstateSimulator />
     </div>
   );
 }

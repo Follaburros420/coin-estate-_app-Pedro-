@@ -5,6 +5,11 @@ export const useGlobalStates = create((set) => ({
   secSelectedToken: null,
   selectedToken: null,
   isOpenModal: false,
+  simulator: {
+    compound: false,
+    results: null,
+    chartData: null,
+  },
   setToken: (value) =>
     set({
       selectedToken: value,
@@ -21,5 +26,13 @@ export const useGlobalStates = create((set) => ({
   setModal: (value) =>
     set({
       isOpenModal: value,
+    }),
+  setModal: (value) =>
+    set({
+      isOpenModal: value,
+    }),
+  setSimulator: (value) =>
+    set({
+      simulator: value,
     }),
 }));

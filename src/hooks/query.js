@@ -311,7 +311,7 @@ export const useQueryGetTokenCopPrice = () => {
     };
 
     const tx = await axios.request(config);
-    return tx?.data?.COP;
+    return tx?.data?.COP?.toFixed(2);
   };
 
   return useQuery({
