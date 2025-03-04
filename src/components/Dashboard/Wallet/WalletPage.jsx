@@ -6,16 +6,16 @@ import {
   useQueryGetTokenPercentage,
   useQueryGetUser,
 } from '@/hooks/query';
+import { baseScan } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
-import { conciseAddress, formatNumberIndianStyle, sumOfValues } from '@/utils/wagmiConfig';
+import { conciseAddress, formatNumberIndianStyle } from '@/utils/wagmiConfig';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import ExchangeRateGraph from '../ExchangeChart';
 import WalletCurrency from './WalletCurrency';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
-import Link from 'next/link';
-import { baseScan } from '@/hooks/queryContants';
 
 export default function WalletPage() {
   const location = usePathname();
@@ -32,8 +32,6 @@ export default function WalletPage() {
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const total = getTokenCalculation?.totalTokenBalance + Number(getTokenCalculation?.totalEarnings);
   let totalNetIncome = 0;
-  const anualNetIncome = userData?.userProperties?.map((item) => (totalNetIncome += item?.netAnualIncome));
-  // console.log('🚀 ~ WalletPage ~ anualNetIncome:', totalNetIncome);
 
   const paths = {
     '/dashboard/admin-wallet': 'Wallet',

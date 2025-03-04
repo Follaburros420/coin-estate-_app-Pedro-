@@ -18,7 +18,6 @@ export default function MyProperties() {
           </p>
           <Income />
           <Assets />
-          {/* <AdminAbout /> */}
         </div>
       </Layout>
     </div>

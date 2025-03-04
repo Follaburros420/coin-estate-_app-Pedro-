@@ -36,7 +36,6 @@ export default function Page() {
                 handleFilter={handleFilter}
                 handleSearch={handleSearch}
                 sortByMostRecent={(title) => {
-                  console.log({ title });
                   if (title === 'Más recientes') {
                     setFiltered(getPropertyList?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
                   } else {
@@ -46,7 +45,6 @@ export default function Page() {
                 className={''}
               />
               {filtered?.length ? <AboutProperties isDark={true} getPropertyList={filtered} /> : 'Loading...'}
-              <RegisterBottomBanner />
             </div>
           </div>
         </div>

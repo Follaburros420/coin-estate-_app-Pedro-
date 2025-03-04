@@ -1,13 +1,14 @@
-import { useQueryGetActiveResults } from '@/hooks/query';
+import { useQueryGetActiveResults, useQueryGetUser } from '@/hooks/query';
 import { SourceUrl } from '@/hooks/queryContants';
+import clsxm from '@/utils/clsxm';
 import { useRouter } from 'next/navigation';
 import ProgressBar from './ProgressBar';
-import RegisterBottomBanner from './RegisterBottomBanner';
-import clsxm from '@/utils/clsxm';
 
 export default function AboutProperties({ getPropertyList, isDark }) {
   const router = useRouter();
   const { data: userData } = useQueryGetActiveResults();
+  const { data: getUser  } = useQueryGetUser();
+  console.log("🚀 ~ AboutProperties ~ getUser:", getUser)
 
   return (
     <div className='mt-16 max-w-[1161px] mx-auto w-full'>
@@ -18,7 +19,7 @@ export default function AboutProperties({ getPropertyList, isDark }) {
           return (
             <div
               key={`${items?.id}___${idx}`}
-              onClick={() => router.push(`/dashboard/market-place/${items.id}`)}
+              onClick={() => getUser?.address ? router.push(`/dashboard/market-place/${items.id}`) : router.push(`/auth/log-in`)}
               className={clsxm(
                 'max-w-[371px]  p-2 mx-auto cursor-pointer lg:mx-0  rounded-[8px] ',
                 isDark ? 'glass' : 'border border-grayTwo',
@@ -80,7 +81,6 @@ export default function AboutProperties({ getPropertyList, isDark }) {
           );
         })}
       </div>
-      <RegisterBottomBanner />
     </div>
   );
 }

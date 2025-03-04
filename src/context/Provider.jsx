@@ -33,7 +33,7 @@ export default function AuthProvider() {
 
   useEffect(() => {
     refetch()
-    if (!user?.email && !isPending && routerPaths?.includes(name)) {
+    if (!user?.email && routerPaths?.includes(name)) {
       router.push('/')
     }
   }, [pathName, user?.email])
