@@ -7,6 +7,7 @@ import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
 import { useMutationInitiatePayment } from '@/hooks/mutation';
 import { SourceUrl } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
+import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -84,7 +85,11 @@ export default function HeaderSection({ selectedNFT, userData }) {
               <div className='flex items-center pr-5 gap-2 border-r border-r-base-800 '>
                 <StyledImage src='/assets/svg/GoldenTokens.svg' className='w-14 h-14 ' />
                 <div className='text-center '>
-                  <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaning?.remaning}</p>
+                  <p className='text-20 text-Yellow-100  '>
+                    {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)}
+                  </p>
+
+                  {/* <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaning?.remaning}</p> */}
                   <p className='sm:text-20 font-bold text-white sm:mt-2 leading-none '>Tokens Disponibles</p>
                 </div>
               </div>
@@ -105,8 +110,9 @@ export default function HeaderSection({ selectedNFT, userData }) {
               <p className='sm:text-20 font-bold '>{remaning?.remaning}</p>
               <div className='sm:text-20 font-bold text-center leading-none '>
                 <p className=' '>
-                  {selectedNFT?.totalInvestmentPrice}{' '}
-                  <span className='text-lightGray-600 text-14 font-semibold'>/ {selectedNFT?.tokenPrice}</span>
+                {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)}
+
+                  {/* <span className='text-lightGray-600 text-14 font-semibold'>/ {selectedNFT?.tokenPrice}</span> */}
                 </p>
               </div>
             </div>
