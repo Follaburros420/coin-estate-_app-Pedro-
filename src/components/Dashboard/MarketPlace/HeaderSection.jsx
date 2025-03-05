@@ -18,6 +18,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const params = useParams();
   const [amount, setAmount] = useState(0);
   const remaning = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
+  console.log({ remaning });
   const onSuccess = () => {
     router.push(
       `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
@@ -60,6 +61,9 @@ export default function HeaderSection({ selectedNFT, userData }) {
     },
   ];
 
+  let remaningTokens = selectedNFT?.totalInvestmentPrice - remaning?.remaning;
+  remaningTokens = remaningTokens / selectedNFT?.tokenPrice;
+
   return (
     <div className='font-ubuntu '>
       <p className='text-28 text-center font-ubuntu font-bold lg:hidden leading-none text-white w-full '>
@@ -67,7 +71,10 @@ export default function HeaderSection({ selectedNFT, userData }) {
       </p>
       <div className='mt-3 lg:mt-5 '>
         <div className='grid grid-rows-2 grid-cols-4 gap-2 rounded-[10px] overflow-hidden '>
-          <img src={SourceUrl + selectedNFT?.image} className='w-full h-full row-span-2 col-span-2 shadow-lg shadow-black-300' />
+          <img
+            src={SourceUrl + selectedNFT?.image}
+            className='w-full h-full row-span-2 col-span-2 shadow-lg shadow-black-300'
+          />
           {selectedNFT?.subImages.map((img, idx) => {
             return <img key={idx + img} src={SourceUrl + img} className='w-full h-full shadow-lg shadow-black-300' />;
           })}
@@ -81,7 +88,8 @@ export default function HeaderSection({ selectedNFT, userData }) {
                 <StyledImage src='/assets/svg/GoldenTokens.svg' className='w-14 h-14 ' />
                 <div className='text-center '>
                   <p className='text-20 text-Yellow-100  '>
-                    {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)}
+                    {remaningTokens}
+                    {/* {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)} */}
                   </p>
 
                   {/* <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaning?.remaning}</p> */}
@@ -100,7 +108,10 @@ export default function HeaderSection({ selectedNFT, userData }) {
           </div>
           <div className='mt-7 md:mt-14 '>
             <p className='text-20 font-bold mt-8 '>Progreso de Venta:</p>
-            <ProgressBar totalValue={selectedNFT?.tokenPrice} value={remaning?.remaning} />
+            <ProgressBar
+              totalValue={selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice}
+              value={remaning?.remaning}
+            />
             <div className='flex items-center justify-between mt-4 '>
               <p className='sm:text-20 font-bold '>{remaning?.remaning}</p>
               <div className='sm:text-20 font-bold text-center leading-none '>
@@ -113,7 +124,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
             </div>
           </div>
         </div>
-        <div className=' w-full col-span-2 xl:col-span-1 '>
+        <div className=' w-full col-span-2 xl:col-span-1'>
           <div className='border glass border-base-800 rounded-[8px] p-6 '>
             <div className='flex items-center justify-center sm:justify-start gap-2'>
               {' '}

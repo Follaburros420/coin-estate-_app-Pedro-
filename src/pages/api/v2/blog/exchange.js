@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       const newEntry = await prisma.exchangeRate.create({
         data: {
           timestamp: `${Date.now()}`, // Store as BigInt
-          cop: parseFloat(cop.toFixed(2)), // Format to two decimal places
+          cop: parseFloat(Number(cop).toFixed(2)), // Format to two decimal places
         },
       });
 

@@ -4,6 +4,7 @@ import StyledImage from './StyedImage';
 import clsxm from '@/utils/clsxm';
 import { useQueryGetActiveResults, useQueryGetTokenPercentage } from '@/hooks/query';
 import { SourceUrl } from '@/hooks/queryContants';
+import { useRouter } from 'next/navigation';
 const ASSETS = [
   {
     id: 1,
@@ -48,9 +49,9 @@ const ASSETS = [
 ];
 
 export default function Assets() {
+  const router= useRouter();
   const { data: userData } = useQueryGetActiveResults();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
-  console.log({userData})
 
 
   return (
@@ -77,8 +78,9 @@ export default function Assets() {
                  const userTokens = userData?.invest?.payments.filter((amount)=>amount?.propertyId === items?.id)?.[0]?.numberOfTokens
                   return (
                     <tr
+                     onClick={()=>router.push(`/dashboard/market-place/${items?.id}`)}
                       key={`${items.id}____${idx}`}
-                      className={clsxm('text-center', idx === userData?.userProperties?.length - 1 ? '' : 'border-b border-b-lightGray-500 ')}>
+                      className={clsxm('text-center cursor-pointer', idx === userData?.userProperties?.length - 1 ? '' : 'border-b border-b-lightGray-500 ')}>
                       <td className='py-6 '>
                         <img
                           src={SourceUrl + items.image}
@@ -100,7 +102,7 @@ export default function Assets() {
                         {items?.tokenPrice}
                       </td>
                       <td className='text-grey-700 text-12 md:text-16 font-regular'>
-                        {userTokens || 3}
+                        {getTokenCalculation?.[items.id]?.purchased / items?.tokenPrice || 3}
                       </td>
                       <td className='text-darkCyan text-12 md:text-16 font-regular'>
                         {getTokenCalculation?.[items?.id]?.earned.toFixed(4)}

@@ -16,7 +16,7 @@ const distributeFunds = (monthlyValues, tokenHolders) => {
 
   // Step 2: Calculate the distribution
   const distribution = monthlyValues.reduce((acc, monthlyToken) => {
-    const { tokenId, percentage, price } = monthlyToken;
+    const { tokenId, percentage, price, totalPrice } = monthlyToken;
 
     // If no holders for this tokenId, skip
     if (!groupedHolders[tokenId]) {
@@ -24,16 +24,22 @@ const distributeFunds = (monthlyValues, tokenHolders) => {
       return acc;
     }
 
-    // Calculate the distributable amount
-    const distributableAmount = (percentage / 100) * price;
+    let distributableAmount = price / totalPrice;
+
+    // Calculate the distributable amount by percentage
+    // let distributableAmount = (percentage / 100) * price;
+    //  distributableAmount = distributableAmount / totalPrice
 
     // Get total tokens held for this tokenId
     const totalTokens = Object.values(groupedHolders[tokenId]).reduce((sum, value) => sum + value, 0);
+    console.log('🚀 ~ distribution ~ totalTokens:', totalTokens, totalPrice);
 
     // Calculate each holder's share
     acc[tokenId] = {};
     for (const userId in groupedHolders[tokenId]) {
-      acc[tokenId][userId] = (groupedHolders[tokenId][userId] / totalTokens) * distributableAmount;
+      acc[tokenId][userId] = totalTokens * distributableAmount;
+
+      // acc[tokenId][userId] = totalTokens * distributableAmount;
     }
 
     return acc;
@@ -82,9 +88,9 @@ export default async function handler(req, res) {
         return acc;
       }, {});
 
-
       // Example Usage
       const result = distributeFunds(monthlyValues, tokenHolders);
+      console.log('🚀 ~ handler ~ result:', result);
 
       const userId = decoded.userId; // User we are calculating for
 
@@ -116,7 +122,7 @@ export default async function handler(req, res) {
         message: 'get monthly recodes',
         data: {
           ...userEarnings,
-          totalEarnings: totalEarnings?.toFixed(2),
+          totalEarnings: totalEarnings?.toFixed(4),
           totalTokenBalance,
           groupedTransactionsAmount,
           groupedTransactions,

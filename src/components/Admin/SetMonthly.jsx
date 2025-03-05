@@ -52,7 +52,7 @@ export default function MonthlyInvestment({ setOpenModel, openModel, refetchList
                   percentage: Number(percentage) || 2,
                   price: Number(inputValue),
                   address: user?.address,
-                  totalPrice: Number(openModel?.propertyPrice),
+                  totalPrice: Number(openModel?.totalInvestmentPrice),
                   tokenAddress: openModel?.tokenAddress,
                 };
                 console.log({ allValues });

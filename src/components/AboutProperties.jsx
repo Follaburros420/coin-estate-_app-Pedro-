@@ -39,7 +39,7 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                   <h5 className='text-16 text-yellow font-inter font-semibold '>{items.name}</h5>
                 </div>
                 <div className='mt-2 rounded-full'>
-                  <ProgressBar totalValue={items?.tokenPrice} value={remaning?.remaning} />
+                  <ProgressBar totalValue={items?.totalInvestmentPrice / items?.tokenPrice} value={remaning?.remaning} />
                 </div>
                 <div className='flex justify-between'>
                   <div className='mt-3 flex gap-6 items-center'>

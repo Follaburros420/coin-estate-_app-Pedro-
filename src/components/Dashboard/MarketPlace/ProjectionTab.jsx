@@ -109,7 +109,7 @@ export default function ProjectionTab({ nft }) {
               {nft?.description}
             </p>
             <div className='my-4'>
-              <GoogleMapNew coordinates={[location]} />
+              <GoogleMapNew coordinates={location > 0 ? [location] : []} />
             </div>
           </div>
         </div>
