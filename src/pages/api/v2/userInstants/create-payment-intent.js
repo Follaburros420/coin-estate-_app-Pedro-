@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       }
 
       // Extract the property ID from the request body
-      const { id, amount } = req.body;
+      const { id, amount: noTokens } = req.body;
 
       if (!id) {
         return res.status(400).json({ error: 'Property ID is required.' });
@@ -32,6 +32,7 @@ export default async function handler(req, res) {
         where: { id },
       });
 
+      const amount = noTokens * property?.tokenPrice;
       if (!property) {
         return res.status(404).json({ error: 'Property not found.' });
       }
@@ -59,12 +60,13 @@ export default async function handler(req, res) {
           userId: decoded.userId,
           amount: amount, // Store the amount in main currency (not cents)
           currency: 'usd',
+          numberOfTokens: noTokens,
+          tokenPrice: property?.tokenPrice,
           propertyId: property.id,
           paymentIntentId: paymentIntent.id,
           status: 'PENDING', // Update this based on webhook events if needed
         },
       });
-      console.log('🚀 ~ handler ~ paymentRecord:', paymentRecord);
 
       // Respond with the client secret for the PaymentIntent
       res.status(201).json({

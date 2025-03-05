@@ -62,8 +62,11 @@ export default async function handler(req, res) {
         paymentIntentId: payment.paymentIntentId,
         status: 'SECCESS',
         propertyId: payment.propertyId,
+        numberOfTokens: payment?.noTokens,
+        tokenPrice: payment?.tokenPrice,
       },
     });
+
 
     const updatedUser = await prisma.user.update({
       where: { id: decoded.userId },

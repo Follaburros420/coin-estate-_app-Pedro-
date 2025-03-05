@@ -32,7 +32,6 @@ export default function Page() {
   // console.log({ amount, tokenAddress, amounts1: initailPropert.values });
 
   const selectedNFT = getPropertyList?.filter((item) => item.id === paramsId)?.[0];
-  console.log("🚀 ~ Page ~ selectedNFT:", selectedNFT)
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -59,7 +58,7 @@ export default function Page() {
         <div className='w-full h-full'>
           {selectedNFT?.id && (
             <Elements stripe={stripePromise} options={options}>
-              <CheckoutPage selectedNFT={selectedNFT} amount={amount} id={selectedNFT?.id} handleModal={handleModal} />
+              <CheckoutPage selectedNFT={selectedNFT} amount={amount * selectedNFT?.tokenPrice } id={selectedNFT?.id} handleModal={handleModal} />
             </Elements>
           )}
 
@@ -74,14 +73,14 @@ export default function Page() {
             <div className='w-full'>
               <p className='font-bold font-ubuntu my-2'>{selectedNFT?.name}</p>
               <div className='grid grid-cols-2 gap-2'>
-                <p>Price: </p>
+                <p>Token Price: </p>
                 <p className='uppercase ml-auto'>$ {selectedNFT?.tokenPrice}</p>
-                <p>Property Type: </p>
-                <p className='uppercase ml-auto'>{selectedNFT?.houseType}</p>
+                <p>Number of Tokens: </p>
+                <p className='uppercase ml-auto'>{amount}</p>
               </div>
             </div>
           </div>
-          <p className='capitalize mt-3'>description:</p>
+          <p className='capitalize mt-3 border-b'>description:</p>
           <p>{selectedNFT?.description}</p>
         </div>
       </div>

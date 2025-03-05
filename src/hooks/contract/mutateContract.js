@@ -24,7 +24,7 @@ export const useMutateCreateERC884ProPerty = (onSuccess) => {
     enabled: !!address && !!FACTORY_CONTRACT && !!TOKEN_CONTRACT,
     onError: (res) => {
       console.log({ res });
-      toast.error(`Error: ${res?.reason}`);
+      toast.error(`Error: ${res?.message}`);
     },
     onSuccess: (res) => {
       console.log({ res });

@@ -104,8 +104,7 @@ export default function FinancialTab({ nft }) {
       imgUrl: '/assets/svg/Exclamation.svg',
     },
   ];
-  console.log(nft)
-
+  console.log(nft);
 
   // nft?.vacancyReserve
 
@@ -122,7 +121,7 @@ export default function FinancialTab({ nft }) {
     },
   ];
   return (
-    <div className='w-full max-w-[1000px] mt-10 overflow-hidden rounded-[8px] grid xl:grid-cols-3 gap-3 xl:gap-5 '>
+    <div className='w-full max-w-[1200px] mt-10 overflow-hidden rounded-[8px] grid xl:grid-cols-3 gap-3 xl:gap-5'>
       <div className='col-span-2 '>
         <div className='w-full p-6 bg-black-1000 rounded-[20px] '>
           <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between text-20 font-bold text-Yellow-100  '>

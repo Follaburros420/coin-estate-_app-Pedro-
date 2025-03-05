@@ -71,10 +71,10 @@ model Item {
 }
 
 model property {
-  id                   String @id @default(auto()) @map("_id") @db.ObjectId
+  id                   String  @id @default(auto()) @map("_id") @db.ObjectId
   name                 String
   totalInvestmentPrice Float
-  description          String @db.String
+  description          String  @db.String
   bedRoom              Int
   bathRoom             Int
   roomSize             Float
@@ -137,18 +137,23 @@ model transaction {
   transactionHash String
   status          String
   createdAt       DateTime @default(now())
+  tokenPrice      Float?
 }
 
 model Payment {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
   userId          String
   amount          Int
   currency        String
   paymentIntentId String
-  status          String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  propertyId      String
+  // new values
+  tokenPrice      Float?
+  numberOfTokens  Int?
+
+  status     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  propertyId String
 }
 
 model minted {

@@ -124,8 +124,10 @@ const RealEstateSimulator = () => {
           )} */}
 
             {/* Summary Table */}
-            <h3 className='text-lg font-bold mt-4'>Summary Table (Years 5, 10, 20, 30)</h3>
-            <table className='w-full  border-collapse border border-yellow mt-2 rounded-lg'>
+            <h3 className='text-lg font-bold mt-4 '>Summary Table (Years 5, 10, 20, 30)</h3>
+            <div className='max-w-[1200px] overflow-auto'>
+
+            <table className='w-full  border-collapse border border-yellow mt-2 rounded-lg '>
               <thead>
                 <tr className='glass'>
                   <th className='border border-yellow p-2'>Year</th>
@@ -149,6 +151,7 @@ const RealEstateSimulator = () => {
                 ))}
               </tbody>
             </table>
+                </div>
 
             {/* Chart */}
             <div className='mt-4'>

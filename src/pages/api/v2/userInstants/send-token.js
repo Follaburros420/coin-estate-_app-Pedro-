@@ -84,7 +84,8 @@ export default async function handler(req, res) {
       const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
       // console.log({ paymentId, tokenAddress });
       const paymentInfo = await prisma.payment.findUnique({ where: { id: paymentId } });
-      const amount = paymentInfo?.amount
+      const amount = paymentInfo?.amount;
+      console.log("🚀 ~ handler ~ paymentInfo:", paymentInfo)
       // console.log({ amount });
       const userAddress = decrypt(user.destinationValues);
       // console.log({ amount, tokenAddress,userAddress, decoded });
@@ -109,6 +110,7 @@ export default async function handler(req, res) {
           sender: process.env.WALLET_ADDRESS,
           recipient: userAddress,
           amount: `${amount}`,
+          tokenPrice: paymentInfo?.tokenPrice,
           transactionHash: receipt.transactionHash,
           status: 'SUCCESS',
         },

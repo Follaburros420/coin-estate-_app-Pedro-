@@ -67,15 +67,10 @@ export default function HeaderSection({ selectedNFT, userData }) {
       </p>
       <div className='mt-3 lg:mt-5 '>
         <div className='grid grid-rows-2 grid-cols-4 gap-2 rounded-[10px] overflow-hidden '>
-          <img src={SourceUrl + selectedNFT?.image} className='w-full h-full row-span-2 col-span-2 ' />
+          <img src={SourceUrl + selectedNFT?.image} className='w-full h-full row-span-2 col-span-2 shadow-lg shadow-black-300' />
           {selectedNFT?.subImages.map((img, idx) => {
-            return <img key={idx + img} src={SourceUrl + img} className='w-full h-full ' />;
+            return <img key={idx + img} src={SourceUrl + img} className='w-full h-full shadow-lg shadow-black-300' />;
           })}
-
-          {/* <img src='/assets/images/MarketPlaceGridImgTwo.png' className='w-full h-full ' />
-          <img src='/assets/images/MarketPlaceGridImgThree.png' className='w-full h-full ' />
-          <img src='/assets/images/MarketPlaceGridImgFour.png' className='w-full h-full ' />
-          <img src='/assets/images/MarketPlaceGridImgOne.png' className=' w-full h-full' /> */}
         </div>
       </div>
       <div className='grid xl:grid-cols-3 gap-8 mt-10 md:mt-20 '>
@@ -110,7 +105,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
               <p className='sm:text-20 font-bold '>{remaning?.remaning}</p>
               <div className='sm:text-20 font-bold text-center leading-none '>
                 <p className=' '>
-                {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)}
+                  {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)}
 
                   {/* <span className='text-lightGray-600 text-14 font-semibold'>/ {selectedNFT?.tokenPrice}</span> */}
                 </p>

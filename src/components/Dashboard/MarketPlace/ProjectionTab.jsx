@@ -44,6 +44,8 @@ export default function ProjectionTab({ nft }) {
     },
   ];
 
+  const location = typeof nft?.location === 'string' && JSON.parse(nft.location);
+
   return (
     <div>
       <div className='grid xl:grid-cols-3 md:gap-8 '>
@@ -107,9 +109,7 @@ export default function ProjectionTab({ nft }) {
               {nft?.description}
             </p>
             <div className='my-4'>
-              <GoogleMapNew
-              // coordinates={nft?.location}
-              />
+              <GoogleMapNew coordinates={[location]} />
             </div>
           </div>
         </div>

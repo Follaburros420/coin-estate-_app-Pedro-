@@ -89,6 +89,7 @@ export default function Home() {
     isPending: isUploadingMultiFiles,
     data: multiFilesList,
   } = useMutateUploadMultiFiles();
+
   const onSuccess = () => {
     const defaultValues = {
       ...selected,
@@ -97,7 +98,6 @@ export default function Home() {
       email: user?.email || 'demo@gmail.com',
       address: address,
       location: JSON.stringify(selectedLocation),
-      // locationTitle: '',
     };
     createProperty(defaultValues);
   };
