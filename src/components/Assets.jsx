@@ -50,6 +50,7 @@ const ASSETS = [
 export default function Assets() {
   const { data: userData } = useQueryGetActiveResults();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
+  console.log({userData})
 
 
   return (
@@ -73,6 +74,7 @@ export default function Assets() {
               </thead>
               <tbody style={{ marginTop: '20px' }} className='w-full '>
                 {userData?.userProperties?.map((items, idx) => {
+                 const userTokens = userData?.invest?.payments.filter((amount)=>amount?.propertyId === items?.id)?.[0]?.numberOfTokens
                   return (
                     <tr
                       key={`${items.id}____${idx}`}
@@ -87,16 +89,18 @@ export default function Assets() {
                       <td className=' '>
                         <div className='flex items-center justify-between w-full gap-2 '>
                           <img src={'/assets/svg2/location.svg'} alt='' className='w-[9px] h-3' />
-                          <p className='text-grey-600 font-inter truncate text-12 font-regular '>{items.location}</p>
+                          {items.id}
+                          {/* <p className='text-grey-600 font-inter truncate text-12 font-regular '>{items.id}</p> */}
                           <img src={'/assets/svg2/flag.svg'} alt='' className='w-[22px] h-[23px]' />
                         </div>
                       </td>
 
                       <td className='text-grey-700 w-full text-12 md:text-16 font-regular'>
-                        {getTokenCalculation?.[items?.id]?.totalPrice}
+                        {/* {getTokenCalculation?.[items?.id]?.totalPrice} */}
+                        {items?.tokenPrice}
                       </td>
                       <td className='text-grey-700 text-12 md:text-16 font-regular'>
-                        {getTokenCalculation?.[items?.id]?.purchased}
+                        {userTokens || 3}
                       </td>
                       <td className='text-darkCyan text-12 md:text-16 font-regular'>
                         {getTokenCalculation?.[items?.id]?.earned.toFixed(4)}

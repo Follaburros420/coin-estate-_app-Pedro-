@@ -12,6 +12,7 @@ export const queryKeys = {
   getTokenPercentageExchange: 'getTokenPercentageExchange',
   getTokenPercentage: 'getTokenPercentage',
   getTokenListExchange: 'getTokenListExchange',
+  getMonthlyPriceList: 'getMonthlyPriceList',
 };
 
 //? openssl rand -hex 32
@@ -24,4 +25,4 @@ export const SourceUrl = 'https://gateway.pinata.cloud/ipfs/';
 export const user_auth = 'coin';
 export const admins = ['admin@gmail.com', 'superadmin@gmail.com'];
 
-export const baseScan ='https://testnet.bscscan.com/address/'
+export const baseScan = 'https://testnet.bscscan.com/address/';

@@ -82,23 +82,6 @@ export default async function handler(req, res) {
         return acc;
       }, {});
 
-      // const totalAmount = 32;
-      // const percentage = 0.03;
-
-      // const distributedAmounts = Object.keys(groupedTransactionsAmount).reduce((acc, tokenId) => {
-      //   const holders = groupedTransactionsAmount[tokenId];
-      //   const tokenAmount = totalAmount * percentage; // 3% of totalAmount
-
-      //   const totalTokens = Object.values(holders).reduce((sum, value) => sum + value, 0);
-
-      //   acc[tokenId] = Object.keys(holders).reduce((userAcc, userId) => {
-      //     console.log({ holders, totalTokens, tokenAmount });
-      //     userAcc[userId] = (holders[userId] / totalTokens) * tokenAmount;
-      //     return userAcc;
-      //   }, {});
-
-      //   return acc;
-      // }, {});
 
       // Example Usage
       const result = distributeFunds(monthlyValues, tokenHolders);
@@ -133,7 +116,7 @@ export default async function handler(req, res) {
         message: 'get monthly recodes',
         data: {
           ...userEarnings,
-          totalEarnings: totalEarnings?.toFixed(4),
+          totalEarnings: totalEarnings?.toFixed(2),
           totalTokenBalance,
           groupedTransactionsAmount,
           groupedTransactions,

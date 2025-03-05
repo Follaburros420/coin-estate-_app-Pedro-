@@ -7,6 +7,7 @@ import { useMutateDeleteBlog, useMutateMinteToken } from '@/hooks/mutation';
 import {
   useQueryGetBlogList,
   useQueryGetMintedTokenlist,
+  useQueryGetMonthlyPriceList,
   useQueryGetProperty,
   useQueryGetTokenPercentage,
 } from '@/hooks/query';
@@ -16,14 +17,65 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAccount } from 'wagmi';
 
+const handleFormateMonth = (monthlyPriceList) => {
+  // 🔹 Group data by tokenId
+  const groupedByTokenId = monthlyPriceList.reduce((acc, item) => {
+    if (!acc[item.tokenId]) {
+      acc[item.tokenId] = [];
+    }
+    acc[item.tokenId].push(item);
+    return acc;
+  }, {});
+
+  // 🔹 Sort each token group by createdAt (ascending)
+  Object.keys(groupedByTokenId).forEach((tokenId) => {
+    groupedByTokenId[tokenId].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  });
+
+  // 🔹 Get date thresholds
+  const now = new Date();
+  const firstDayOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  // const firstDayOfCurrentMonth = new Date(now.getTime() - 5 * 60 * 1000); // 5 minutes ago
+
+  // 🔹 Separate tokens by date
+  const currentMonthTokens = {};
+  const olderTokens = {};
+
+  Object.keys(groupedByTokenId).forEach((tokenId) => {
+    const latestEntry = groupedByTokenId[tokenId].at(-1); // Get the latest updated entry
+
+    if (new Date(latestEntry.createdAt) >= firstDayOfCurrentMonth) {
+      currentMonthTokens[tokenId] = groupedByTokenId[tokenId];
+    } else {
+      olderTokens[tokenId] = groupedByTokenId[tokenId];
+    }
+  });
+
+  return {
+    currentMonthTokens,
+    olderTokens,
+  };
+};
+
 export default function Dashboard() {
   const router = useRouter();
   const { address } = useAccount();
+  // const [pagination, setPagination] = useState({
+  //     pageIndex: 0,
+  //     pageSize: 5,
+  //   });
+  
   const [selected, setSelected] = useState(null);
   const [openModel, setOpenModel] = useState(false);
   const { mutate: mintToken } = useMutateMinteToken();
   const { data: mintedTokensList, refetch } = useQueryGetMintedTokenlist();
   const { data: getPropertyDetails, refetch: propertyRefetch } = useQueryGetProperty();
+  const { data: monthlyPriceList, refetch: refetchList } = useQueryGetMonthlyPriceList();
+
+
+  // Filter records created before 30 days
+  const recodesOfMonth = monthlyPriceList?.length > 0 && handleFormateMonth(monthlyPriceList);
+
 
   const onSuccess = (value) => {
     const values = {
@@ -51,6 +103,7 @@ export default function Dashboard() {
     if (value?.minted !== 'Not Minted') {
       const mintedData = mintedTokensList.filter((item) => item.tokenId === value?.id)?.[0];
       setOpenModel({ ...value, tokenAddress: mintedData?.tokenAddress });
+      refetchList();
     } else {
       toast.error('please mint it first');
     }
@@ -71,14 +124,21 @@ export default function Dashboard() {
       delete: <img src='/assets/svg/delete.svg' alt='' className='mx-auto' />,
     };
   });
-
+  //
   const latestData = getPropertyDetails?.map((item, idx) => ({
     minted: mintedTokensList?.filter((mint) => mint.tokenId === item.id)?.[0]?.name ? 'Minted' : 'Not Minted',
     ...item,
     rowNum: idx + 1,
     monthly: (
       <div className=''>
-        <button>Add</button>
+        {!recodesOfMonth?.currentMonthTokens?.[item?.id] ? (
+          <button className='font-bold bg-blue-400 w-full py-2 rounded-[8px] bg-transparent p-1'>Add</button>
+        ) : (
+          <p className='font-bold'>
+            {recodesOfMonth?.currentMonthTokens?.[item?.id]?.[0]?.price}{' '} $ /{' '}
+            {recodesOfMonth?.currentMonthTokens?.[item?.id]?.[0]?.percentage} %
+          </p>
+        )}
       </div>
     ),
     actions: (
@@ -121,8 +181,7 @@ export default function Dashboard() {
             <SortableTable deleteRow={handleDelete} updateRow={handleUpdate} data={latestBlogList} rowsPerPage={7} />
           )}
         </div>
-        <div>
-        </div>
+        <div></div>
         <div className='container mx-auto p-6'>
           <h1 className='text-2xl text-center uppercase font-bold mb-6'>Properties</h1>
           {/* <button onClick={handleRefresh}>handleRefresh</button> */}
@@ -136,7 +195,7 @@ export default function Dashboard() {
           )}
         </div>
 
-        {openModel && <MonthlyInvestment setOpenModel={setOpenModel} openModel={openModel} />}
+        {openModel && <MonthlyInvestment refetchList={refetchList} setOpenModel={setOpenModel} openModel={openModel} />}
       </Layout>
     </div>
   );

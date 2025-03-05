@@ -167,7 +167,7 @@ model minted {
 }
 
 model monthlyProcess {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   tokenId      String
   userId       String
@@ -176,6 +176,7 @@ model monthlyProcess {
   totalPrice   Int
   price        Int
   tokenAddress String
+  createdAt    DateTime @default(now())
 }
 
 model ExchangeRate {

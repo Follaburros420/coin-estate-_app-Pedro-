@@ -21,7 +21,7 @@ export default function WalletPage() {
   const location = usePathname();
   const { data: userData } = useQueryGetActiveResults();
   const { data: user } = useQueryGetUser();
-
+  
   const [data, setData] = useState([
     { timestamp: 1707206400000, cop: 4050 },
     { timestamp: 1707292800000, cop: 4075 },
@@ -30,7 +30,7 @@ export default function WalletPage() {
   ]);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
-  const total = getTokenCalculation?.totalTokenBalance + Number(getTokenCalculation?.totalEarnings);
+  const total = userData?.totalInvest + Number(getTokenCalculation?.totalEarnings);
   let totalNetIncome = 0;
 
   const paths = {
@@ -41,8 +41,8 @@ export default function WalletPage() {
     {
       id: 1,
       status: 'Available',
-      price: getTokenCalculation?.totalEarnings || 0,
-      cop: getTokenCalculation?.totalEarnings * tokenPrice || 0,
+      price: formatNumberIndianStyle(getTokenCalculation?.totalEarnings) || 0,
+      cop: formatNumberIndianStyle(getTokenCalculation?.totalEarnings * tokenPrice) || 0,
     },
     {
       id: 2,
@@ -56,14 +56,14 @@ export default function WalletPage() {
       id: 1,
       imgUrl: '/assets/svg/Dollar.svg',
       title: 'Invested in CoinEstate',
-      availableTokens: formatNumberIndianStyle(getTokenCalculation?.totalTokenBalance) + '$' || 0,
+      availableTokens: formatNumberIndianStyle(userData?.totalInvest) + '$' || 0,
       exclamationImg: '/assets/svg/exclamation.svg',
     },
     {
       id: 2,
       imgUrl: '/assets/svg/GoldenTokens.svg',
       title: 'Total of Tokens',
-      availableTokens: formatNumberIndianStyle(getTokenCalculation?.totalTokenBalance) || 0,
+      availableTokens: formatNumberIndianStyle(userData?.totalTokens) || 0,
     },
     {
       id: 3,

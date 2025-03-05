@@ -45,7 +45,7 @@ export default function Income() {
               <p className='text-18 md:text-20 font-ubuntu font-medium'>Total Investment </p>
               <div className='mt-4  bg-grey-500 flex gap-5 items-center max-w-[200px] rounded-[8px] py-3 px-2'>
                 <p className='bg-Yellow-100 font-bold text-black-100 leading-6 px-[8px] rounded-[8px] py-1'>
-                  {formatNumberIndianStyle(getTokenCalculation?.totalTokenBalance)}
+                  {formatNumberIndianStyle(userData?.totalInvest)}
                 </p>
                 <p className='text-20 font-bold font-ubuntu'>USD</p>
               </div>
@@ -79,7 +79,7 @@ export default function Income() {
               <p>in</p>
             </div>
             <div className='flex flex-col items-center lg:items-end gap-3 text-20 text-darkCyan font-semibold lg:h-[110px] xl:h-[60px] justify-between '>
-              <p>{getTokenCalculation?.totalTokenBalance}</p>
+              <p>{userData?.totalInvest}</p>
               <p>{userData?.userProperties?.length}</p>
             </div>
             <div className='flex flex-col items-start gap-3 text-20 font-semibold lg:h-[110px] xl:h-[60px] justify-between '>

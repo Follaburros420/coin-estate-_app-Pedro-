@@ -47,6 +47,8 @@ export default async function handler(req, res) {
       const transcations = await prisma.transaction.findMany({ where: { userId: decoded.userId } });
 
       const totalInvest = calculateTotal(payments, 'amount');
+      const totalTokens = calculateTotal(payments, 'numberOfTokens');
+
 
       const propertyList = [];
       // const transactionList =
@@ -63,11 +65,12 @@ export default async function handler(req, res) {
       //     }
       //   }),
       // );
-      const valueslatest = properties.map((property) => getPropertyPayments(property.id, completePaymentList));
+      const valueslatest = properties?.map((property) => getPropertyPayments(property.id, completePaymentList));
 
       const userData = {
         ...user,
         totalInvest,
+        totalTokens,
         invest: { transcations, payments },
         userProperties: propertyList,
         values: valueslatest,

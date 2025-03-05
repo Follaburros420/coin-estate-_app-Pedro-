@@ -3,12 +3,13 @@ import { useQueryGetUser } from '@/hooks/query';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-export default function MonthlyInvestment({ setOpenModel, openModel }) {
+export default function MonthlyInvestment({ setOpenModel, openModel, refetchList }) {
   const [inputValue, setInputValue] = useState(null);
   const [percentage, setPercentage] = useState(null);
 
   const onSuccess = () => {
     setOpenModel(null);
+    refetchList()
   };
   const { mutate: mutateTokenPrice, isPending: isLoading } = useMutationMonthlyProcess(onSuccess);
   const { data: user } = useQueryGetUser();

@@ -6,7 +6,6 @@ const GraphComponent = ({ data }) => {
   const sumOfRecent = data.map((item) => {
     return { amount: (value += item?.amount), date: item?.createdAt };
   });
-  console.log({ data, value, sumOfRecent });
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {

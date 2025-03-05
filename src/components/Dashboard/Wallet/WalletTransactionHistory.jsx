@@ -24,57 +24,60 @@ export default function WalletTransactionHistory() {
             </tr>
           </thead>
           <tbody>
-            {userData?.invest?.payments?.map((item, idx) => (
-              <tr
-                key={item.id}
-                className={clsxm('text-center text-grey-600 ', idx === 1 && 'border-y border-[#817E7E] ')}>
-                <td className='flex items-center gap-5 py-10 '>
-                  <StyledImage src='/assets/svg/WalletMoneyGrey.svg' className='w-4 h-4 ' />
-                  <p className='text-grey-600 text-16 '>Funds Added</p>
-                </td>
-                <td>
-                  {new Date(item.createdAt).toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: 'short', // "Jan", "Feb", etc.
-                    day: '2-digit',
-                    // hour: '2-digit',
-                    // minute: '2-digit',
-                    // second: '2-digit',
-                    // hour12: true, // Use 12-hour format
-                  })}
-                </td>
-                <td>{item.amount}</td>
-                <td className='flex items-center justify-center gap-1 '>
-                  <button onClick={() => router.push(`/dashboard/market-place/${item?.propertyId}`)}>
-                    {item?.propertyId}
-                  </button>
-                </td>
-                <td className='text-center '>
-                  <p
-                    style={
-                      {
-                        // backgroundColor: `${item.statusBg}`,
-                        // color: `${item.statusTitleColor}`,
+            {userData?.invest?.payments?.map((item, idx) => {
+              // if(item.status === '')
+              return (
+                <tr
+                  key={item.id}
+                  className={clsxm('text-center text-grey-600 ', idx === 1 && 'border-y border-[#817E7E] ')}>
+                  <td className='flex items-center gap-5 py-10 '>
+                    <StyledImage src='/assets/svg/WalletMoneyGrey.svg' className='w-4 h-4 ' />
+                    <p className='text-grey-600 text-16 '>Funds Added</p>
+                  </td>
+                  <td>
+                    {new Date(item.createdAt).toLocaleString('en-US', {
+                      year: 'numeric',
+                      month: 'short', // "Jan", "Feb", etc.
+                      day: '2-digit',
+                      // hour: '2-digit',
+                      // minute: '2-digit',
+                      // second: '2-digit',
+                      // hour12: true, // Use 12-hour format
+                    })}
+                  </td>
+                  <td>{item.amount}</td>
+                  <td className='flex items-center justify-center gap-1 '>
+                    <button onClick={() => router.push(`/dashboard/market-place/${item?.propertyId}`)}>
+                      {item?.propertyId}
+                    </button>
+                  </td>
+                  <td className='text-center '>
+                    <p
+                      style={
+                        {
+                          // backgroundColor: `${item.statusBg}`,
+                          // color: `${item.statusTitleColor}`,
+                        }
                       }
-                    }
-                    className={clsxm(
-                      'w-fit text-center  flex items-center gap-2 rounded-[7px] mx-auto py-2 px-6 ',
-                      item.status === 'SECCESS'
-                        ? 'border border-green text-green'
-                        : 'bg-red-100 text-red-100 border border-red-100',
-                    )}>
-                    <span
-                      // style={{ backgroundColor: `${item.statusDot}` }}
                       className={clsxm(
-                        'rounded-full w-[10px] h-[10px]',
-                        item.status === 'SECCESS' ? 'bg-green' : 'bg-red-100',
-                      )}
-                    />
-                    {item.status}
-                  </p>
-                </td>
-              </tr>
-            ))}
+                        'w-fit text-center  flex items-center gap-2 rounded-[7px] mx-auto py-2 px-6 ',
+                        item.status === 'SECCESS'
+                          ? 'border border-green text-green'
+                          : ' text-red-100 border border-red-100',
+                      )}>
+                      <span
+                        // style={{ backgroundColor: `${item.statusDot}` }}
+                        className={clsxm(
+                          'rounded-full w-[10px] h-[10px]',
+                          item.status === 'SECCESS' ? 'bg-green' : 'bg-red-100',
+                        )}
+                      />
+                      {item.status}
+                    </p>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
