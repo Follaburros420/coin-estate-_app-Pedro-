@@ -414,7 +414,7 @@ export const useMutatePDUpdate = () => {
   const { data: user } = useQueryGetUser();
 
   const mutationFn = async (id) => {
-    if (!id) throw new Error('Property data is required for creation.');
+    if (!id) throw new Error('ID is required for creation.');
 
     const config = {
       method: 'POST',

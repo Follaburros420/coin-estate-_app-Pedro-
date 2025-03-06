@@ -90,7 +90,6 @@ export default async function handler(req, res) {
 
       // Example Usage
       const result = distributeFunds(monthlyValues, tokenHolders);
-      console.log('🚀 ~ handler ~ result:', result);
 
       const userId = decoded.userId; // User we are calculating for
 
@@ -110,11 +109,6 @@ export default async function handler(req, res) {
           totalTokenBalance += purchased;
         }
       });
-
-      // Output results
-
-      // console.log({ result });
-      // console.log({ groupedTransactions, monthlyValues });
 
       // console.log({ monthlyValues, tokenHolders, LIST:JSON.stringify(groupedTransactions) });
 

@@ -11,14 +11,13 @@ import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function HeaderSection({ selectedNFT, userData }) {
-  console.log('🚀 ~ HeaderSection ~ selectedNFT:', selectedNFT);
   const router = useRouter();
   const params = useParams();
   const [amount, setAmount] = useState(0);
-  const remaning = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
-  console.log({ remaning });
+  const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
   const onSuccess = () => {
     router.push(
       `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
@@ -60,9 +59,12 @@ export default function HeaderSection({ selectedNFT, userData }) {
       color: '#FFCC00',
     },
   ];
+  // - remaining?.remaining
+  const totalTokens = selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice;
+  let remainingTokens = remaining?.remaining / selectedNFT?.tokenPrice;
+  remainingTokens = totalTokens - remainingTokens;
 
-  let remaningTokens = selectedNFT?.totalInvestmentPrice - remaning?.remaning;
-  remaningTokens = remaningTokens / selectedNFT?.tokenPrice;
+  remainingTokens = Number(remainingTokens?.toFixed(4));
 
   return (
     <div className='font-ubuntu '>
@@ -88,16 +90,16 @@ export default function HeaderSection({ selectedNFT, userData }) {
                 <StyledImage src='/assets/svg/GoldenTokens.svg' className='w-14 h-14 ' />
                 <div className='text-center '>
                   <p className='text-20 text-Yellow-100  '>
-                    {remaningTokens}
+                    {formatNumberIndianStyle(remainingTokens)}
                     {/* {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)} */}
                   </p>
 
-                  {/* <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaning?.remaning}</p> */}
+                  {/* <p className='text-20 text-Yellow-100  '>{selectedNFT?.tokenPrice - remaining?.remaining}</p> */}
                   <p className='sm:text-20 font-bold text-white sm:mt-2 leading-none '>Tokens Disponibles</p>
                 </div>
               </div>
               <div className='text-center '>
-                <p className='text-20 text-Yellow-100 '>${selectedNFT?.tokenPrice} USD</p>
+                <p className='text-20 text-Yellow-100 '>${formatNumberIndianStyle(selectedNFT?.tokenPrice)} USD</p>
                 <p className='sm:text-20 font-bold leading-none '>Precio del Token</p>
               </div>
             </div>
@@ -110,10 +112,10 @@ export default function HeaderSection({ selectedNFT, userData }) {
             <p className='text-20 font-bold mt-8 '>Progreso de Venta:</p>
             <ProgressBar
               totalValue={selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice}
-              value={remaning?.remaning}
+              value={remaining?.remaining / selectedNFT?.tokenPrice}
             />
             <div className='flex items-center justify-between mt-4 '>
-              <p className='sm:text-20 font-bold '>{remaning?.remaning}</p>
+              <p className='sm:text-20 font-bold '>{remaining?.remaining / selectedNFT?.tokenPrice}</p>
               <div className='sm:text-20 font-bold text-center leading-none '>
                 <p className=' '>
                   {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)}
@@ -158,17 +160,31 @@ export default function HeaderSection({ selectedNFT, userData }) {
               })}
             </div>
           </div>
-          <div>
+          <div className='flex gap-2'>
             <input
-              min={1}
+              min={0}
+              step={'0.001'}
               type='number'
+              max={remainingTokens}
               value={amount}
-              className=' w-full p-2 glass rounded-sm mt-4'
+              className='w-full p-2 glass rounded-sm mt-4'
               onChange={(e) => setAmount(e.target.value)}
             />
+            <button
+              onClick={() => setAmount(remainingTokens)}
+              className='bg-Yellow-100 p-3 rounded-[8px] text-14 mt-4 font-medium text-black-100 '>
+              Max
+            </button>
           </div>
           <button
-            onClick={() => createIntend({ id: selectedNFT?.id, amount })}
+            onClick={() => {
+              if (amount <= remainingTokens) {
+                console.log({ remainingTokens, amount });
+                createIntend({ id: selectedNFT?.id, amount });
+              } else {
+                toast.error('your amount must be lower then remaining tokens ');
+              }
+            }}
             className='bg-Yellow-100 p-3 rounded-[8px] text-20 sm:text-28 w-full mt-4 font-medium text-black-100 '>
             {isLoading ? 'Laoding...' : 'Investing'}
           </button>

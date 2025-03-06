@@ -3,23 +3,28 @@ import { SourceUrl } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
 import { useRouter } from 'next/navigation';
 import ProgressBar from './ProgressBar';
+import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 
 export default function AboutProperties({ getPropertyList, isDark }) {
   const router = useRouter();
   const { data: userData } = useQueryGetActiveResults();
-  const { data: getUser  } = useQueryGetUser();
-  console.log("🚀 ~ AboutProperties ~ getUser:", getUser)
+  const { data: getUser } = useQueryGetUser();
+  console.log('🚀 ~ AboutProperties ~ getUser:', getUser);
 
   return (
     <div className='mt-16 max-w-[1161px] mx-auto w-full'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {getPropertyList?.map((items, idx) => {
           const mainImage = SourceUrl + items?.image;
-          const remaning = userData?.values?.filter((item) => item.propertyId === items?.id)?.[0];
+          const remaining = userData?.values?.filter((item) => item.propertyId === items?.id)?.[0];
+          let remainingTokens = items?.totalInvestmentPrice - remaining?.remaining;
+          remainingTokens = remainingTokens / items?.tokenPrice;
           return (
             <div
               key={`${items?.id}___${idx}`}
-              onClick={() => getUser?.address ? router.push(`/dashboard/market-place/${items.id}`) : router.push(`/auth/log-in`)}
+              onClick={() =>
+                getUser?.address ? router.push(`/dashboard/market-place/${items.id}`) : router.push(`/auth/log-in`)
+              }
               className={clsxm(
                 'max-w-[371px]  p-2 mx-auto cursor-pointer lg:mx-0  rounded-[8px] ',
                 isDark ? 'glass' : 'border border-grayTwo',
@@ -39,7 +44,10 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                   <h5 className='text-16 text-yellow font-inter font-semibold '>{items.name}</h5>
                 </div>
                 <div className='mt-2 rounded-full'>
-                  <ProgressBar totalValue={items?.totalInvestmentPrice / items?.tokenPrice} value={remaning?.remaning} />
+                  <ProgressBar
+                    totalValue={items?.totalInvestmentPrice / items?.tokenPrice}
+                    value={remaining?.remaining / items?.tokenPrice}
+                  />
                 </div>
                 <div className='flex justify-between'>
                   <div className='mt-3 flex gap-6 items-center'>
@@ -74,7 +82,9 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                 </div>
                 <p className='mt-4 font-inter text-14 text-end font-semibold '>
                   Tokens Disponibles:{' '}
-                  <span className='text-yellow  font-regular'>{items?.tokenPrice - remaning?.remaning} </span>{' '}
+                  <span className='text-yellow  font-regular'>
+                    {formatNumberIndianStyle(Number(remainingTokens.toFixed(2))) || 0}{' '}
+                  </span>{' '}
                 </p>
               </div>
             </div>

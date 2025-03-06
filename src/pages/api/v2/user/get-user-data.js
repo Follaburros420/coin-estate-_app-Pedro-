@@ -9,7 +9,7 @@ function getPropertyPayments(propertyId, payments) {
   return {
     // properties,
     propertyId,
-    remaning: calculateTotal(paymentList, 'amount'),
+    remaining: calculateTotal(paymentList, 'amount'),
   };
 }
 
@@ -42,13 +42,12 @@ export default async function handler(req, res) {
         },
       });
       const properties = await prisma.property.findMany();
-      const completePaymentList = await prisma.payment.findMany();
+      const completePaymentList = await prisma.payment.findMany({ where: { status: "SECCESS" } });
       const payments = await prisma.payment.findMany({ where: { userId: decoded.userId } });
-      const transcations = await prisma.transaction.findMany({ where: { userId: decoded.userId } });
+      const transactions = await prisma.transaction.findMany({ where: { userId: decoded.userId } });
 
       const totalInvest = calculateTotal(payments, 'amount');
       const totalTokens = calculateTotal(payments, 'numberOfTokens');
-
 
       const propertyList = [];
       // const transactionList =
@@ -58,23 +57,16 @@ export default async function handler(req, res) {
         }
       });
 
-      // const values = properties.map((property) =>
-      //   payments.map((item) => {
-      //     if (item.propertyId === property.id) {
-      //       return { item, property };
-      //     }
-      //   }),
-      // );
-      const valueslatest = properties?.map((property) => getPropertyPayments(property.id, completePaymentList));
+      // it generate sale list mean how many tokens are sold from each property
+      const sellList = properties?.map((property) => getPropertyPayments(property.id, completePaymentList));
 
       const userData = {
         ...user,
         totalInvest,
         totalTokens,
-        invest: { transcations, payments },
+        invest: { transactions, payments },
         userProperties: propertyList,
-        values: valueslatest,
-        // valueslatest,
+        values: sellList,
       };
 
       // Map blogs to their respective items

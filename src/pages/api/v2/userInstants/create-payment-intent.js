@@ -2,6 +2,19 @@ import prisma from '@/libs/prisma';
 import jwt from 'jsonwebtoken';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+// check total Sell
+const calculateTotal = (array, field) => {
+  return array.reduce((total, item) => total + (item[field] || 0), 0);
+};
+function getPropertyPayments(propertyId, payments) {
+  const paymentList = payments.filter((payment) => payment.propertyId === propertyId);
+  return {
+    // properties,
+    propertyId,
+    remaining: calculateTotal(paymentList, 'amount'),
+  };
+}
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     // Validate the Bearer token
@@ -31,8 +44,23 @@ export default async function handler(req, res) {
       const property = await prisma.property.findUnique({
         where: { id },
       });
+      const paymentList = await prisma.payment.findMany({ where: { status: "SECCESS" } });
+
+      const remaining = getPropertyPayments(id, paymentList);
+      // console.log({remaining, paymentList})
+
+      // const totalTokens = property?.tokenPrice;
+      let remainingTokens = property?.totalInvestmentPrice - remaining?.remaining;
+      remainingTokens = remainingTokens / property?.tokenPrice;
+      // console.log({remainingTokens, noTokens})
+      
+      // (amount <= remainingTokens)
+      if (noTokens >= remainingTokens) {
+        return res.status(400).json({ error: "We don't have enough tokens to sale" });
+      }
 
       const amount = noTokens * property?.tokenPrice;
+
       if (!property) {
         return res.status(404).json({ error: 'Property not found.' });
       }
