@@ -109,7 +109,7 @@ export default function Home() {
     } else {
       if (mainImageData?.IpfsHash && multiFilesList?.length > 0 && selectedLocation) {
         setSelected(value);
-        createNftProperty({ name: value?.name, symbols: value?.saleStatus });
+        createNftProperty({ name: value?.name, symbols: value?.documents });
       } else {
         if (!selectedLocation) {
           toast.error('Please Select Location');

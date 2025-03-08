@@ -97,7 +97,7 @@ export default async function handler(req, res) {
       });
 
       // Respond with the client secret for the PaymentIntent
-      res.status(201).json({
+      res.status(200).json({
         message: 'PaymentIntent created successfully.',
         init: paymentIntent?.client_secret,
         values: paymentRecord?.id,
