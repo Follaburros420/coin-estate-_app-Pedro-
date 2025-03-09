@@ -1,8 +1,10 @@
 import prisma from '@/libs/prisma';
 import jwt from 'jsonwebtoken';
+const distributeFunds = (monthlyValues, tokenHolders, startDate, endDate) => {
+  // Convert date strings to Date objects for comparison
+  const start = new Date(startDate);
+  const end = new Date(endDate);
 
-const distributeFunds = (monthlyValues, tokenHolders) => {
-  // Step 1: Group token holders by tokenId and sum their amounts
   const groupedHolders = tokenHolders.reduce((acc, transaction) => {
     if (!acc[transaction.propertyId]) {
       acc[transaction.propertyId] = {};
@@ -16,7 +18,8 @@ const distributeFunds = (monthlyValues, tokenHolders) => {
 
   // Step 2: Calculate the distribution
   const distribution = monthlyValues.reduce((acc, monthlyToken) => {
-    const { tokenId, percentage, price, totalPrice } = monthlyToken;
+    const { tokenId, percentage, price, totalPrice, createdAt } = monthlyToken;
+    console.log("🚀 ~ distribution ~ createdAt:", monthlyValues,tokenHolders)
 
     // If no holders for this tokenId, skip
     if (!groupedHolders[tokenId]) {
@@ -48,6 +51,23 @@ const distributeFunds = (monthlyValues, tokenHolders) => {
   return distribution;
 };
 
+// // Example data
+// const monthlyValues = [
+//   { tokenId: 'T1', percentage: 50, price: 1000, totalPrice: 2000, createdAt: "2025-03-01" },
+//   { tokenId: 'T2', percentage: 50, price: 1000, totalPrice: 2000, createdAt: "2025-03-05" },
+//   { tokenId: 'T1', percentage: 30, price: 600, totalPrice: 2000, createdAt: "2025-02-25" } // This will be excluded if filtered for March
+// ];
+
+// const tokenHolders = [
+//   { propertyId: 'T1', userId: 'U1', amount: 10 },
+//   { propertyId: 'T1', userId: 'U2', amount: 30 },
+//   { propertyId: 'T2', userId: 'U1', amount: 50 },
+//   { propertyId: 'T2', userId: 'U3', amount: 50 }
+// ];
+
+// Example usage: filter for transactions in March 2025
+// console.log();
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     // Validate the Bearer token
@@ -69,7 +89,12 @@ export default async function handler(req, res) {
       const data = req.body;
 
       const monthlyValues = await prisma.monthlyProcess.findMany();
-      const tokenHolders = await prisma.payment.findMany();
+      const tokenHolders = await prisma.payment.findMany({
+        where: {
+          // userId: decoded.userId,
+          status: 'SECCESS',
+        },
+      });
 
       const groupedTransactions = monthlyValues.reduce((acc, item) => {
         acc[item.tokenId] = tokenHolders.filter((transaction) => transaction.propertyId === item.tokenId);
@@ -89,7 +114,9 @@ export default async function handler(req, res) {
       }, {});
 
       // Example Usage
-      const result = distributeFunds(monthlyValues, tokenHolders);
+      // const result = distributeFunds(monthlyValues, tokenHolders);
+      const result = distributeFunds(monthlyValues, tokenHolders, '2025-03-01', '2025-03-31');
+      console.log({result})
 
       const userId = decoded.userId; // User we are calculating for
 
@@ -116,7 +143,7 @@ export default async function handler(req, res) {
         message: 'get monthly recodes',
         data: {
           ...userEarnings,
-          totalEarnings: totalEarnings?.toFixed(4),
+          totalEarnings: totalEarnings?.toFixed(2),
           totalTokenBalance,
           groupedTransactionsAmount,
           groupedTransactions,

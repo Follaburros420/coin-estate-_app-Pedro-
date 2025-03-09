@@ -9,6 +9,10 @@ export default function WalletTransactionHistory() {
   const { data: userData, refetch } = useQueryGetActiveResults();
   const router = useRouter();
 
+  const userTransactionsList = userData?.invest?.payments?.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+  );
+
   return (
     <div className='w-full overflow-x-auto hide-scrollbar '>
       <div className='min-w-full w-[1000px] border border-grey-400 p-6 rounded-[26px] mt-6 lg:mt-12 '>
@@ -24,7 +28,7 @@ export default function WalletTransactionHistory() {
             </tr>
           </thead>
           <tbody>
-            {userData?.invest?.payments?.map((item, idx) => {
+            {userTransactionsList?.map((item, idx) => {
               // if(item.status === '')
               return (
                 <tr

@@ -17,11 +17,31 @@ import WalletCurrency from './WalletCurrency';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
 
+export const sumTokensByProperty = (transactions, userId) => {
+  // Step 1: Filter transactions for the given userId
+  const userTransactions = transactions?.filter(
+    (transaction) => transaction.userId === userId && transaction.status !== 'PENDING',
+  );
+
+  // Step 2: Group by propertyId and sum numberOfTokens
+  return userTransactions?.reduce((acc, transaction) => {
+    const { propertyId, numberOfTokens } = transaction;
+
+    if (!acc[propertyId]) {
+      acc[propertyId] = 0;
+    }
+
+    acc[propertyId] += numberOfTokens;
+
+    return acc;
+  }, {});
+};
+
 export default function WalletPage() {
   const location = usePathname();
   const { data: userData } = useQueryGetActiveResults();
   const { data: user } = useQueryGetUser();
-  
+
   const [data, setData] = useState([
     { timestamp: 1707206400000, cop: 4050 },
     { timestamp: 1707292800000, cop: 4075 },
@@ -31,7 +51,30 @@ export default function WalletPage() {
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const total = userData?.totalInvest + Number(getTokenCalculation?.totalEarnings);
+  // console.log({userData,user})
+
+  const summedTokens = sumTokensByProperty(userData?.invest?.payments, userData?.id);
+
+  const annualNetIncome = userData?.userProperties?.map((item) => {
+    const totalTokens = item.totalInvestmentPrice / item.tokenPrice;
+    const noOFTokens = summedTokens?.[item?.id];
+    return {
+      id: item?.id,
+      income: (item?.netAnualIncome / totalTokens) * noOFTokens,
+      // totalTokens,
+      // noOFTokens,
+      // tokenPrice: item.tokenPrice,
+      // investement: item?.netAnualIncome,
+    };
+  });
+
+  console.log({ summedTokens, annualNetIncome });
+
+  // let netIncome= 1000;
+  // const totalTokens = 200
+  // const userTokens = 10;
   let totalNetIncome = 0;
+  annualNetIncome?.map((item) => (totalNetIncome += item.income));
 
   const paths = {
     '/dashboard/admin-wallet': 'Wallet',
@@ -68,8 +111,8 @@ export default function WalletPage() {
     {
       id: 3,
       imgUrl: '/assets/svg/RedGraph.svg',
-      title: 'Approximate Net Income',
-      availableTokens: formatNumberIndianStyle(totalNetIncome) + '$',
+      title: 'Approximate Annual Income',
+      availableTokens: formatNumberIndianStyle(Number(totalNetIncome?.toFixed(2))) + '$',
     },
   ];
   return (
@@ -95,7 +138,10 @@ export default function WalletPage() {
                 <StyledImage src={'/assets/svg/Exclamation.svg'} className='w-3 h-3 mt-1 ' />
               </div>
               <div className='flex items-center gap-[6px] '>
-                <Link target='_blank' href={baseScan + user?.address} className='text-16 font-ubuntu font-medium text-grey-700 '>
+                <Link
+                  target='_blank'
+                  href={baseScan + user?.address}
+                  className='text-16 font-ubuntu font-medium text-grey-700 '>
                   {conciseAddress(user?.address)}
                 </Link>
                 <StyledImage src='/assets/svg/Blocks.svg' className='w-9 h-3 ' />

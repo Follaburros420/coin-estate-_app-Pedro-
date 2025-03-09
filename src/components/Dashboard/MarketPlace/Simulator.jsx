@@ -6,6 +6,7 @@ import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import React, { useState } from 'react';
 
 export default function Simulator({ nft }) {
+  console.log({nft})
   const [value, setValue] = useState(10);
   const [reinvest, setReinvest] = useState(false);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
@@ -25,9 +26,10 @@ export default function Simulator({ nft }) {
     const investmentYears = 30;
     const initialCapital = value;
     const annualAppreciationRate = nft?.expectedIncome;
-    const annualNetRent = initialCapital * annualAppreciationRate;
+    const annualNetRent = initialCapital * annualAppreciationRate / 100;
     const monthlyRent = annualNetRent / 12;
 
+    console.log({ annualAppreciationRate, annualNetRent, initialCapital,monthlyRent });
     // console.log({ annualNetRent,monthlyRent });
     const monthlyAppreciationRate = Math.pow(1 + annualAppreciationRate / 100, 1 / 12) - 1;
 
@@ -152,7 +154,7 @@ export default function Simulator({ nft }) {
           </div>
           <div>
             <p className='font-medium font-ubuntu glass p-2 border border-gray'>{calculation}</p>
-            <p className='font-medium font-ubuntu p-2 border border-gray '>{value}</p>
+            <p className='font-medium font-ubuntu p-2 border border-gray '>{value * nft?.tokenPrice}</p>
           </div>
         </div>
 

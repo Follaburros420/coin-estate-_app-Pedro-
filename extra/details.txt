@@ -1,3 +1,56 @@
 https://docs.stripe.com/sdks/stripejs-react
 
 https://github.com/sonnysangha/stripe-payment-elements-with-https-nextjs-14-demo/blob/main/app/api/create-payment-intent/route.ts
+
+
+
+
+
+
+const distributeFunds = (monthlyValues, tokenHolders) => {
+  // Step 1: Group token holders by tokenId and sum their amounts
+  const groupedHolders = tokenHolders.reduce((acc, transaction) => {
+    if (!acc[transaction.propertyId]) {
+      acc[transaction.propertyId] = {};
+    }
+    if (!acc[transaction.propertyId][transaction.userId]) {
+      acc[transaction.propertyId][transaction.userId] = 0;
+    }
+    acc[transaction.propertyId][transaction.userId] += transaction.amount;
+    return acc;
+  }, {});
+
+  // Step 2: Calculate the distribution
+  const distribution = monthlyValues.reduce((acc, monthlyToken) => {
+    const { tokenId, percentage, price, totalPrice, createdAt } = monthlyToken;
+    console.log("🚀 ~ distribution ~ createdAt:", monthlyValues,tokenHolders)
+
+    // If no holders for this tokenId, skip
+    if (!groupedHolders[tokenId]) {
+      acc[tokenId] = {};
+      return acc;
+    }
+
+    let distributableAmount = price / totalPrice;
+
+    // Calculate the distributable amount by percentage
+    // let distributableAmount = (percentage / 100) * price;
+    //  distributableAmount = distributableAmount / totalPrice
+
+    // Get total tokens held for this tokenId
+    const totalTokens = Object.values(groupedHolders[tokenId]).reduce((sum, value) => sum + value, 0);
+    console.log('🚀 ~ distribution ~ totalTokens:', totalTokens, totalPrice);
+
+    // Calculate each holder's share
+    acc[tokenId] = {};
+    for (const userId in groupedHolders[tokenId]) {
+      acc[tokenId][userId] = totalTokens * distributableAmount;
+
+      // acc[tokenId][userId] = totalTokens * distributableAmount;
+    }
+
+    return acc;
+  }, {});
+
+  return distribution;
+};

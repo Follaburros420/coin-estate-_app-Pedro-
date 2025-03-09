@@ -5,6 +5,7 @@ import clsxm from '@/utils/clsxm';
 import { useQueryGetActiveResults, useQueryGetTokenPercentage } from '@/hooks/query';
 import { SourceUrl } from '@/hooks/queryContants';
 import { useRouter } from 'next/navigation';
+import { sumTokensByProperty } from './Dashboard/Wallet/WalletPage';
 const ASSETS = [
   {
     id: 1,
@@ -53,6 +54,7 @@ export default function Assets() {
   const { data: userData } = useQueryGetActiveResults();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
 
+  const summedTokens = sumTokensByProperty(userData?.invest?.payments, userData?.id);
 
   return (
     <div className='px-6 md:px-12 mt-10 '>
@@ -102,10 +104,11 @@ export default function Assets() {
                         {items?.tokenPrice}
                       </td>
                       <td className='text-grey-700 text-12 md:text-16 font-regular'>
-                        {getTokenCalculation?.[items.id]?.purchased / items?.tokenPrice || 3}
+                        {/* {getTokenCalculation?.[items.id]?.purchased} */}
+                        {summedTokens?.[items?.id] || 0}
                       </td>
                       <td className='text-darkCyan text-12 md:text-16 font-regular'>
-                        {getTokenCalculation?.[items?.id]?.earned.toFixed(4)}
+                        {getTokenCalculation?.[items?.id]?.earned.toFixed(4) || 0}
                       </td>
                     </tr>
                   );

@@ -3,6 +3,7 @@ import React from 'react';
 import GoogleMapComponent from './GoogleMap';
 import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
 import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
+import { sumTokensByProperty } from './Dashboard/Wallet/WalletPage';
 
 const locations = [
   { Latitude: 37.7749, Longitude: -122.4194 }, // San Francisco
@@ -13,6 +14,12 @@ export default function Income() {
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
   const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const { data: userData } = useQueryGetActiveResults();
+
+  const summedTokens = sumTokensByProperty(userData?.invest?.payments, userData?.id);
+  const tokensList = summedTokens && Object.values(summedTokens);
+
+  let totalTokens = 0;
+  tokensList?.map((item) => (totalTokens += item));
 
   const locationsList = userData?.userProperties
     ?.map((item) => {
@@ -79,7 +86,7 @@ export default function Income() {
               <p>in</p>
             </div>
             <div className='flex flex-col items-center lg:items-end gap-3 text-20 text-darkCyan font-semibold lg:h-[110px] xl:h-[60px] justify-between '>
-              <p>{userData?.totalInvest}</p>
+              <p>{totalTokens || 0}</p>
               <p>{userData?.userProperties?.length}</p>
             </div>
             <div className='flex flex-col items-start gap-3 text-20 font-semibold lg:h-[110px] xl:h-[60px] justify-between '>

@@ -3,19 +3,20 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 const GraphComponent = ({ data }) => {
   let value = 0;
-  const sumOfRecent = data.map((item) => {
-    return { amount: (value += item?.amount), date: item?.createdAt };
+  const sumOfRecent1 = data?.map((item) => {
+    if (item.status === "SECCESS") return { amount: (value += item?.amount), date: item?.createdAt };
   });
+  const sumOfRecent = sumOfRecent1?.filter((item) => item?.date);
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const processData = () => {
       return sumOfRecent.map((item) => ({
-        date: new Date(item.date).toLocaleDateString('en-GB', {
+        date: new Date(item?.date).toLocaleDateString('en-GB', {
           day: '2-digit',
           month: 'short',
         }),
-        amount: item.amount,
+        amount: item?.amount,
       }));
     };
 

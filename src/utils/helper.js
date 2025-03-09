@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import { useCallback } from 'react';
 import * as yup from 'yup';
 
-
 export const handleFormateTime = (dateString) => {
   if (!dateString) return '__';
   const date = new Date(dateString);
@@ -29,25 +28,6 @@ export const routerPaths = [
   '/admin/create-property',
   '/admin/create-blog',
 ];
-
-// const ENCRYPTION_KEY = crypto.createHash('sha256').update(process.env.ENCRYPTION_KEY).digest(); // Derive 32-byte key
-// const IV_LENGTH = 16;
-// function encrypt(text) {
-//   const iv = crypto.randomBytes(IV_LENGTH);
-//   const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
-//   let encrypted = cipher.update(text);
-//   encrypted = Buffer.concat([encrypted, cipher.final()]);
-//   return iv.toString('hex') + ':' + encrypted.toString('hex');
-// }
-
-// function decrypt(text) {
-//   const [iv, encrypted] = text.split(':');
-//   const decipher = crypto.createDecipheriv('aes-256-cbc', ENCRYPTION_KEY, Buffer.from(iv, 'hex'));
-//   let decrypted = decipher.update(Buffer.from(encrypted, 'hex'));
-//   decrypted = Buffer.concat([decrypted, decipher.final()]);
-//   return decrypted.toString();
-// }
-
 
 export const useYupValidationResolver = (validationSchema) =>
   useCallback(
@@ -127,24 +107,20 @@ export const validationSchemaProperty = yup.object({
   closingCosts: yup.number().required('closing costs is required'),
 });
 
-
-
 export const validationSchemaBlog = yup.object({
   heading: yup.string().required('heading is required'),
   items: yup.array().of(
     yup.object().shape({
       name: yup.string().required('Name is required'),
       // text_details: yup.string().required('Details are required'),
-      text_details: yup.string()
+      text_details: yup
+        .string()
         .required('Text details are required')
-        .matches(/<\/?[a-z][\s\S]*>/i, 'Invalid content') // Validate HTML if necessary
-
-    })
+        .matches(/<\/?[a-z][\s\S]*>/i, 'Invalid content'), // Validate HTML if necessary
+    }),
   ),
   blogStatus: yup.string().required('blogStatus is required'),
   details: yup.string().required('Details is required'),
-  description: yup
-    .string()
-    .required('Description is mandatory'),
-  subheading: yup.string().required('constructionYear required')
+  description: yup.string().required('Description is mandatory'),
+  subheading: yup.string().required('constructionYear required'),
 });
