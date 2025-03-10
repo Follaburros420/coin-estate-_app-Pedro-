@@ -35,7 +35,6 @@ export default async function handler(req, res) {
       const { recipient, amount } = req.body;
       const user = await prisma.user.findUnique({ where: { id:decoded.userId } });
       const privateKey = decrypt(user.destinationCalculation)
-      console.log({user,privateKey})
 
       // Validate required fields
       // if (!recipient || !amount) {
@@ -59,11 +58,9 @@ export default async function handler(req, res) {
       // Call smart contract function
       const tx = await contract.transfer(recipient, ethers.parseUnits(amount.toString(), 18)); // Adjust decimals as needed
 
-      console.log("Transaction submitted:", tx.hash);
 
       // Wait for transaction to be mined
       const receipt = await tx.wait();
-      console.log("Transaction mined:", receipt);
 
       // Store transaction details in the database
       const transaction = await prisma.transaction.create({

@@ -19,7 +19,6 @@ const distributeFunds = (monthlyValues, tokenHolders, startDate, endDate) => {
   // Step 2: Calculate the distribution
   const distribution = monthlyValues.reduce((acc, monthlyToken) => {
     const { tokenId, percentage, price, totalPrice, createdAt } = monthlyToken;
-    console.log("🚀 ~ distribution ~ createdAt:", monthlyValues,tokenHolders)
 
     // If no holders for this tokenId, skip
     if (!groupedHolders[tokenId]) {
@@ -35,7 +34,6 @@ const distributeFunds = (monthlyValues, tokenHolders, startDate, endDate) => {
 
     // Get total tokens held for this tokenId
     const totalTokens = Object.values(groupedHolders[tokenId]).reduce((sum, value) => sum + value, 0);
-    console.log('🚀 ~ distribution ~ totalTokens:', totalTokens, totalPrice);
 
     // Calculate each holder's share
     acc[tokenId] = {};
@@ -66,7 +64,6 @@ const distributeFunds = (monthlyValues, tokenHolders, startDate, endDate) => {
 // ];
 
 // Example usage: filter for transactions in March 2025
-// console.log();
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -116,7 +113,6 @@ export default async function handler(req, res) {
       // Example Usage
       // const result = distributeFunds(monthlyValues, tokenHolders);
       const result = distributeFunds(monthlyValues, tokenHolders, '2025-03-01', '2025-03-31');
-      console.log({result})
 
       const userId = decoded.userId; // User we are calculating for
 
@@ -137,7 +133,6 @@ export default async function handler(req, res) {
         }
       });
 
-      // console.log({ monthlyValues, tokenHolders, LIST:JSON.stringify(groupedTransactions) });
 
       res.status(200).json({
         message: 'get monthly recodes',
@@ -150,7 +145,6 @@ export default async function handler(req, res) {
         },
       });
     } catch (error) {
-      console.error('Error creating property:', error);
 
       // Handle specific JWT errors
       if (error.name === 'JsonWebTokenError') {

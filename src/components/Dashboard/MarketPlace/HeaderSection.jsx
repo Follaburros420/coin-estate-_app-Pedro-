@@ -3,14 +3,13 @@
 'use client';
 import ProgressBar from '@/components/ProgressBar';
 import StyledImage from '@/components/StyedImage';
-import { useQueryGetNftsFromContract } from '@/hooks/contract/query';
 import { useMutationInitiatePayment } from '@/hooks/mutation';
 import { SourceUrl } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
 import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function HeaderSection({ selectedNFT, userData }) {
@@ -179,7 +178,6 @@ export default function HeaderSection({ selectedNFT, userData }) {
           <button
             onClick={() => {
               if (amount <= remainingTokens) {
-                console.log({ remainingTokens, amount });
                 createIntend({ id: selectedNFT?.id, amount });
               } else {
                 toast.error('your amount must be lower then remaining tokens ');

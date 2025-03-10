@@ -38,7 +38,6 @@ export default async function handler(req, res) {
       where: { id: decoded.userId },
       // select: { id: true, userId: true, status: true },
     });
-    console.log({ payment, user });
 
     if (!payment) {
       return res.status(404).json({ error: 'Payment not found.' });

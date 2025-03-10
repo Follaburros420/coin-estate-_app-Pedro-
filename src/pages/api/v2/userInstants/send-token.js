@@ -31,12 +31,10 @@ async function transferTokens(recipient, CONTRACT_ADDRESS, amount) {
     const formattedAmount = ethers.utils.parseEther(`${amount}`);
 
     // Call the `transfer` function
-    console.log(`Initiating transfer to ${recipient}...`, formattedAmount);
     const tx = await contract.adminTransfer(process.env.WALLET_ADDRESS, recipient, formattedAmount);
     // if (tx) {
     //   return res.status(401).json({ error: tx });
     // }
-    console.log('Transfer successful:', { tx });
 
     // Wait for transaction to be mined
     const receipt = await tx.wait();
@@ -85,7 +83,6 @@ export default async function handler(req, res) {
       // console.log({ paymentId, tokenAddress });
       const paymentInfo = await prisma.payment.findUnique({ where: { id: paymentId } });
       const amount = paymentInfo?.numberOfTokens;
-      console.log("🚀 ~ handler ~ paymentInfo:", paymentInfo)
       // console.log({ amount });
       const userAddress = decrypt(user.destinationValues);
       // console.log({ amount, tokenAddress,userAddress, decoded });
@@ -97,7 +94,6 @@ export default async function handler(req, res) {
       // Alchemy RPC URL (Ethereum Mainnet)
 
       const receipt = await transferTokens(userAddress, tokenAddress, amount);
-      // console.log({ receipt });
 
       if (receipt?.error) {
         return res.status(400).json({ error: receipt?.error });

@@ -43,8 +43,9 @@ export default async function handler(req, res) {
       });
       const properties = await prisma.property.findMany();
       const completePaymentList = await prisma.payment.findMany({
-        where: { userId: decoded.userId, status: 'SECCESS' },
+        where: {  status: 'SECCESS' },
       });
+      // userId: decoded.userId,
       const userTransactions = await prisma.payment.findMany({ where: { userId: decoded.userId } });
       const payments = await prisma.payment.findMany({ where: { userId: decoded.userId, status: 'SECCESS' } });
       const transactions = await prisma.transaction.findMany({ where: { userId: decoded.userId } });
