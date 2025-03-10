@@ -49,21 +49,37 @@ const distributeFunds = (monthlyValues, tokenHolders, startDate, endDate) => {
   return distribution;
 };
 
-// // Example data
-// const monthlyValues = [
-//   { tokenId: 'T1', percentage: 50, price: 1000, totalPrice: 2000, createdAt: "2025-03-01" },
-//   { tokenId: 'T2', percentage: 50, price: 1000, totalPrice: 2000, createdAt: "2025-03-05" },
-//   { tokenId: 'T1', percentage: 30, price: 600, totalPrice: 2000, createdAt: "2025-02-25" } // This will be excluded if filtered for March
-// ];
+// list of all user infos
 
-// const tokenHolders = [
-//   { propertyId: 'T1', userId: 'U1', amount: 10 },
-//   { propertyId: 'T1', userId: 'U2', amount: 30 },
-//   { propertyId: 'T2', userId: 'U1', amount: 50 },
-//   { propertyId: 'T2', userId: 'U3', amount: 50 }
-// ];
+const divideAllTransactions = (payments, propertyId) => {
+  const daysAgo = 5;
+  const currentDate = new Date();
+  const pastDate = new Date();
+  pastDate.setDate(currentDate.getDate() - daysAgo);
 
-// Example usage: filter for transactions in March 2025
+  const recentTransactions = payments.filter((payment) => {
+    const createdAt = new Date(payment.createdAt);
+    return createdAt >= pastDate && createdAt <= currentDate;
+  });
+  const listOfProperties = recentTransactions?.filter((payment) => payment.propertyId === propertyId);
+  const users = listOfProperties.map((payment) => payment.userId);
+
+
+
+
+const groupedUsers = payments
+  .filter(payment => payment.propertyId === propertyId)
+  .reduce((acc, payment) => {
+    if (!acc[payment.userId]) {
+      acc[payment.userId] = [];
+    }
+    acc[payment.userId].push(payment);
+    return acc;
+  }, {});
+
+
+  return { recentTransactions: JSON.stringify(recentTransactions), users,groupedUsers, listOfProperties:JSON.stringify(recentTransactions) };
+};
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -92,6 +108,10 @@ export default async function handler(req, res) {
           status: 'SECCESS',
         },
       });
+
+      const activeResults = divideAllTransactions(tokenHolders, '67cce8504b9cc313c62f2118');
+
+      console.log({ activeResults });
 
       const groupedTransactions = monthlyValues.reduce((acc, item) => {
         acc[item.tokenId] = tokenHolders.filter((transaction) => transaction.propertyId === item.tokenId);
@@ -133,7 +153,6 @@ export default async function handler(req, res) {
         }
       });
 
-
       res.status(200).json({
         message: 'get monthly recodes',
         data: {
@@ -145,7 +164,6 @@ export default async function handler(req, res) {
         },
       });
     } catch (error) {
-
       // Handle specific JWT errors
       if (error.name === 'JsonWebTokenError') {
         return res.status(401).json({ error: 'Unauthorized. Invalid token.' });
