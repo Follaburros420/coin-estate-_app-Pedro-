@@ -185,3 +185,14 @@ model ExchangeRate {
   cop       Float    @map("cop")
   createdAt DateTime @default(now())
 }
+
+model userRecords {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  username       String
+  email      String
+  userId     String
+  address    String
+  earnings   Int?
+  properties String?
+  createdAt  DateTime @default(now())
+}

@@ -1,5 +1,3 @@
-
-
 import prisma from '@/libs/prisma';
 import bcrypt from 'bcryptjs';
 import { ethers } from 'ethers';
@@ -44,8 +42,19 @@ export default async function handler(req, res) {
     },
   });
 
+  const userRecords = {
+    userId: newUser?.id,
+    email,
+    username,
+    address: wallet.address,
+  };
+
+  const newUserRecords = await prisma.userRecords.create({
+    data: userRecords,
+  });
+
   res.status(200).json({
     message: 'User created',
-    user: { email: newUser.email },
+    user: { email: newUser.email, newUserRecords },
   });
 }

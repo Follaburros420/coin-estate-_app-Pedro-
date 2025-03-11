@@ -64,21 +64,22 @@ const divideAllTransactions = (payments, propertyId) => {
   const listOfProperties = recentTransactions?.filter((payment) => payment.propertyId === propertyId);
   const users = listOfProperties.map((payment) => payment.userId);
 
+  const groupedUsers = payments
+    .filter((payment) => payment.propertyId === propertyId)
+    .reduce((acc, payment) => {
+      if (!acc[payment.userId]) {
+        acc[payment.userId] = [];
+      }
+      acc[payment.userId].push(payment);
+      return acc;
+    }, {});
 
-
-
-const groupedUsers = payments
-  .filter(payment => payment.propertyId === propertyId)
-  .reduce((acc, payment) => {
-    if (!acc[payment.userId]) {
-      acc[payment.userId] = [];
-    }
-    acc[payment.userId].push(payment);
-    return acc;
-  }, {});
-
-
-  return { recentTransactions: JSON.stringify(recentTransactions), users,groupedUsers, listOfProperties:JSON.stringify(recentTransactions) };
+  return {
+    recentTransactions: JSON.stringify(recentTransactions),
+    users,
+    groupedUsers,
+    listOfProperties: JSON.stringify(recentTransactions),
+  };
 };
 
 export default async function handler(req, res) {

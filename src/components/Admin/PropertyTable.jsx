@@ -37,10 +37,10 @@ const PropertyTable = ({ data = [], handleMintNft, rowsPerPage, handleSendPay })
       { accessorKey: 'email', header: 'Email' },
       { accessorKey: 'minted', header: 'Status' },
       { accessorKey: 'propertyPrice', header: 'Property Price' },
-      { accessorKey: 'saleStatus', header: 'Sale Status' },
-      { accessorKey: 'houseType', header: 'House Type' },
+      // { accessorKey: 'saleStatus', header: 'Sale Status' },
+      { accessorKey: 'id', header: 'TokenId' },
       { accessorKey: 'totalInvestmentPrice', header: 'Investment Price' },
-      { accessorKey: 'constructionYear', header: 'Construction Year' },
+      { accessorKey: 'tokenPrice', header: 'token Price' },
       {
         accessorKey: 'monthly',
         header: 'Monthly',
