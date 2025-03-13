@@ -1,11 +1,11 @@
 import UserProfile from '@/components/ProfileUser';
 import StyledImage from '@/components/StyedImage';
-import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
+import { useQueryGetActiveResults } from '@/hooks/query';
+import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import { usePathname, useRouter } from 'next/navigation';
 
 export default function Navbar({ toggleSidebar }) {
   const { data: userData } = useQueryGetActiveResults();
-  const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const location = usePathname();
   const paths = {
     '/dashboard/dashboard-wallet': 'Wallet',
@@ -29,7 +29,7 @@ export default function Navbar({ toggleSidebar }) {
               <div className='bg-black-700 w-full max-w-9 h-9 flex items-center justify-center rounded-[8px] p-1 '>
                 <StyledImage src='/assets/svg/Token.svg' className='w-9 h-9 ' />
               </div>
-              <p>${userData?.totalInvest}</p>
+              <p>${formatNumberIndianStyle(userData?.totalInvest)}</p>
             </div>
             <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' />
           </div>
@@ -38,7 +38,7 @@ export default function Navbar({ toggleSidebar }) {
               <div className='bg-black-700 w-full max-w-9 h-9 flex items-center justify-center rounded-[8px] p-1 '>
                 <StyledImage src='/assets/svg/Dollar.svg' className='w-9 h-9 ' />
               </div>
-              <p>{getTokenCalculation?.totalEarnings}</p>
+              <p>{formatNumberIndianStyle(userData?.totalEarningFromAllProperties?.toFixed(2))}</p>
             </div>
             <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' />
           </div>
@@ -46,7 +46,7 @@ export default function Navbar({ toggleSidebar }) {
             <StyledImage src='/assets/svg/Notification.svg' className='w-[38px] h-[38px] ' />
           </div> */}
         </div>
-        <UserProfile balance={getTokenCalculation?.totalEarnings} />
+        <UserProfile balance={formatNumberIndianStyle(userData?.totalEarningFromAllProperties)} />
       </div>
       <button onClick={toggleSidebar} className='lg:hidden block bg-black-600 p-1 rounded-[8px] '>
         <StyledImage src='/assets/svg/Menu.svg' className='w-6 h-6 ' />

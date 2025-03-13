@@ -1,4 +1,5 @@
 import StyledImage from "@/components/StyedImage";
+import { formatNumberIndianStyle } from "@/utils/wagmiConfig";
 import React from "react";
 
 export default function WalletCurrency({total, available}) {
@@ -26,7 +27,7 @@ export default function WalletCurrency({total, available}) {
         <div className="w-fit flex flex-col justify-between h-full ">
           <p className="text-20 sm:text-26  ">Liquid amount</p>
           <div className="flex items-center gap-3 sm:gap-6 mt-3 sm:mt-5 justify-end ">
-            <p className="text-16 font-medium ">{available}</p>
+            <p className="text-16 font-medium ">{formatNumberIndianStyle(available?.toFixed(2))}</p>
             <StyledImage
               src="/assets/svg/Exclamation.svg"
               className="w-10 h-8 "

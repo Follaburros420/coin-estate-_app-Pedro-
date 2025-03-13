@@ -42,8 +42,10 @@ export default async function handler(req, res) {
         },
       });
       const properties = await prisma.property.findMany();
+      const userRecords = await prisma.userRecords.findMany({ where: { userId: decoded.userId } });
+
       const completePaymentList = await prisma.payment.findMany({
-        where: {  status: 'SECCESS' },
+        where: { status: 'SECCESS' },
       });
       // userId: decoded.userId,
       const userTransactions = await prisma.payment.findMany({ where: { userId: decoded.userId } });
@@ -63,7 +65,12 @@ export default async function handler(req, res) {
 
       // it generate sale list mean how many tokens are sold from each property
       const sellList = properties?.map((property) => getPropertyPayments(property.id, completePaymentList));
+      let totalEarningFromAllProperties = 0;
+      const calculate = JSON.parse(userRecords?.[0]?.properties);
+      let earnings = Object.values(calculate);
+      earnings = earnings.map((item) => item && (totalEarningFromAllProperties += item?.earning));
 
+   
       const userData = {
         ...user,
         totalInvest,
@@ -71,6 +78,8 @@ export default async function handler(req, res) {
         invest: { transactions, payments: userTransactions },
         userProperties: propertyList,
         values: sellList,
+        userRecords: calculate,
+        totalEarningFromAllProperties
       };
 
       // Map blogs to their respective items

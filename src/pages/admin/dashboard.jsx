@@ -8,8 +8,7 @@ import {
   useQueryGetBlogList,
   useQueryGetMintedTokenlist,
   useQueryGetMonthlyPriceList,
-  useQueryGetProperty,
-  useQueryGetTokenPercentage,
+  useQueryGetProperty
 } from '@/hooks/query';
 import Layout from '@/layout/admin';
 import { useRouter } from 'next/navigation';

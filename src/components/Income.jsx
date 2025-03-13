@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
-import GoogleMapComponent from './GoogleMap';
-import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetTokenPercentage } from '@/hooks/query';
+import { useQueryGetActiveResults, useQueryGetTokenCopPrice } from '@/hooks/query';
 import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import { sumTokensByProperty } from './Dashboard/Wallet/WalletPage';
+import GoogleMapComponent from './GoogleMap';
 
 const locations = [
   { Latitude: 37.7749, Longitude: -122.4194 }, // San Francisco
@@ -12,7 +11,6 @@ const locations = [
 ];
 export default function Income() {
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
-  const { data: getTokenCalculation } = useQueryGetTokenPercentage();
   const { data: userData } = useQueryGetActiveResults();
 
   const summedTokens = sumTokensByProperty(userData?.invest?.payments, userData?.id);
@@ -35,11 +33,11 @@ export default function Income() {
     })
     .filter(Boolean);
 
-  let tokenCOPPrice = getTokenCalculation?.totalTokenBalance * tokenPrice;
+  let tokenCOPPrice = userData?.totalInvest * tokenPrice;
   tokenCOPPrice = tokenCOPPrice?.toFixed(2);
   tokenCOPPrice = Number(tokenCOPPrice);
 
-  let totalCOPEarning = getTokenCalculation?.totalEarnings * tokenPrice;
+  let totalCOPEarning = userData?.totalEarningFromAllProperties * tokenPrice;
   totalCOPEarning = totalCOPEarning.toFixed(2);
   totalCOPEarning = Number(totalCOPEarning);
 
@@ -62,7 +60,7 @@ export default function Income() {
               <p className='text-18 md:text-20 font-ubuntu font-medium'>Monthly Income </p>
               <div className='mt-4  bg-grey-500 flex gap-5 items-center max-w-[200px] rounded-[8px] p-3'>
                 <p className='bg-zink  px-4 rounded-[8px] py-1'>
-                  {formatNumberIndianStyle(getTokenCalculation?.totalEarnings)}
+                  {formatNumberIndianStyle(userData?.totalEarningFromAllProperties)}
                 </p>
                 <p className='text-20 font-bold font-ubuntu'>USD</p>
               </div>
@@ -90,7 +88,7 @@ export default function Income() {
               <p>{userData?.userProperties?.length}</p>
             </div>
             <div className='flex flex-col items-start gap-3 text-20 font-semibold lg:h-[110px] xl:h-[60px] justify-between '>
-              <p className='text-Yellow-100 '>Tokens</p>
+              <p className='text-Yellow-100'>Tokens</p>
               <p>Proyects</p>
             </div>
           </div>

@@ -3,8 +3,7 @@ import StyledImage from '@/components/StyedImage';
 import {
   useQueryGetActiveResults,
   useQueryGetTokenCopPrice,
-  useQueryGetTokenPercentage,
-  useQueryGetUser,
+  useQueryGetUser
 } from '@/hooks/query';
 import { baseScan } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
@@ -49,9 +48,7 @@ export default function WalletPage() {
     { timestamp: 1707465600000, cop: 4090 },
   ]);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
-  const { data: getTokenCalculation } = useQueryGetTokenPercentage();
-  const total = userData?.totalInvest + Number(getTokenCalculation?.totalEarnings);
-  // console.log({userData,user})
+  const total = userData?.totalInvest + userData?.totalEarningFromAllProperties;
 
   const summedTokens = sumTokensByProperty(userData?.invest?.payments, userData?.id);
 
@@ -68,7 +65,6 @@ export default function WalletPage() {
     };
   });
 
-  console.log({ summedTokens, annualNetIncome });
 
   // let netIncome= 1000;
   // const totalTokens = 200
@@ -84,8 +80,8 @@ export default function WalletPage() {
     {
       id: 1,
       status: 'Available',
-      price: formatNumberIndianStyle(getTokenCalculation?.totalEarnings) || 0,
-      cop: formatNumberIndianStyle(getTokenCalculation?.totalEarnings * tokenPrice) || 0,
+      price: formatNumberIndianStyle(userData?.totalEarningFromAllProperties) || 0,
+      cop: formatNumberIndianStyle(userData?.totalEarningFromAllProperties * tokenPrice) || 0,
     },
     {
       id: 2,
@@ -216,7 +212,7 @@ export default function WalletPage() {
           </div>
         </div>
       </div>
-      <WalletCurrency total={total} available={getTokenCalculation?.totalEarnings} />
+      <WalletCurrency total={formatNumberIndianStyle(total?.toFixed(2))} available={userData?.totalEarningFromAllProperties} />
       <div className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5 2xl:gap-10 mt-6 lg:mt-12 '>
         <div className='xl:col-span-1 '>
           <WalletInvestments data={userData?.invest?.payments} />

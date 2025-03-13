@@ -112,7 +112,6 @@ export default async function handler(req, res) {
 
       const activeResults = divideAllTransactions(tokenHolders, '67cce8504b9cc313c62f2118');
 
-      console.log({ activeResults });
 
       const groupedTransactions = monthlyValues.reduce((acc, item) => {
         acc[item.tokenId] = tokenHolders.filter((transaction) => transaction.propertyId === item.tokenId);

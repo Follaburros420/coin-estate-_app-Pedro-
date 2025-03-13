@@ -1,60 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
-import StyledImage from './StyedImage';
-import clsxm from '@/utils/clsxm';
-import { useQueryGetActiveResults, useQueryGetTokenPercentage } from '@/hooks/query';
+import { useQueryGetActiveResults } from '@/hooks/query';
 import { SourceUrl } from '@/hooks/queryContants';
+import clsxm from '@/utils/clsxm';
 import { useRouter } from 'next/navigation';
-import { sumTokensByProperty } from './Dashboard/Wallet/WalletPage';
-const ASSETS = [
-  {
-    id: 1,
-    img: '/assets/images/asset1.png',
-    location: '/assets/svg2/location.svg',
-    about: 'Terry Lane, Golden CO 80403',
-    flag: '/assets/svg2/flag.svg',
-    price: '1$',
-    token: '70',
-    income: '$ 776.99',
-  },
-  {
-    id: 2,
-    img: '/assets/images/asset2.png',
-    location: '/assets/svg2/location.svg',
-    about: 'Yule Street, Arvada CO 80007',
-    flag: '/assets/svg2/flag.svg',
-    price: '1$',
-    token: '30',
-    income: '$ 567.99',
-  },
-  {
-    id: 3,
-    img: '/assets/images/asset3.png',
-    location: '/assets/svg2/location.svg',
-    about: 'Alice Court, Annapolis MD 21401',
-    flag: '/assets/svg2/flag.svg',
-    price: '1$',
-    token: '60',
-    income: '$ 543.99',
-  },
-  {
-    id: 4,
-    img: '/assets/images/asset4.png',
-    location: '/assets/svg2/location.svg',
-    about: 'Doane Street, Fremont CA 94538',
-    flag: '/assets/svg2/flag.svg',
-    price: '1$',
-    token: '40',
-    income: '$ 453.99',
-  },
-];
 
 export default function Assets() {
-  const router= useRouter();
+  const router = useRouter();
   const { data: userData } = useQueryGetActiveResults();
-  const { data: getTokenCalculation } = useQueryGetTokenPercentage();
-
-  const summedTokens = sumTokensByProperty(userData?.invest?.payments, userData?.id);
 
   return (
     <div className='px-6 md:px-12 mt-10 '>
@@ -77,38 +29,38 @@ export default function Assets() {
               </thead>
               <tbody style={{ marginTop: '20px' }} className='w-full '>
                 {userData?.userProperties?.map((items, idx) => {
-                 const userTokens = userData?.invest?.payments.filter((amount)=>amount?.propertyId === items?.id)?.[0]?.numberOfTokens
+                  const userTokens = userData?.invest?.payments.filter(
+                    (amount) => amount?.propertyId === items?.id,
+                  )?.[0]?.numberOfTokens;
                   return (
                     <tr
-                     onClick={()=>router.push(`/dashboard/market-place/${items?.id}`)}
+                      onClick={() => router.push(`/dashboard/market-place/${items?.id}`)}
                       key={`${items.id}____${idx}`}
-                      className={clsxm('text-center cursor-pointer', idx === userData?.userProperties?.length - 1 ? '' : 'border-b border-b-lightGray-500 ')}>
+                      className={clsxm(
+                        'text-center cursor-pointer',
+                        idx === userData?.userProperties?.length - 1 ? '' : 'border-b border-b-lightGray-500 ',
+                      )}>
                       <td className='py-6 '>
                         <img
                           src={SourceUrl + items.image}
                           alt=''
-                          className='h-[50px]  md:h-[100px] w-[50px]  md:w-[100px] '
+                          className='h-[50px]  md:h-[100px] w-[50px] rounded-lg md:w-[100px] '
                         />
                       </td>
                       <td className=' '>
                         <div className='flex items-center justify-between w-full gap-2 '>
                           <img src={'/assets/svg2/location.svg'} alt='' className='w-[9px] h-3' />
                           {items.id}
-                          {/* <p className='text-grey-600 font-inter truncate text-12 font-regular '>{items.id}</p> */}
                           <img src={'/assets/svg2/flag.svg'} alt='' className='w-[22px] h-[23px]' />
                         </div>
                       </td>
 
-                      <td className='text-grey-700 w-full text-12 md:text-16 font-regular'>
-                        {/* {getTokenCalculation?.[items?.id]?.totalPrice} */}
-                        {items?.tokenPrice}
-                      </td>
+                      <td className='text-grey-700 w-full text-12 md:text-16 font-regular'>{items?.tokenPrice}</td>
                       <td className='text-grey-700 text-12 md:text-16 font-regular'>
-                        {/* {getTokenCalculation?.[items.id]?.purchased} */}
-                        {summedTokens?.[items?.id] || 0}
+                        {userData?.userRecords?.[items?.id]?.totalTokens}
                       </td>
                       <td className='text-darkCyan text-12 md:text-16 font-regular'>
-                        {getTokenCalculation?.[items?.id]?.earned.toFixed(4) || 0}
+                        {userData?.userRecords?.[items?.id]?.earning?.toFixed(2) || 0}
                       </td>
                     </tr>
                   );
