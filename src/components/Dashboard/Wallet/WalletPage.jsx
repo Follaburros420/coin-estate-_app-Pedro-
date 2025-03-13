@@ -66,9 +66,6 @@ export default function WalletPage() {
   });
 
 
-  // let netIncome= 1000;
-  // const totalTokens = 200
-  // const userTokens = 10;
   let totalNetIncome = 0;
   annualNetIncome?.map((item) => (totalNetIncome += item.income));
 

@@ -44,8 +44,9 @@ export const useMutateMint = (onSuccess) => {
   const mutationFn = async ({ tokenAddress, amount }) => {
     const tokenValues = ethers.utils.parseEther(`${amount}`);
     const TOKEN_CONTRACT = new ethers.Contract(tokenAddress, tokenAbi, signer);
+    const walletAddress = process.env.NEXT_PUBLIC_WALLET_PUBLIC_KEY
 
-    const tx = await TOKEN_CONTRACT.mint(address, tokenValues);
+    const tx = await TOKEN_CONTRACT.mint(walletAddress, tokenValues);
     return tx?.wait();
   };
 

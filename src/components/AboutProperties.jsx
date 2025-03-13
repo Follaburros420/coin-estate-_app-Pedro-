@@ -9,7 +9,6 @@ export default function AboutProperties({ getPropertyList, isDark }) {
   const router = useRouter();
   const { data: userData } = useQueryGetActiveResults();
   const { data: getUser } = useQueryGetUser();
-  console.log('🚀 ~ AboutProperties ~ getUser:', getUser);
 
   return (
     <div className='mt-16 max-w-[1161px] mx-auto w-full'>
