@@ -13,6 +13,7 @@ export const queryKeys = {
   getTokenPercentage: 'getTokenPercentage',
   getTokenListExchange: 'getTokenListExchange',
   getMonthlyPriceList: 'getMonthlyPriceList',
+  getRemainingTokens: 'getRemainingTokens',
 };
 
 //? openssl rand -hex 32

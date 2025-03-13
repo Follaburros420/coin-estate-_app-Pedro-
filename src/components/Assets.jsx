@@ -8,6 +8,7 @@ export default function Assets() {
   const router = useRouter();
   const { data: userData } = useQueryGetActiveResults();
 
+  if(userData?.userProperties?.length > 0)
   return (
     <div className='px-6 md:px-12 mt-10 '>
       <div className='max-w-[1161px] mx-auto w-full mt-10 lg:mt-0 '>
@@ -28,6 +29,7 @@ export default function Assets() {
                 </tr>
               </thead>
               <tbody style={{ marginTop: '20px' }} className='w-full '>
+                
                 {userData?.userProperties?.map((items, idx) => {
                   const userTokens = userData?.invest?.payments.filter(
                     (amount) => amount?.propertyId === items?.id,

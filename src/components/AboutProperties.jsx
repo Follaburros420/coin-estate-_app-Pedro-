@@ -1,13 +1,13 @@
-import { useQueryGetActiveResults, useQueryGetUser } from '@/hooks/query';
+import { useQueryGetRemainingTokens, useQueryGetUser } from '@/hooks/query';
 import { SourceUrl } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
+import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import { useRouter } from 'next/navigation';
 import ProgressBar from './ProgressBar';
-import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 
 export default function AboutProperties({ getPropertyList, isDark }) {
   const router = useRouter();
-  const { data: userData } = useQueryGetActiveResults();
+  const { data: remainingTokensList } = useQueryGetRemainingTokens();
   const { data: getUser } = useQueryGetUser();
 
   return (
@@ -15,7 +15,7 @@ export default function AboutProperties({ getPropertyList, isDark }) {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {getPropertyList?.map((items, idx) => {
           const mainImage = SourceUrl + items?.image;
-          const remaining = userData?.values?.filter((item) => item.propertyId === items?.id)?.[0];
+          const remaining = remainingTokensList?.filter((item) => item.propertyId === items?.id)?.[0];
           let remainingTokens = items?.totalInvestmentPrice - remaining?.remaining;
           remainingTokens = remainingTokens / items?.tokenPrice;
           return (
