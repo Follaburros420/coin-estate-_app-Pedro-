@@ -64,7 +64,7 @@ input[type='range'].YearRange-slider::-webkit-slider-thumb {
 
 .glass {
   /* From https://css.glass */
-  background: rgba(99, 97, 97, 0.38);
+  background: rgba(58, 58, 58, 0.38);
   /* border-radius: 16px; */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(9.1px);

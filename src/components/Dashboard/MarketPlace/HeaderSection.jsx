@@ -71,13 +71,13 @@ export default function HeaderSection({ selectedNFT, userData }) {
         {paths[location]}
       </p>
       <div className='mt-3 lg:mt-5 '>
-        <div className='grid grid-rows-2 grid-cols-4 gap-2 rounded-[10px] overflow-hidden '>
+        <div className='grid grid-rows-2 grid-cols-4 gap-2 rounded-[10px] glass overflow-hidden '>
           <img
             src={SourceUrl + selectedNFT?.image}
-            className='w-full h-full row-span-2 col-span-2 shadow-lg shadow-black-300'
+            className='w-full h-full row-span-2 col-span-2 object-contain shadow-lg shadow-black-300'
           />
           {selectedNFT?.subImages.map((img, idx) => {
-            return <img key={idx + img} src={SourceUrl + img} className='w-full h-full shadow-lg shadow-black-300' />;
+            return <img key={idx + img} src={SourceUrl + img} className='w-full h-full shadow-lg object-cover shadow-black-300' />;
           })}
         </div>
       </div>
@@ -114,7 +114,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
               value={remaining?.remaining / selectedNFT?.tokenPrice}
             />
             <div className='flex items-center justify-between mt-4 '>
-              <p className='sm:text-20 font-bold '>{remaining?.remaining / selectedNFT?.tokenPrice}</p>
+              <p className='sm:text-20 font-bold '>{remaining?.remaining / selectedNFT?.tokenPrice || 0}</p>
               <div className='sm:text-20 font-bold text-center leading-none '>
                 <p className=' '>
                   {formatNumberIndianStyle(selectedNFT?.totalInvestmentPrice / selectedNFT?.tokenPrice)}
