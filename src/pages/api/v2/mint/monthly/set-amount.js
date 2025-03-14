@@ -64,15 +64,20 @@ const groupTransactions = (transactions, users, price, percentage) => {
 // initial Formate
 
 const divideAllTransactions = (payments, propertyId, price, percentage) => {
-  const daysAgo = 1;
-  const currentDate = new Date();
-  const pastDate = new Date();
-  pastDate.setDate(currentDate.getDate() - daysAgo);
+  // const daysAgo = 1;
+  // const currentDate = new Date();
+  // const pastDate = new Date();
+  // pastDate.setDate(currentDate.getDate() - daysAgo);
 
-  const recentTransactionsOfAllUsersFromAllProperties = payments.filter((payment) => {
-    const createdAt = new Date(payment.createdAt);
-    return createdAt >= pastDate && createdAt <= currentDate;
-  });
+  // const recentTransactionsOfAllUsersFromAllProperties = payments.filter((payment) => {
+  //   const createdAt = new Date(payment.createdAt);
+  //   return createdAt >= pastDate && createdAt <= currentDate;
+  // });
+  const daysAgo = 5;
+  const now = new Date(); // Current date & time
+  const twoDaysAgo = new Date();
+  twoDaysAgo.setDate(now.getDate() - daysAgo); // Subtract 2 days
+  const recentTransactionsOfAllUsersFromAllProperties = payments.filter((txn) => new Date(txn.createdAt) < twoDaysAgo);
 
   const recentTransactionsOfAllUsers = recentTransactionsOfAllUsersFromAllProperties.filter(
     (payment) => payment.propertyId === propertyId,
