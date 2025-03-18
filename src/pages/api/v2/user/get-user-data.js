@@ -66,11 +66,11 @@ export default async function handler(req, res) {
       // it generate sale list mean how many tokens are sold from each property
       const sellList = properties?.map((property) => getPropertyPayments(property.id, completePaymentList));
       let totalEarningFromAllProperties = 0;
-      const calculate = JSON.parse(userRecords?.[0]?.properties);
-      let earnings = Object.values(calculate);
+
+      const calculate = JSON.parse(userRecords?.[0]?.properties) || {};
+      let earnings = calculate ? Object.values(calculate) : [];
       earnings = earnings.map((item) => item && (totalEarningFromAllProperties += item?.earning));
 
-   
       const userData = {
         ...user,
         totalInvest,
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
         userProperties: propertyList,
         values: sellList,
         userRecords: calculate,
-        totalEarningFromAllProperties
+        totalEarningFromAllProperties,
       };
 
       // Map blogs to their respective items

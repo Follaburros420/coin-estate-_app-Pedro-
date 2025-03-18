@@ -19,7 +19,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
   const onSuccess = () => {
     router.push(
-      `/dashboard/market-place/processing/pay-by-card?id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
+      `/dashboard/market-place/processing/pay-by-card?tab=checkout&id=${selectedNFT?.id}&amount=${amount}&tokenAddress=${selectedNFT?.mint?.tokenAddress}`,
     );
   };
   const { mutate: createIntend, isPending: isLoading } = useMutationInitiatePayment(onSuccess);

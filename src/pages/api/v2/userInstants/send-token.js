@@ -25,6 +25,7 @@ async function transferTokens(recipient, CONTRACT_ADDRESS, amount) {
 
     // Connect to the contract
     const contract = new ethers.Contract(CONTRACT_ADDRESS, tokenAbi, wallet);
+    console.log("🚀 ~ transferTokens ~ contract:", contract)
 
     // Convert amount to the correct format (if needed, e.g., decimals)
     const decimals = 18; // Replace with your token's decimals
@@ -32,6 +33,7 @@ async function transferTokens(recipient, CONTRACT_ADDRESS, amount) {
 
     // Call the `transfer` function
     const tx = await contract.adminTransfer(process.env.WALLET_ADDRESS, recipient, formattedAmount);
+    console.log("🚀 ~ transferTokens ~ tx:", tx)
     // if (tx) {
     //   return res.status(401).json({ error: tx });
     // }

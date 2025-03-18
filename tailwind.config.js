@@ -234,6 +234,7 @@ module.exports = {
       sm: ".125rem",
       DEFAULT: ".25rem",
       lg: "1rem",
+      md: "0.5rem",
       xl: "1.5rem",
       full: "9999px",
     },

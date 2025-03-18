@@ -39,7 +39,9 @@ export default async function handler(req, res) {
       });
       // Map blogs to their respective items
 
-      res.status(200).json({ message: 'fetched successfully', data: mintedList });
+      // res.status(200).json({ message: 'fetched successfully', data: mintedList });
+      res.status(200).json({ message: 'fetched successfully', data: propertiesList });
+
     } catch (error) {
       console.error('Error fetching blogs:', error);
 

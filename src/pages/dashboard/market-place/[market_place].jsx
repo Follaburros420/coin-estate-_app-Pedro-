@@ -1,7 +1,6 @@
 import HeaderSection from '@/components/Dashboard/MarketPlace/HeaderSection';
 import Tabs from '@/components/Dashboard/MarketPlace/Tabs';
-import RealEstateSimulator from '@/components/Dashboard/Simulater';
-import { useQueryGetActiveResults, useQueryGetMarketPlaceList, useQueryGetMintedTokenlist } from '@/hooks/query';
+import { useQueryGetActiveResults, useQueryGetMarketPlaceList } from '@/hooks/query';
 import Layout from '@/layout/Dashboard';
 import { useParams } from 'next/navigation';
 

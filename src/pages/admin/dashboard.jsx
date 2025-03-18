@@ -110,6 +110,7 @@ export default function Dashboard() {
 
   const { mutate: mintNfts, isPending: isLoadingMint } = useMutateMint(onSuccess);
   const { data: getNftsList } = useQueryGetNftsFromContract();
+  console.log({getNftsList})
 
   const { mutate: mutateDeleteBlog, isPending: isLoadingDelete } = useMutateDeleteBlog();
   const { data: blogList } = useQueryGetBlogList();
@@ -166,6 +167,7 @@ export default function Dashboard() {
   const handleMintNft = (res) => {
     const index = latestData?.findIndex((item) => item.id === res?.id);
     const tokenAddress = getNftsList?.[index];
+    console.log({tokenAddress})
     setSelected({ ...res, tokenAddress });
 
     mintNfts({ tokenAddress, amount: res?.totalInvestmentPrice });
