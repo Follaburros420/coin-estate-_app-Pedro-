@@ -1,4 +1,7 @@
 import CheckoutPage from '@/components/Checkout';
+import KYCVerification from '@/components/Dashboard/KYCVerification';
+import MakePayment from '@/components/Dashboard/MakePayment';
+import SignContract from '@/components/Dashboard/SignContract';
 import SummeryCard from '@/components/Dashboard/SummeryCard';
 import TransferModal from '@/components/Dashboard/TransferModal';
 import * as config from '@/config';
@@ -19,7 +22,7 @@ const stripePromise = loadStripe(
 
 const tabs = {
   checkout: 'sign-contract',
-  'sign-contract':'make-payment',
+  'sign-contract': 'make-payment',
   'make-payment': 'kyc-verification',
 };
 
@@ -36,6 +39,7 @@ export default function Page() {
   }, [initailPropert]);
 
   const searchParams = useSearchParams();
+  console.log(searchParams.get('tabs'))
   const paramsId = searchParams.get('id');
   const amount = searchParams.get('amount');
   const tokenAddress = searchParams.get('tokenAddress');
@@ -63,7 +67,6 @@ export default function Page() {
   };
 
   const handleNext = () => {
-    console.log('success');
     router.push(
       `/dashboard/market-place/processing/pay-by-card?tab=${tabs?.[tab]}&id=${paramsId}&amount=${amount}&tokenAddress=${tokenAddress}`,
     );
@@ -72,10 +75,12 @@ export default function Page() {
   return (
     <Layout>
       <div className='px-6 xl:pr-10'>
-        { tab === 'checkout' && <SummeryCard selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
-        { tab === 'sign-contract' && <SummeryCard selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
-        { tab === 'make-payment' && <SummeryCard selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
-        { tab === 'kyc-verification' && <SummeryCard selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
+        {tab === 'checkout' && <SummeryCard selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
+        {tab === 'sign-contract' && <SignContract selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
+        {tab === 'make-payment' && <MakePayment selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
+        {tab === 'kyc-verification' && (
+          <KYCVerification selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />
+        )}
       </div>
     </Layout>
   );
