@@ -13,6 +13,7 @@
     "vercel-build": "prisma generate && npx prisma db push && next build"
   },
   "dependencies": {
+    "@complycube/api": "^1.1.11",
     "@prisma/client": "^5.22.0",
     "@react-google-maps/api": "^2.20.5",
     "@reown/appkit": "^1.6.1",
@@ -23,9 +24,12 @@
     "@tanstack/react-table": "^8.20.5",
     "axios": "^1.7.8",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
     "chart.js": "^4.4.8",
     "clsx": "^2.1.1",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "epayco-sdk-node": "^1.4.0",
     "ethers": "^5.7.2",
     "framer-motion": "^12.4.7",
     "highcharts": "^12.1.2",

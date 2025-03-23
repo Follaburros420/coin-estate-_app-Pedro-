@@ -3,15 +3,21 @@ import React, { useEffect, useState } from 'react';
 import StyledImage from '@/components/StyedImage';
 import clsxm from '@/utils/clsxm';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Sidebar_Data, Sidebar_Data_Vault } from '@/_mock/data';
 
 export default function Sidebar({ isOpen }) {
   const [isActive, setIsActive] = useState();
   const [isDark, setIsDark] = useState(true);
   const location = usePathname();
-  console.log({location})
+  const searchParams = useSearchParams();
 
+  console.log({ location });
+  const paramsId = searchParams.get('id');
+  console.log(paramsId);
+  const amount = searchParams.get('amount');
+  const tokenAddress = searchParams.get('tokenAddress');
+  const tab = searchParams.get('tab');
   return (
     <div
       className={clsxm(
@@ -28,7 +34,10 @@ export default function Sidebar({ isOpen }) {
                   setIsActive(item.id);
                 }}
                 className={clsxm('pl-5 py-4  w-full ', location === item.routes && 'bg-black-800 rounded-[9px] ')}>
-                <Link href={item.routes}>
+                <Link
+                  href={
+                    item.routes + `&id=${paramsId}&amount=${amount}&tokenAddress=${tokenAddress}`
+                  }>
                   <div
                     className={clsxm(
                       'flex gap-3 items-center w-full h-[40px] ',

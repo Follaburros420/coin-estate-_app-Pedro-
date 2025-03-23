@@ -39,7 +39,6 @@ export default function Page() {
   }, [initailPropert]);
 
   const searchParams = useSearchParams();
-  console.log(searchParams.get('tabs'))
   const paramsId = searchParams.get('id');
   const amount = searchParams.get('amount');
   const tokenAddress = searchParams.get('tokenAddress');
@@ -79,7 +78,9 @@ export default function Page() {
         {tab === 'sign-contract' && <SignContract selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
         {tab === 'make-payment' && <MakePayment selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
         {tab === 'kyc-verification' && (
+          <div className='glass p-4 rounded-lg'>
           <KYCVerification selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />
+          </div>
         )}
       </div>
     </Layout>
