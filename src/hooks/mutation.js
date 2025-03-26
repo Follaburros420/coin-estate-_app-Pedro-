@@ -588,3 +588,74 @@ export const useMutationSendExchangeRate = () => {
     },
   });
 };
+
+// ===================================== send data to database =======================
+
+// Send exchange rate to backend
+export const useMutationSendEmail = () => {
+  const mutationFn = async (value) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/auth/forgot-password`,
+        headers: {
+          Accept: 'application/json',
+        },
+        data: {
+          email: value,
+        }, // Correctly pass the body as `data` in axios
+      };
+      return await axios.request(config);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.error('Mutation Error:', error);
+    },
+    onSuccess: (res) => {
+      toast.success(`${res?.data?.message}`);
+
+      console.log('Exchange Rate Sent Successfully');
+    },
+  });
+};
+
+// ===================================== send data to database =======================
+
+// Send exchange rate to backend
+export const useMutationResetPassword = () => {
+  const router = useRouter();
+  const mutationFn = async (value) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/auth/reset-password`,
+        headers: {
+          Accept: 'application/json',
+        },
+        data: {
+          token: value.token,
+          newPassword: value.newPassword,
+        }, // Correctly pass the body as `data` in axios
+      };
+      return await axios.request(config);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.error('Mutation Error:', error);
+    },
+    onSuccess: (res) => {
+      router.push('/auth/log-in');
+      toast.success(`${res?.data?.message}`);
+    },
+  });
+};

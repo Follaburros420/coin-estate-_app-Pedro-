@@ -8,9 +8,10 @@ export default async function handler(req, res) {
   }
 
   const { email } = req.body;
-
+  console.log('🚀 ~ handler ~ email:', email);
   // Find user by email
   const user = await prisma.user.findUnique({ where: { email } });
+  console.log('🚀 ~ handler ~ user:', user);
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
@@ -22,8 +23,14 @@ export default async function handler(req, res) {
   // Set token and expiration
   const tokenExpiration = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
   await prisma.user.update({
-    where: { email },
+    where: { id: user.id },
     data: {
+      email: user.email,
+      username: user.username,
+      listHash: user.listHash,
+      destinationValues: user.destinationValues,
+      userTokens: user.userTokens,
+      destinationCalculation: user.destinationCalculation,
       resetToken: hashedToken,
       resetTokenExpires: tokenExpiration,
     },
@@ -31,23 +38,34 @@ export default async function handler(req, res) {
 
   // Send email with reset link
   const transporter = nodemailer.createTransport({
-    service: 'Gmail', // Or any other service (e.g., SMTP)
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports like 587
     auth: {
-      user: process.env.EMAIL_USER, // Your email address
-      pass: process.env.EMAIL_PASS, // Your email password
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
-  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${resetToken}`;
+  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${resetToken}`;
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: `"Coin Estate" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: 'Password Reset Request',
+    subject: 'Password Reset Request - Coin Estate',
     html: `
-      <p>You requested a password reset.</p>
-      <p>Click the link below to reset your password:</p>
-      <a href="${resetUrl}">Reset Password</a>
-      <p>This link will expire in 15 minutes.</p>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333;">Password Reset Request</h2>
+        <p>You requested a password reset for your Coin Estate account.</p>
+        <p>Click the button below to reset your password:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${resetUrl}" 
+             style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
+            Reset Password
+          </a>
+        </div>
+        <p style="color: #666; font-size: 14px;">This link will expire in 15 minutes.</p>
+        <p style="color: #666; font-size: 14px;">If you didn't request this reset, please ignore this email.</p>
+      </div>
     `,
   };
 
@@ -55,7 +73,10 @@ export default async function handler(req, res) {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: 'Password reset email sent' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Could not send email' });
+    console.error('Email error:', error);
+    res.status(500).json({ 
+      error: 'Could not send email',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 }
