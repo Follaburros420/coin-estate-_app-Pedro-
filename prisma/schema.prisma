@@ -188,11 +188,36 @@ model ExchangeRate {
 
 model userRecords {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  username       String
+  username   String
   email      String
   userId     String
   address    String
   earnings   Int?
   properties String?
   createdAt  DateTime @default(now())
+}
+
+model document {
+  id                         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId                     String
+  propertyId                 String   @unique
+  agreement_purpose          String
+  contribution_payment       String
+  contribution_payment1      String
+  management_administration  String
+  management_administration1 String
+  profit_distribution        String
+  profit_distribution1       String
+  duration_termination       String
+  duration_termination1      String
+  responsibility_risks       String
+  responsibility_risks1      String
+  data_protection            String
+  data_protection1           String
+  governing_law              String
+  governing_law1             String
+  acceptance_signature       String
+  acceptance_signature1      String
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
 }

@@ -28,7 +28,9 @@ export default function AuthProvider() {
   const router = useRouter();
   const pathName = usePathname();
   const name = pathName?.split('/')?.[1];
-
+  const url = window.location.href;
+  const urlParams = new URLSearchParams(url);
+  const callbackUrl = urlParams.get('callbackUrl');
   const { data: user, isPending, refetch, isSuccess } = useQueryGetUser();
 
   useEffect(() => {
@@ -36,17 +38,15 @@ export default function AuthProvider() {
       if (name) {
         if (!user?.email && routerPaths?.includes(name)) {
           router.push('/auth/log-in');
-        } else {
-          router.push(pathName);
+        } else if (user?.email) {
+          router.push(`${url}`);
         }
       }
     };
     if (isSuccess) {
       setTimeout(() => handleRoute(), 1000);
     }
-  }, [user?.address, name]);
+  }, [user?.address, name, isSuccess]);
 
-  return (
-    <div>{isPending && <p className='absolute inset-0 flex justify-center items-center'>Loading...</p>}</div>
-  );
+  return <div>{isPending && <p className='absolute inset-0 flex justify-center items-center'>Loading...</p>}</div>;
 }

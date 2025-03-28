@@ -14,6 +14,7 @@ export const queryKeys = {
   getTokenListExchange: 'getTokenListExchange',
   getMonthlyPriceList: 'getMonthlyPriceList',
   getRemainingTokens: 'getRemainingTokens',
+  getDocument: 'getDocument',
 };
 
 //? openssl rand -hex 32

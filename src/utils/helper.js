@@ -27,6 +27,7 @@ export const routerPaths = [
   '/admin/dashboard',
   '/admin/create-property',
   '/admin/create-blog',
+  '/admin/create-document',
 ];
 
 export const useYupValidationResolver = (validationSchema) =>
@@ -124,3 +125,5 @@ export const validationSchemaBlog = yup.object({
   description: yup.string().required('Description is mandatory'),
   subheading: yup.string().required('constructionYear required'),
 });
+
+

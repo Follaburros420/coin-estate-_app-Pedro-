@@ -11,6 +11,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import dynamic from "next/dynamic";
 import CustomSelect from '@/components/Select';
 import { useYupValidationResolver, validationSchemaBlog } from '@/utils/helper';
+import BracketSuggestionInput from '@/components/Admin/SuggestionInput';
 
 const QuillEditor = dynamic(() => import('@/components/QuillEditor'), {
   ssr: false,
@@ -53,16 +54,19 @@ export default function Home() {
     return trimmed === '' ? '' : value; // Return empty string if no meaningful content
   };
 
+  // let formate = myRealString.replace('{username}', 'luqmanaslam')
+
+  // console.log("🚀 ~ Home ~ formate:", formate)
   return (
     <div>
       <Layout>
         <div className='pt-20 p-12'>
-
           <div
             onSubmit={handleSubmit((data) => {
               handleFormSubmit(data);
             })}
-            className=' w-full px-8  mx-auto mb-20 bg-black-600 max-w-[1290px] py-8 rounded-lg  '>
+            className=' w-full px-8  mx-auto mb-20 bg-black-600 max-w-[1290px] py-8 rounded-lg  '
+            >
             <p className='mt-[20px] text-white text-center  uppercase text-30 md:text-48 font-semibold leading-9 md:leading-[58px]'>
               Create Blog
             </p>

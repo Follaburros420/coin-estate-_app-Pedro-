@@ -6,7 +6,7 @@ import SummeryCard from '@/components/Dashboard/SummeryCard';
 import TransferModal from '@/components/Dashboard/TransferModal';
 import * as config from '@/config';
 import { useMutateTransferFunds } from '@/hooks/mutation';
-import { useQueryGetProperty } from '@/hooks/query';
+import { useQueryGetDocument, useQueryGetProperty } from '@/hooks/query';
 import Layout from '@/layout/Vault-Dashboard';
 import { usePropertyStates } from '@/store/useProduct';
 import { Elements } from '@stripe/react-stripe-js';
@@ -45,6 +45,8 @@ export default function Page() {
   const tab = searchParams.get('tab');
 
   const selectedNFT = getPropertyList?.filter((item) => item.id === paramsId)?.[0];
+  const { data: document } = useQueryGetDocument(paramsId);
+  console.log("🚀 ~ Page ~ document:", {document})
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -75,7 +77,7 @@ export default function Page() {
     <Layout>
       <div className='px-6 xl:pr-10'>
         {tab === 'checkout' && <SummeryCard selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
-        {tab === 'sign-contract' && <SignContract selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
+        {tab === 'sign-contract' && <SignContract selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} document={document} />}
         {tab === 'make-payment' && <MakePayment selectedNFT={selectedNFT} amount={amount} handleNext={handleNext} />}
         {tab === 'kyc-verification' && (
           <div className='glass p-4 rounded-lg'>

@@ -389,7 +389,6 @@ export const useQueryGetMonthlyPriceList = () => {
 };
 
 export const useQueryGetRemainingTokens = () => {
-
   const queryKey = [queryKeys.getRemainingTokens];
 
   const queryFn = async () => {
@@ -408,6 +407,41 @@ export const useQueryGetRemainingTokens = () => {
   return useQuery({
     queryKey,
     queryFn,
+    onError: (error) => {
+      console.error('Query Error:', error);
+    },
+    onSuccess: (data) => {
+      console.log('Query Success:', data);
+    },
+    // refetchInterval: 5000, // Fetch every 5 seconds
+  });
+};
+
+// ================================ Get Document ========================================
+
+export const useQueryGetDocument = (id) => {
+  const { data: user } = useQueryGetUser();
+  const queryKey = [queryKeys.getDocument];
+
+  const queryFn = async () => {
+    const config = {
+      method: 'POST',
+      url: `${endPoint}/document/get-contract`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${user?.token}`,
+      },
+      data: { id },
+    };
+
+    const tx = await axios.request(config);
+    return tx?.data?.data;
+  };
+
+  return useQuery({
+    queryKey,
+    queryFn,
+    enabled: !!id,
     onError: (error) => {
       console.error('Query Error:', error);
     },

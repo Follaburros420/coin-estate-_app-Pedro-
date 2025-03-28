@@ -659,3 +659,41 @@ export const useMutationResetPassword = () => {
     },
   });
 };
+
+// ===================================== send data to database =======================
+
+// Send exchange rate to backend
+export const useMutationCreateDocument = () => {
+  const { data: user } = useQueryGetUser();
+
+  const router = useRouter();
+  const mutationFn = async (value) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/document/contract`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${user?.token}`,
+        },
+        data: {
+          ...value
+        }, // Correctly pass the body as `data` in axios
+      };
+      return await axios.request(config);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.error('Mutation Error:', error);
+    },
+    onSuccess: (res) => {
+      // router.push('/auth/log-in');
+      toast.success(`${res?.data?.message}`);
+    },
+  });
+};

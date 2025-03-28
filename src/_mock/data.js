@@ -982,6 +982,13 @@ export const Sidebar_DataA_Admin = [
     title: 'Create Blog',
     routes: '/admin/create-blog',
   },
+  {
+    id: 4,
+    activeImg: '/assets/svg/sidebarIcons/active/MarketPlace.svg',
+    nonActiveImg: '/assets/svg/sidebarIcons/non-active/MarketPlace.svg',
+    title: 'Create Document',
+    routes: '/admin/create-document',
+  },
 ];
 
 export const Sidebar_Data = [
@@ -1039,10 +1046,10 @@ export const Sidebar_Data_Vault = [
   },
   {
     id: 4,
-    activeImg: "/assets/svg/sidebarIcons/active/Liquidity.svg",
-    nonActiveImg: "/assets/svg/sidebarIcons/non-active/Liquidity.svg",
-    title: "KYC Verification",
-    routes: "/dashboard/market-place/processing/pay-by-card?tab=kyc-verification",
+    activeImg: '/assets/svg/sidebarIcons/active/Liquidity.svg',
+    nonActiveImg: '/assets/svg/sidebarIcons/non-active/Liquidity.svg',
+    title: 'KYC Verification',
+    routes: '/dashboard/market-place/processing/pay-by-card?tab=kyc-verification',
   },
 ];
 

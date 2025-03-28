@@ -1,3 +1,4 @@
+import DocumentTable from '@/components/Admin/DocumentTable';
 import PropertyTable from '@/components/Admin/PropertyTable';
 import MonthlyInvestment from '@/components/Admin/SetMonthly';
 import SortableTable from '@/components/Admin/Table';
@@ -8,7 +9,7 @@ import {
   useQueryGetBlogList,
   useQueryGetMintedTokenlist,
   useQueryGetMonthlyPriceList,
-  useQueryGetProperty
+  useQueryGetProperty,
 } from '@/hooks/query';
 import Layout from '@/layout/admin';
 import { useRouter } from 'next/navigation';
@@ -63,7 +64,7 @@ export default function Dashboard() {
   //     pageIndex: 0,
   //     pageSize: 5,
   //   });
-  
+
   const [selected, setSelected] = useState(null);
   const [openModel, setOpenModel] = useState(false);
   const { mutate: mintToken } = useMutateMinteToken();
@@ -71,10 +72,8 @@ export default function Dashboard() {
   const { data: getPropertyDetails, refetch: propertyRefetch } = useQueryGetProperty();
   const { data: monthlyPriceList, refetch: refetchList } = useQueryGetMonthlyPriceList();
 
-
   // Filter records created before 30 days
   const recodesOfMonth = monthlyPriceList?.length > 0 && handleFormateMonth(monthlyPriceList);
-
 
   const onSuccess = (value) => {
     const values = {
@@ -110,7 +109,7 @@ export default function Dashboard() {
 
   const { mutate: mintNfts, isPending: isLoadingMint } = useMutateMint(onSuccess);
   const { data: getNftsList } = useQueryGetNftsFromContract();
-  console.log({getNftsList})
+  console.log({ getNftsList });
 
   const { mutate: mutateDeleteBlog, isPending: isLoadingDelete } = useMutateDeleteBlog();
   const { data: blogList } = useQueryGetBlogList();
@@ -135,7 +134,7 @@ export default function Dashboard() {
           <button className='font-bold bg-blue-400 w-full py-2 rounded-[8px] bg-transparent p-1'>Add</button>
         ) : (
           <p className='font-bold'>
-            {recodesOfMonth?.currentMonthTokens?.[item?.id]?.[0]?.price}{' '} $ /{' '}
+            {recodesOfMonth?.currentMonthTokens?.[item?.id]?.[0]?.price} $ /{' '}
             {recodesOfMonth?.currentMonthTokens?.[item?.id]?.[0]?.percentage} %
           </p>
         )}
@@ -154,6 +153,24 @@ export default function Dashboard() {
     ),
   }));
 
+  const latestDocumentData = getPropertyDetails?.map((item, idx) => ({
+    minted: mintedTokensList?.filter((mint) => mint.tokenId === item.id)?.[0]?.name ? 'Minted' : 'Not Minted',
+    ...item,
+    rowNum: idx + 1,
+ 
+    actions: (
+      <div className='flex items-center space-x-2 px-2'>
+        {!mintedTokensList?.filter((mint) => mint.tokenId === item.id)?.[0]?.name ? (
+          <button className='font-bold text-12 bg-blue-400 w-full py-2 rounded-[8px] bg-transparent p-1'>
+            {isLoadingMint && selected.id === item.id ? 'Loading...' : 'Create Document'}
+          </button>
+        ) : (
+          'Created'
+        )}
+      </div>
+    ),
+  }));
+
   const handleDelete = (id) => {
     mutateDeleteBlog(id);
   };
@@ -167,10 +184,15 @@ export default function Dashboard() {
   const handleMintNft = (res) => {
     const index = latestData?.findIndex((item) => item.id === res?.id);
     const tokenAddress = getNftsList?.[index];
-    console.log({tokenAddress})
+    console.log({ tokenAddress });
     setSelected({ ...res, tokenAddress });
 
     mintNfts({ tokenAddress, amount: res?.totalInvestmentPrice });
+  };
+
+  const handleCreateDocument = (value) => {
+    console.log({ value });
+    router.push(`/admin/create-document?id=${value?.id}`);
   };
 
   return (
@@ -193,6 +215,10 @@ export default function Dashboard() {
               handleSendPay={handleSendPay}
               rowsPerPage={5}
             />
+          )}
+          <h1 className='text-2xl text-center uppercase font-bold mb-6 mt-8'>Properties</h1>
+          {getPropertyDetails?.length > 0 && (
+            <DocumentTable data={latestDocumentData} handleCreateDocument={handleCreateDocument} rowsPerPage={5} />
           )}
         </div>
 

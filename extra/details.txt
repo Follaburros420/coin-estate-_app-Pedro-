@@ -2,6 +2,21 @@ https://docs.stripe.com/sdks/stripejs-react
 
 https://github.com/sonnysangha/stripe-payment-elements-with-https-nextjs-14-demo/blob/main/app/api/create-payment-intent/route.ts
 
+================================ Email Requirements =====================================
+Enable 2-factor authentication on your Gmail account (web3genesisai@gmail.com):
+Go to your Google Account settings
+Navigate to Security
+Enable 2-Step Verification
+Generate an App Password:
+Go to your Google Account settings
+Navigate to Security
+Look for "App passwords" (or search for it)
+Select "Mail" as the app and "Other" as the device
+Give it a name like "Coin Estate App"
+Copy the 16-character password that Google generates
+Update your .env file with the new App Password:
+Replace the current EMAIL_PASS value with the App Password you just generated
+The line should look like: EMAIL_PASS=your_new_app_password
 
 
 
