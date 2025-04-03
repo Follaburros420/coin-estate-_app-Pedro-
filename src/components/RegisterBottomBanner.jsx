@@ -1,7 +1,9 @@
 import { useQueryGetUser } from '@/hooks/query';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 export default function RegisterBottomBanner() {
+  const router = useRouter();
   const { data: user } = useQueryGetUser();
   if (!user?.email)
     return (
@@ -11,8 +13,12 @@ export default function RegisterBottomBanner() {
             <h1 className='font-semibold md:text-28 font-inter text-white'>
               Accede Con <span className='text-yellow'>CoinEstate</span> al futuro de la inversión inmobiliaria
             </h1>
-            <button className='py-3 px-8 mt-4 md:mt-0 bg-yellow font-inter font-semibold text-12 sm:text-16 text-white rounded-full'>
-              ¡Regístrate!
+            <button
+              onClick={() => {
+                router.push('/auth/create-account');
+              }}
+              className='py-3 px-8 mt-4 md:mt-0 bg-yellow font-inter font-semibold text-12 sm:text-16 text-white rounded-full'>
+              Regístrate
             </button>
           </div>
         </div>

@@ -13,7 +13,7 @@ export default function Page() {
       <div className="bg-lightblue">
         {/* <Services /> */}
         <WorksTopBanner
-          heading={"Servicios Integrales para la Tokenización de inmuebles lkjflkd sajflkjdsa flkjdsalkfjldsa"}
+          heading={"Servicios Integrales para la Tokenización de inmuebles"}
           desc={
             "Desbloquea el Potencial de tus Inversiones Inmobiliarias con Nuestras Soluciones Expertas y Tecnologías Innovadoras"
           }

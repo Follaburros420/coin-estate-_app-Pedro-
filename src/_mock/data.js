@@ -301,18 +301,18 @@ export const SERVICES = [
     title: 'Acceso a altas plusvalías',
     about:
       'Ofrecemos acceso exclusivo a proyectos de remodelación, los cuales suelen tener rentabilidades atractivas en poco tiempo, pues las mejoras hechas al inmueble incrementan su valor en el mercado.',
-    btn: '¿Qué es un proyecto de remodelación? ',
-    path: '/comprehensive-services',
+    btn: 'Qué es un proyecto de remodelación?',
+    path: '/comprehensive-services-remodeling',
   },
 
   {
     id: 3,
     img: '/assets/images/service3.png',
-    title: ' Ganancias Inmediatas',
+    title: 'Rápido Testeo',
     about:
       "Gracias a nuestros proyectos bajo el modelo 'Tenant-Occupied Property', puedes invertir en fracciones de inmuebles que ya están siendo arrendados y obtener rentabilidad desde el primer mes.",
-    btn: '¿Qué es “Tenant Occupied Property”?',
-    path: '/comprehensive-services-remodeling',
+    btn: 'Qué es Tenant Occupied Property?',
+    path: '/comprehensive-services',
   },
   {
     id: 4,
@@ -1056,17 +1056,17 @@ export const Sidebar_Data_Vault = [
 export const Navbar_Links = [
   {
     id: 1,
-    title: 'Home',
+    title: 'Inicio',
     path: '/',
   },
   {
     id: 2,
-    title: 'How Does It Works?',
+    title: '¿Cómo funciona?',
     path: '/working',
   },
   {
     id: 3,
-    title: 'Services',
+    title: '¿Qué ofrecemos?',
     path: '/services',
   },
   {
@@ -1076,7 +1076,7 @@ export const Navbar_Links = [
   },
   {
     id: 5,
-    title: 'Learn',
+    title: 'Aprende',
     path: '/learn',
   },
 ];
