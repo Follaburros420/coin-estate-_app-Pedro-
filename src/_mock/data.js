@@ -330,7 +330,7 @@ export const SERVICES = [
   },
   {
     id: 6,
-    img: '/assets/images/service2.png',
+    img: '/assets/images/team/pro.png',
     title: 'Próximamente: Mercado secundario',
     about:
       'Liquida tu capital invertido cuando quieras, y vende tus tokens en nuestro mercado secundario (Marketplace), de una manera mucho más fácil, eficiente y rápida que en el sector inmobiliario tradicional. Ya no más largas esperas para hacer líquida la valorización de tu activo!',

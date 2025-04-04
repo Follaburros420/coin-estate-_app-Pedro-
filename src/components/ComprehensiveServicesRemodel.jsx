@@ -8,8 +8,8 @@ export default function ComprehensiveServicesRemodel() {
       <div className="w-full max-w-[1161px] mx-auto ">
         <div className="flex flex-col md:flex-row gap-6 items-center justify-between ">
           <StyledImage
-            className="w-full max-w-[455px] min-h-[314px] "
-            src="/assets/images/ServicesRemodelingMainImg.png"
+            className="w-full max-w-[455px] min-h-[314px] rounded-lg overflow-hidden"
+            src="/assets/images/team/employ.png"
           />
           <div className=" w-full max-w-[507px] ">
             <p className="text-28 sm:text-36 text-center font-bold capitalize leading-none ">

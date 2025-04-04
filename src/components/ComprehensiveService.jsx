@@ -9,8 +9,8 @@ export default function ComprehensiveService() {
       <div className="w-full max-w-[1161px] mx-auto ">
         <div className="flex flex-col md:flex-row gap-6 items-center justify-between md:mx-20 ">
           <StyledImage
-            className="w-full max-w-[283px] min-h-[249px] "
-            src="/assets/images/ComprehensiveServiceMainImg.png"
+            className="w-full max-w-[403px] min-h-[349px] rounded-lg overflow-hidden"
+            src="/assets/images/team/sev.png"
           />
           <p className="text-28 sm:text-36 text-center w-full max-w-[587px] font-bold ">
             ¿qué es el modelo “Tenant Occupied Property”?

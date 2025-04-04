@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 "use client";
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
@@ -5,8 +7,10 @@ import WorksTopBanner from "../WorksTopBanner";
 import StyledImage from "../StyedImage";
 import { Guide_Investing_Data, Legal_Models_Data } from "@/_mock/data";
 import RegisterBottomBanner from "../RegisterBottomBanner";
+import { useRouter } from "next/router";
 
 export default function LegalModels() {
+  const router = useRouter()
   const [isBrowser, setIsBrowser] = useState(false);
 
   // Ensure the document is available only in the browser
@@ -51,9 +55,9 @@ export default function LegalModels() {
                 </span>{" "}
               </p>
             </div>
-            <StyledImage
-              src="/assets/images/LegalAspects.png"
-              className="w-full max-w-[482px] min-h-[300px] lg:min-h-[371px] "
+            <img
+              src="/assets/images/team/asp.png"
+              className="w-full max-w-[482px] object-cover"
             />
           </div>
 
@@ -101,7 +105,7 @@ export default function LegalModels() {
                   digitalización del proyecto de forma eficiente y segura,
                   representando así los derechos económicos en formato de tokens
                   criptográficos, los cuales se despliegan en la blockchain
-                  gracias a Contratos Inteligentes. 
+                  gracias a Contratos Inteligentes.
                 </p>
                 <p>
                   Sabemos que no existe mejor publicidad que un usuario feliz
@@ -114,7 +118,7 @@ export default function LegalModels() {
                   cumpliendo siempre con la normativa tanto legal como
                   tributaria. A continuación te explicamos un poco más:
                 </p>
-                <button className="mt-6 font-semibold font-inter py-3 px-8 bg-Yellow-200 rounded-full text-white ">
+                <button onClick={()=>router.push('/auth/create-account')} className="mt-6 font-semibold font-inter py-3 px-8 bg-Yellow-200 rounded-full text-white ">
                   Regístrate
                 </button>
               </div>

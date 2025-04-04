@@ -36,7 +36,7 @@ export default function WhyCoinEstates() {
         <div className="font-inter  w-full max-w-[1161px] mx-auto ">
           <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 lg:gap-20 ">
             <StyledImage
-              src="/assets/images/WhyCoinestateMainImg.png"
+              src="/assets/images/team/por.png"
               className="w-full max-w-[380px] min-h-[380px] "
             />
             <div className="w-full max-w-[456px] text-center lg:text-start ">
