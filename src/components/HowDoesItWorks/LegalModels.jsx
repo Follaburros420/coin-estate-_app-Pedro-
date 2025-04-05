@@ -141,7 +141,7 @@ export default function LegalModels() {
               </div>
               <div className="mt-5 " id="section2">
                 <p className="font-inter font-bold ">
-                  contrato de cuentas en participación
+                  Contrato de cuentas en participación
                 </p>
                 <p className="text-14 font-medium font-inter text-gray mt-4  ">
                   La financiación para la adquisición del inmueble se realiza
@@ -167,7 +167,7 @@ export default function LegalModels() {
               </div>
               <div className="mt-5 " id="section3">
                 <p className="font-inter font-bold ">
-                  derechos de los inversores
+                  Derechos de los inversores
                 </p>
                 <p className="text-14 font-medium font-inter text-gray mt-4  ">
                   Los inversores no ostentan la propiedad directa del inmueble,
@@ -225,7 +225,7 @@ export default function LegalModels() {
               </div>
               <div className="mt-5 " id="section5">
                 <p className="font-inter font-bold ">
-                  cumplimiento regulatorio
+                  Cumplimiento regulatorio
                 </p>
                 <div className="text-14 font-medium font-inter text-gray mt-4  ">
                   <p>
@@ -266,7 +266,7 @@ export default function LegalModels() {
               </div>
               <div className="mt-5 " id="section6">
                 <p className="font-inter font-bold ">
-                  transparencia y comunicación
+                  Transparencia y comunicación
                 </p>
                 <div>
                   <p className="text-14 font-medium font-inter text-gray mt-4  ">

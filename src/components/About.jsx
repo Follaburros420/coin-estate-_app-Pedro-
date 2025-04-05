@@ -41,11 +41,16 @@ export default function About() {
               <div className='   leading-6 mt-4'>
                 <div className='flex  gap-2'>
                   <img src='/assets/svg/phone.svg' alt='' />
-                  <p className='text-14 font-inter font-regular text-black-100'>1234567890</p>
+                  <p className='text-14 font-inter font-regular text-black-100'>
+                    <a href='https://wa.me/573118867074' target='_blank'>
+                      {' '}
+                      +57 3118867074
+                    </a>
+                  </p>
                 </div>
                 <div className='flex  gap-2'>
                   <img src='/assets/svg/email.svg' alt='' />
-                  <p className='text-14 font-inter font-regular text-black-100'>coinestate@gmail.com</p>
+                  <p className='text-14 font-inter font-regular text-black-100'>ayuda@coinestate.com.co</p>
                 </div>
               </div>
             </div>

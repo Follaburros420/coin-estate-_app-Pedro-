@@ -100,7 +100,7 @@ export default function GuideToInvesting() {
                   Paso 3: Realiza tu verificación KYC (Know Your Coustumer)
                 </p>
                 <p className="text-14 font-medium font-inter text-gray mt-4  ">
-                  La verificación KYC es vital para proporcionar nuestros
+                  La verificación KYC es vital  para proporcionar a nuestros
                   usuarios un entorno seguro y confiable de inversión. Este
                   proceso permite proteger tus activos ante posibles
                   implicaciones legales derivadas de otros inversores y nos
@@ -109,8 +109,7 @@ export default function GuideToInvesting() {
                   te presentarán la primera vez que intentes comprar tokens. Se
                   te solicitará información como documentos de identificación,
                   entre otros datos necesarios.¡Recuerda que este proceso solo
-                  se hace una vez!. mantenerte al tanto de actualizaciones
-                  importantes.
+                  se hace una vez!.
                 </p>
                 <p className="text-14 font-medium font-inter text-gray  ">
                   Posterior a la validación de tu identidad en la plataforma,
@@ -130,7 +129,7 @@ export default function GuideToInvesting() {
                   pago que prefieras y procede con el mismo. Contamos con
                   múltiples formas de pago, como transferencia bancaria, pagos
                   con tarjetas de crédito y débito e incluso pagos en efectivo
-                  en ciertos puntos fisicos
+                  en ciertos puntos físicos
                 </p>
                 <p className="text-14 font-medium font-inter text-gray  ">
                   Una vez hayas cumplido con todos los requisitos para

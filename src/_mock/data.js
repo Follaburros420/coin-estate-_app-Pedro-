@@ -535,7 +535,7 @@ export const Marketing_Cards_Data = [
   {
     id: 5,
     img: '/assets/svg/marketing5.svg',
-    title: 'Proximamente: Mercado Secundario: ',
+    title: 'Próximamente: Mercado Secundario',
     onClick: '/works/approximates',
     about:
       'Entiende qué es el mercado secundario y descubre los beneficios que te esperan una vez haya sido implementado',
@@ -735,19 +735,24 @@ export const Approximate_Page_QueryTwo_Data = [
 
 export const Glossary_Content_Data = [
   {
+    id: 0,
+    title: 'Tokenización de Activos',
+    desc: 'La tokenización de activos consiste en crear representaciones digitales (tokens) de bienes físicos (como inmuebles) o intangibles sobre una blockchain. Esto permite fraccionar los derechos económicos relacionados con una propiedad y facilitar su compraventa en el mercado',
+  },
+  {
     id: 1,
-    title: '-Token',
-    desc: 'Imagina que un token es como una ficha o boleto digital que te da derechos sobre algo, como una fracción de una propiedad o una rentabilidad. Gracias a la blockchain, puedes comprar, vender o transferir tokens fácilmente, lo que los hace una opción segura y eficiente para invertir en activos como inmuebles.',
+    title: 'Token',
+    desc: 'Un token es similar a una ficha o boleto digital que otorga derechos sobre un activo subyacente, por ejemplo, una fracción de un derecho relacionado a una propiedad o un porcentaje de rentabilidad. Gracias a la tecnología blockchain, puedes comprar, vender o transferir estos tokens fácilmente, lo que los hace una opción segura y eficiente para invertir en activos como inmuebles.',
   },
   {
     id: 2,
-    title: '-Blockchain',
-    desc: 'Piensa en la blockchain como un libro de contabilidad que todos pueden ver, donde cada página (o bloque) está conectada a la siguiente. Esto garantiza que una vez que se registra algo, nadie puede cambiarlo sin que todos lo noten. Es lo que asegura que tus inversiones sean seguras y transparentes.',
+    title: 'Blockchain',
+    desc: 'La blockchain es como un libro de contabilidad digital compartido entre muchos usuarios. Cada transacción se registra en un "bloque" que se une al anterior, formando una cadena inalterable. Esto significa que, una vez que se anota una transacción, no se puede cambiar sin que todo el mundo se entere. Para un inversor, esto se traduce en mayor seguridad y transparencia, ya que cada operación se puede verificar públicamente sin depender de intermediarios. Imagina que es como tener un registro público que garantiza que tus inversiones se gestionen de forma confiable y sin sorpresas inesperadas.',
   },
   {
     id: 3,
-    title: '-Contrato Inteligente',
-    desc: 'Imagina un contrato que se ejecuta solo cuando se cumplen ciertas condiciones, sin la necesidad de intermediarios. Por ejemplo, si inviertes en una propiedad, un contrato inteligente puede repartir automáticamente los pagos de alquiler entre los inversores. Esto garantiza que todo funcione de manera automática y precisa, sin retrasos.',
+    title: 'Contrato Inteligente',
+    desc: 'Un contrato inteligente (smart contract) es un programa en la blockchain que se ejecuta automáticamente al cumplirse ciertas condiciones, sin intermediarios. Por ejemplo, si inviertes en una propiedad tokenizada, el contrato inteligente es el que se encarga de determinar las participaciones que tiene cada persona con base en las transacciones que han ocurrido. ',
   },
   {
     id: 4,
@@ -756,38 +761,39 @@ export const Glossary_Content_Data = [
   },
   {
     id: 5,
-    title: '-Verificación KYC',
-    desc: 'Antes de que puedas invertir, tendrás que pasar por la verificación KYC, que es como mostrar tu identificación en un banco antes de abrir una cuenta. Este proceso asegura que todo esté en orden legalmente, protegiéndote y garantizando que las inversiones sean seguras.',
+    title: 'Verificación KYC',
+    desc: 'La verificación KYC (Know Your Customer) es el proceso mediante el cual se comprueba la identidad de cada inversor. Es similar a mostrar tu identificación para abrir una cuenta bancaria. Este paso garantiza el cumplimiento legal y protege a todos los participantes.',
   },
   {
     id: 6,
-    title: '-Plusvalía',
-    desc: 'Imagina que compras una fracción de una propiedad hoy, y con el tiempo, su valor aumenta. Eso es la plusvalía: el crecimiento en el valor de tu inversión. Cuando decides vender, ese aumento en el valor es una ganancia adicional para ti.',
+    title: 'Plusvalía',
+    desc: 'La plusvalía es el incremento en el valor de tu inversión con el paso del tiempo. Si compras una fracción de un proyecto inmobiliario y su precio sube, ese aumento se traduce en una ganancia cuando decides vender tus tokens.',
   },
   {
     id: 7,
-    title: '-Ingresos Pasivos',
-    desc: 'Los ingresos pasivos son las ganancias que recibes sin tener que trabajar activamente. Imagina que inviertes en una propiedad y, mes tras mes, recibes pagos de alquiler sin hacer nada más. Es dinero que sigue llegando mientras tu inversión trabaja por ti.',
+    title: 'Ingresos Pasivos',
+    desc: 'Los ingresos pasivos son las ganancias que fluyen sin que requieras trabajo activo constante. Por ejemplo, si inviertes en un inmueble alquilado, recibirás mensualmente ingresos por renta sin mayores esfuerzos adicionales.',
   },
   {
     id: 8,
-    title: '-Diversificar',
-    desc: 'Diversificar es repartir tu inversión entre diferentes propiedades para reducir riesgos. Imagina que en lugar de poner todo tu dinero en una sola casa, inviertes en varias. Así, si una propiedad no da los resultados esperados, las otras inversiones pueden compensarlo.',
+    title: 'Diversificar',
+    desc: 'Diversificar significa repartir tu capital entre diferentes propiedades o activos para disminuir el riesgo. En lugar de invertir todo en una sola propiedad, lo distribuyes en varias; así, si una no rinde como esperabas, las demás pueden compensar el resultado global.',
   },
   {
     id: 9,
-    title: '-Colateralización de Tokens',
-    desc: 'Imagina que tienes tokens que representan una propiedad, y en lugar de venderlos, puedes usarlos como garantía para pedir un préstamo. Así, obtienes dinero sin tener que deshacerte de tu inversión, utilizando los tokens como respaldo.',
+    title: 'Colateralización de Tokens',
+    desc: 'La colateralización de tokens consiste en usar tus tokens como garantía para obtener un préstamo, sin vender tu posición en la propiedad. Esto te proporciona liquidez inmediata manteniendo tu inversión a largo plazo.',
   },
   {
     id: 10,
-    title: '-Mercado Secundario',
-    desc: 'El mercado secundario es donde puedes comprar o vender tokens de propiedades después de la oferta inicial. Imagina que compraste tokens en un proyecto inmobiliario y, más tarde, decides venderlos para obtener liquidez. Este es el lugar donde puedes hacerlo.',
+    title: 'Mercado Secundario',
+    desc: 'El mercado secundario es el entorno donde puedes comprar o vender tus tokens de propiedades después de la oferta inicial. Por ejemplo, si participaste en una ronda inicial y más tarde quieres vender algunos tokens para obtener liquidez, lo harás en este mercado.',
   },
   {
     id: 11,
-    title: '-Proyecto Inmobiliario',
-    desc: 'Un proyecto inmobiliario puede ser una nueva construcción, una remodelación o la gestión de una propiedad para generar ingresos.',
+    title: 'Proyecto Inmobiliario',
+    desc: `Un proyecto inmobiliario puede abarcar desde la construcción de un nuevo edificio hasta la remodelación o gestión de una propiedad para generar ingresos. Proyecto de Remodelación (Valor Agregado)
+ Implica comprar una propiedad para renovarla, aumentando su valor a través de las mejoras. Te beneficias al vender o al conservar el inmueble renovado, puesto que su valor y, potencialmente, los ingresos de alquiler, crecen. Proyecto “Tenant-Occupied Property” En este caso, inviertes en una propiedad que ya tiene inquilinos, generando ingresos desde el primer día a través de la renta.`,
   },
   {
     id: 12,
@@ -801,19 +807,35 @@ export const Glossary_Content_Data = [
   },
   {
     id: 14,
-    title: '-Valorización',
-    desc: 'La valorización es cuando una propiedad aumenta de valor con el tiempo. Imagina que compras una fracción de una propiedad y, con los años, el valor de esa propiedad sube. Tus tokens también se revalorizan, lo que te permite obtener más beneficios si decides vender.',
+    title: 'Valorización',
+    desc: 'La valorización ocurre cuando una propiedad aumenta de valor a lo largo del tiempo. Si eres propietario de tokens que representan una fracción de ese inmueble, el valor de tus tokens también crece en paralelo, brindándote mayores beneficios si decides vender.',
   },
   {
     id: 15,
-    title: '-Dashboard',
-    desc: 'Tu dashboard es como tu panel de control personal, donde puedes ver todo lo relacionado con tus inversiones. Imagina tener acceso en un solo lugar a los valores de tus propiedades, tus ganancias y toda la información clave para seguir de cerca tus inversiones.',
+    title: 'Liquidez',
+    desc: 'La liquidez es la facilidad con la que puedes convertir un activo en efectivo sin que sufra una gran variación en el precio. En la tokenización inmobiliaria, el mercado secundario aporta liquidez al permitir que los inversores compren y vendan tokens con más agilidad que las propiedades tradicionales.',
   },
   {
     id: 16,
-    title: '-Interés Compuesto',
-    desc: 'Imagina que reinviertes tus ganancias en nuevas inversiones y que esas ganancias también comienzan a generar más rendimientos. Así, con el tiempo, tu inversión crece de manera acelerada gracias al interés compuesto.',
+    title: 'ROI (Retorno de la Inversión)',
+    desc: 'El ROI (Return on Investment) mide la rentabilidad obtenida de una inversión. Se calcula dividiendo la ganancia neta entre el costo de la inversión. En el ámbito inmobiliario, incluye tanto los ingresos por alquiler como la plusvalía o valorización del inmueble.',
   },
+  {
+    id: 17,
+    title:'Due Diligence',
+    desc:'La due diligence es el proceso de investigación y análisis profundo que se realiza antes de invertir en una propiedad. Incluye la revisión de documentos legales, estados financieros, valuaciones y cualquier otro aspecto relevante para determinar si la inversión es viable y segura.'
+  },
+  {
+    id: 18,
+    title:'Interés Compuesto',
+    desc:'El interés compuesto se produce cuando reinviertes tus ganancias y, a su vez, esas nuevas inversiones generan más rendimientos. Con el tiempo, se crea un efecto multiplicador que acelera el crecimiento de tu capital.'
+  },
+  {
+    id: 19,
+    title:'Dashboard',
+    desc:'Tu dashboard o panel de control es el espacio donde se concentra toda la información sobre tus inversiones. Allí ves el valor de tus tokens, las ganancias generadas, el estado de los proyectos y cualquier otro dato relevante para gestionar tus activos de forma informada.'
+  },
+  
 ];
 
 export const BlogTwo_QueryTwo_Content = [

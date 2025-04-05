@@ -8,7 +8,7 @@ export default function Footer() {
         <div className='block md:flex justify-between items-center '>
           <img src='/assets/svg/logo.svg' alt='' className=' max-w-[180px] mx-auto md:mx-0' />
           <div className='flex gap-4 justify-center md:justify-start mt-8'>
-            <a href='https://www.facebook.com/share/15wZLWvwiL/?mibextid=wwXIfr'>
+            <a href=' https://www.facebook.com/profile.php?id=61572729995937'>
               {' '}
               <img src='/assets/svg/fb.svg' alt='' />
             </a>

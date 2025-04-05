@@ -58,7 +58,7 @@ export default function Tokenizations() {
             </div>
             <div className='bg-white shadow-md p-6 rounded-[8px] w-full  '>
               <div id='section1'>
-                <p className='font-inter font-bold '>¿Que es la Tokenización?</p>
+                <p className='font-inter font-bold '> Qué es la Tokenización?</p>
                 <p className='text-14 font-medium font-inter text-gray mt-4  '>
                   En el contexto de la inversión inmobiliaria, la tokenización es el proceso de representar
                   digitalmente, a través de un conjunto de tokens digitales (Concepto explicado en glosario), el derecho
@@ -76,7 +76,7 @@ export default function Tokenizations() {
                 </p>
               </div>
               <div id='section2' className='mt-5 '>
-                <p className='font-inter font-bold '>Cómo funciona?</p>
+                <p className='font-inter font-bold '>¿Cómo funciona?</p>
                 <p className='text-14 font-medium font-inter text-gray mt-4  '>
                   El proceso de tokenización empieza cuando un proyecto inmobiliario se divide en pequeñas partes
                   representadas por tokens.{' '}
@@ -90,7 +90,7 @@ export default function Tokenizations() {
 
               <div id='section3' className='mt-5 '>
                 <div>
-                  <p className='text-18 font-bold font-inter mt-6 '>qué beneficios trae la tokenización?</p>
+                  <p className='text-18 font-bold font-inter mt-6 '>¿Qué beneficios trae la Tokenización?</p>
                   <div className='flex items-start gap-2 mt-4 '>
                     <div className='text-gray text-14 '>1.</div>
                     <p className='text-14 font-medium font-inter text-gray  '>
@@ -107,7 +107,7 @@ export default function Tokenizations() {
                     <p className='text-14 font-medium font-inter text-gray  '>
                       Mejor liquidez: En el mundo tradicional, vender una propiedad puede tomar meses. Con la
                       tokenización, puedes vender tus fracciones de propiedad (tokens) rápidamente en el mercado
-                      secundario (cuando sea implementado), en el moemnto que decidas liquidar tu inversión. Como más
+                      secundario (cuando sea implementado), en el momento que decidas liquidar tu inversión. Como más
                       personas pueden participar en este tipo de inversiones, hay más compradores y vendedores
                       disponibles, lo que mejora enormemente la liquidez. Esto teóricamente te facilita salir de una
                       inversión cuando lo necesites, aprovechando las ganancias de la valorización de una manera mucho
@@ -148,7 +148,7 @@ export default function Tokenizations() {
                 </div>
               </div>
               <div id='section4'>
-                <p className='text-18 font-bold font-inter mt-6 '>Qué papel juega CoinEstate</p>
+                <p className='text-18 font-bold font-inter mt-6 '>¿Qué papel juega CoinEstate?</p>
                 <div className='text-gray text-14 font-inter mt-4 '>
                   <p>
                     Somos pioneros en la tokenización de inmuebles en Colombia y nuestro compromiso es traer todas las

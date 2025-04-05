@@ -38,7 +38,7 @@ export default function Selection() {
             </div>
             <p className='font-extrabold font-inter text-center md:text-start text-18'>Selecciona</p>
             <p className='max-w-[248px] mt-2 leading-6 text-14 text-center md:text-start font-inter  font-regular'>
-              Ingresa a nuestro Marketplace y escoge los proyectos que mas te llamen la atención. ¡Recuerda que puedes
+              Ingresa a nuestro Marketplace y escoge los proyectos que más* te llamen la atención. ¡Recuerda que puedes
               diversificar tu portafolio  Desde 100.000 COP!
             </p>
           </div>
@@ -52,7 +52,7 @@ export default function Selection() {
             </div>
             <p className='font-extrabold font-inter text-center md:text-start text-18'>Invierte</p>
             <p className='max-w-[248px] mt-2 leading-6 text-14 font-inter text-center md:text-start  font-regular'>
-              Compa fácilmente tokens usando tu medio de pago preferido. Tus participaciones estarán legalmente
+            Compra* fácilmente tokens usando tu medio de pago preferido. Tus participaciones estarán legalmente
               respaldadas mediante contratos inteligentes
             </p>
           </div>
