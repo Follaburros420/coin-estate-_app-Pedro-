@@ -34,5 +34,14 @@ export default async function handler(req, res) {
 
   const address = decrypt(user.destinationValues);
 
-  res.status(200).json({ token, expiresAt: sessionExpiresAt, email, address: address, username: user?.username });
+  res.status(200).json({
+    token,
+    expiresAt: sessionExpiresAt,
+    email,
+    address: address,
+    username: user?.username,
+    phone: user.phone,
+    termsAcceptedPolicy: user?.termsAcceptedPolicy,
+    termsAcceptedServices: user?.termsAcceptedServices,
+  });
 }

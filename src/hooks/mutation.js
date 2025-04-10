@@ -42,6 +42,7 @@ export const useMutateLogout = () => {
 
 export const useMutateUploadFiles = () => {
   const mutationFn = async (file) => {
+    console.log("🚀 ~ mutationFn ~ file:", file)
     const formData = new FormData();
     formData.append('file', file);
 
@@ -322,7 +323,7 @@ export const useMutateLoginUser = () => {
     },
     onSuccess: (res) => {
       console.log('Mutation success:', res);
-      router.push('/');
+      router.push('/dashboard');
       localUser(res);
       toast.success(`Login Success`);
     },

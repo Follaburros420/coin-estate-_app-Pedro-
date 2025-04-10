@@ -41,6 +41,8 @@ export default function AuthProvider() {
         } else if (user?.email) {
           router.push(`${url}`);
         }
+      } else {
+        router.push(`${url}`);
       }
     };
     if (isSuccess) {
@@ -48,5 +50,18 @@ export default function AuthProvider() {
     }
   }, [user?.address, name, isSuccess]);
 
-  return <div>{isPending && <p className='absolute inset-0 flex justify-center items-center'>Loading...</p>}</div>;
+  const openWhatsApp = () => {
+    window.open('https://wa.me/573118867074', '_blank');
+  };
+
+  return (
+    <div>
+      {isPending && <p className='absolute inset-0 flex justify-center items-center'>Loading...</p>}
+      <button
+        onClick={() => openWhatsApp()}
+        className='fixed  right-6 shadow-lg bottom-6 z-20 bg-green rounded-lg w-8 h-8 sm:w-16 sm:h-16 p-2 '>
+        <img src='/assets/svg/whatsapp.svg' alt='' className='w-full' />
+      </button>
+    </div>
+  );
 }

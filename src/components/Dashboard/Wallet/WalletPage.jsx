@@ -1,20 +1,17 @@
 'use client';
 import StyledImage from '@/components/StyedImage';
-import {
-  useQueryGetActiveResults,
-  useQueryGetTokenCopPrice,
-  useQueryGetUser
-} from '@/hooks/query';
-import { baseScan } from '@/hooks/queryContants';
+import { useQueryGetActiveResults, useQueryGetTokenCopPrice, useQueryGetUser } from '@/hooks/query';
+import { baseScan, SourceUrl } from '@/hooks/queryContants';
 import clsxm from '@/utils/clsxm';
 import { conciseAddress, formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ExchangeRateGraph from '../ExchangeChart';
 import WalletCurrency from './WalletCurrency';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
+import { useMutateUploadFiles } from '@/hooks/mutation';
 
 export const sumTokensByProperty = (transactions, userId) => {
   // Step 1: Filter transactions for the given userId
@@ -38,7 +35,10 @@ export const sumTokensByProperty = (transactions, userId) => {
 
 export default function WalletPage() {
   const location = usePathname();
+  const inputRef = useRef(null);
   const { data: userData } = useQueryGetActiveResults();
+  const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
+  console.log('🚀 ~ WalletPage ~ mainImageData:', mainImageData);
   const { data: user } = useQueryGetUser();
 
   const [data, setData] = useState([
@@ -64,7 +64,6 @@ export default function WalletPage() {
       // investement: item?.netAnualIncome,
     };
   });
-
 
   let totalNetIncome = 0;
   annualNetIncome?.map((item) => (totalNetIncome += item.income));
@@ -115,11 +114,26 @@ export default function WalletPage() {
       </p>
       <div className='flex flex-col md:flex-row items-start w-full justify-between gap-6 xl:gap-10 mt-6 '>
         <div className='w-full flex md:flex-col md:max-w-[200px] gap-6 items-center justify-center md:items-start md:justify-start mt-6 '>
-          <div className='bg-[url(/assets/svg/AdminPic.svg)] bg-cover bg-no-repeat w-[90px] h-[90px] flex items-end justify-end  '>
-            <button className='bg-grey-800 p-1 rounded-[8px] w-fit -mr-2 -mb-2 '>
-              <StyledImage src='/assets/svg/Edit.svg' className='w-6 h-6 ' />
-            </button>
-          </div>
+          <input
+            type='file'
+            className='hidden'
+            accept='image/*'
+            id='fileUpload'
+            ref={inputRef}
+            onChange={(e) => mutateUploadMainFile(e.target.files[0])}
+          />
+          <label htmlFor='fileUpload'>
+            <div className={clsxm('bg-cover bg-no-repeat w-[90px] h-[90px] relative')}>
+              <img
+                src={mainImageData?.ipfsHash ? SourceUrl + mainImageData?.ipfsHash : '/assets/svg/AdminPic.svg'}
+                className='w-full h-full'
+                alt=''
+              />
+              <button className='bg-grey-800 p-1 rounded-[8px] w-fit -mr-2 -mb-2 absolute bottom-0 right-0'>
+                {isLoadingMain ? 'Loading...' : <StyledImage src='/assets/svg/Edit.svg' className='w-6 h-6 ' />}
+              </button>
+            </div>
+          </label>
           <div>
             <div className='lg:mt-6 '>
               <p className='text-18 font-ubuntu font-medium leading-none '>{user?.username}</p>
@@ -128,7 +142,7 @@ export default function WalletPage() {
             <div className='mt-1 lg:mt-4 '>
               <div className='flex items-center gap-2 '>
                 <p className='text-18 font-medium font-ubuntu'>Blockchain Address</p>
-                <StyledImage src={'/assets/svg/Exclamation.svg'} className='w-3 h-3 mt-1 ' />
+                <StyledImage src={'/assets/svg/Exclamation.svg'} className='w-3 h-3 mt-1' />
               </div>
               <div className='flex items-center gap-[6px] '>
                 <Link
@@ -209,7 +223,10 @@ export default function WalletPage() {
           </div>
         </div>
       </div>
-      <WalletCurrency total={formatNumberIndianStyle(total?.toFixed(2))} available={userData?.totalEarningFromAllProperties} />
+      <WalletCurrency
+        total={formatNumberIndianStyle(total?.toFixed(2))}
+        available={userData?.totalEarningFromAllProperties}
+      />
       <div className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5 2xl:gap-10 mt-6 lg:mt-12 '>
         <div className='xl:col-span-1 '>
           <WalletInvestments data={userData?.invest?.payments} />

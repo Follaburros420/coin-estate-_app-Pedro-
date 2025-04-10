@@ -18,6 +18,12 @@ model User {
   email                  String    @unique
   username               String?
   listHash               String
+  phone                  String
+  termsAcceptedPolicy    Boolean
+  termsAcceptedServices  Boolean
+  image                  String?
+  dateOfBirth            String?
+  nationality            String?
   destinationValues      String
   userTokens             String[]  @default([]) // Default to an empty array
   destinationCalculation String

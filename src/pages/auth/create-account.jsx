@@ -15,6 +15,9 @@ const validationSchema = yup.object({
   username: yup.string().required('username'),
   password: yup.string().required('password is required'),
   cPassword: yup.string().required('confirm password is required'),
+  phone: yup.string().required('phone is required'),
+  termsAcceptedPolicy: yup.boolean().oneOf([true], 'You must accept the privacy policy'),
+  termsAcceptedServices: yup.boolean().oneOf([true], 'You must accept the service terms'),
 });
 
 const useYupValidationResolver = (validationSchema) =>
@@ -79,38 +82,43 @@ export default function CreateAccount() {
           handleFormSubmit(data);
         })}>
         <div className='w-full max-w-[50%] flex items-center justify-center '>
-          <div className='w-full max-w-[586px] pl-6 '>
+          <div className='w-full max-w-[586px]  p-6 rounded-lg glass'>
             <p className='text-30 font-quickSand font-bold text-center '>Crear Cuenta</p>
             <p className='mt-6 font-quickSand font-bold'>Username</p>
             <Input
-              className={clsxm(
-                'px-3 mt-2 rounded-[10px] w-full border-2 text-light-brand-300 flex items-center justify-between',
-              )}
+              className={clsxm('px-3 rounded-[10px] w-full border-2 flex items-center justify-between')}
               placeholder='Enter...'
               type='text'
               error={errors?.username}
               register={register('username')}
             />
-            <p className='mt-4 font-quickSand font-bold'>Email</p>
+            <p className=' font-quickSand font-bold mt-2'>Email</p>
             <Input
-              className={clsxm(
-                'px-3 mt-2 rounded-[10px] w-full border-2 text-light-brand-300 flex items-center justify-between',
-              )}
+              className={clsxm('px-3 rounded-[10px] w-full border-2 flex items-center justify-between')}
               placeholder='Example@gmail.com'
               type='text'
               error={errors?.email}
               register={register('email')}
             />
 
+            <p className=' font-quickSand font-bold mt-2'>Phone</p>
+            <Input
+              className={clsxm('px-3 rounded-[10px] w-full border-2 flex items-center justify-between')}
+              placeholder='Example@gmail.com'
+              type='text'
+              error={errors?.phone}
+              register={register('phone')}
+            />
+
             <div className='text-lightGray-700'>
-              <div className='mt-4 '>
+              <div className=' '>
                 <div className='flex items-center justify-between w-full text-lightGray-700 '>
-                  <p className='font-bold font-quickSand '>Password:</p>
+                  <p className='font-bold font-quickSand mt-2'>Password:</p>
                 </div>
                 <div
                   className={`bg-light-brand-200 ${
                     errors?.password?.message ? 'border-2 border-red-300' : 'border border-grayTwo'
-                  } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}>
+                  } px-3  rounded-[10px] flex items-center justify-between `}>
                   <Input
                     className={'border-none text-black-100 '}
                     placeholder='****'
@@ -129,13 +137,13 @@ export default function CreateAccount() {
                 </div>
                 {errors?.password?.message && <span className='text-[red] text-xs'>{errors?.password?.message}</span>}
               </div>
-              <div className='flex items-center justify-between mt-6 '>
-                <p className='font-quickSand font-bold'>Confirm Password</p>
+              <div className='flex items-center justify-between'>
+                <p className='font-quickSand font-bold mt-2'>Confirm Password</p>
               </div>
               <div
                 className={`bg-light-brand-200 ${
                   errors?.cPassword?.message ? 'border-2 border-red-300' : 'border border-grayTwo'
-                } px-3 mt-2 rounded-[10px] text-light-brand-300 flex items-center justify-between `}>
+                } px-3 rounded-[10px] flex items-center justify-between `}>
                 <Input
                   className={'border-none text-black-100 '}
                   placeholder='****'
@@ -152,17 +160,40 @@ export default function CreateAccount() {
                 </button>
               </div>
               {errors?.cPassword?.message && <span className='text-[red] text-xs'>{errors?.cPassword?.message}</span>}
+              <div className='flex font-bold justify-start gap-2 mt-2 items-center'>
+                <Input
+                  type='checkbox'
+                  id='termsAcceptedServices'
+                  {...register('termsAcceptedServices')}
+                  className='mt-1'
+                />
+                <label htmlFor='termsAcceptedServices' className={clsxm('text-sm',errors?.termsAcceptedServices?.message ? 'text-red-100' : '')}>
+                  He leido y acepto las condiciones de uso del servicio
+                </label>
+              </div>
+
+              <div className='flex font-bold justify-start gap-2 items-center'>
+                <Input
+                  type='checkbox'
+                  id='termsAcceptedPolicy'
+                  {...register('termsAcceptedPolicy')}
+                  className='mt-1'
+                />
+                <label htmlFor='termsAcceptedPolicy' className={clsxm('text-sm',errors?.termsAcceptedPolicy?.message ? 'text-red-100' : '')}>
+                  He leido y acepto la politica de tratamiento de datos
+                </label>
+              </div>
             </div>
             <button
               type='submit'
-              className='bg-Yellow-100 p-3 text-lightGray-700 font-bold font-quickSand mt-10 w-full rounded-[10px] '>
+              className='bg-Yellow-100 p-3 text-lightGray-700 font-bold font-quickSand mt-3 w-full rounded-[10px] '>
               {isLoadingRegisterUser ? 'Loading...' : '  Create Your Account'}
             </button>
-            <p className='text-lightGray-700 font-semibold mt-14 text-center '>Have you already registered?</p>
+            <p className='text-lightGray-700 font-semibold mt-5 text-center '>Have you already registered?</p>
             <div className='text-center'>
               <button
                 onClick={() => router.push('/auth/log-in')}
-                className='underline  text-blue-500 mt-7 text-center '>
+                className='underline  text-blue-500 mt-2 text-center '>
                 Log In
               </button>
             </div>
