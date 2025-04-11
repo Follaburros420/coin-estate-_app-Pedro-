@@ -42,7 +42,7 @@ export const useMutateLogout = () => {
 
 export const useMutateUploadFiles = () => {
   const mutationFn = async (file) => {
-    console.log("🚀 ~ mutationFn ~ file:", file)
+    console.log('🚀 ~ mutationFn ~ file:', file);
     const formData = new FormData();
     formData.append('file', file);
 
@@ -678,7 +678,7 @@ export const useMutationCreateDocument = () => {
           Authorization: `Bearer ${user?.token}`,
         },
         data: {
-          ...value
+          ...value,
         }, // Correctly pass the body as `data` in axios
       };
       return await axios.request(config);
@@ -694,6 +694,50 @@ export const useMutationCreateDocument = () => {
     },
     onSuccess: (res) => {
       // router.push('/auth/log-in');
+      toast.success(`${res?.data?.message}`);
+    },
+  });
+};
+
+// ======================== update profile =========================
+
+// Send exchange rate to backend
+export const useMutationUpdateUserProfile = () => {
+  const { data: user } = useQueryGetUser();
+  const { mutate: localUser } = useMutateLocalUser();
+
+  const router = useRouter();
+  const mutationFn = async (value) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/user/update-profile`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${user?.token}`,
+        },
+        data: {
+          ...value,
+        }, // Correctly pass the body as `data` in axios
+      };
+      return await axios.request(config);
+    } catch (error) {
+      throw new Error(error?.response?.data?.error || error?.message || 'An error occurred');
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.error('Mutation Error:', error);
+    },
+    onSuccess: (res) => {
+      // router.push('/dashboard');
+      const latestUser = {
+        ...user,
+        ...res?.data?.data,
+      };
+      localUser(latestUser);
       toast.success(`${res?.data?.message}`);
     },
   });

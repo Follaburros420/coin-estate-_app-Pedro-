@@ -46,7 +46,6 @@ export default async function handler(req, res) {
         email: user.email,
         username: user.username,
         listHash: hashedPassword,
-        image:'',
         destinationValues: user.destinationValues,
         userTokens: user.userTokens,
         destinationCalculation: user.destinationCalculation,

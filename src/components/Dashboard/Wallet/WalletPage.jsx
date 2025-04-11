@@ -12,6 +12,7 @@ import WalletCurrency from './WalletCurrency';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
 import { useMutateUploadFiles } from '@/hooks/mutation';
+import { useRouter } from 'next/router';
 
 export const sumTokensByProperty = (transactions, userId) => {
   // Step 1: Filter transactions for the given userId
@@ -34,11 +35,11 @@ export const sumTokensByProperty = (transactions, userId) => {
 };
 
 export default function WalletPage() {
+  const router = useRouter();
   const location = usePathname();
   const inputRef = useRef(null);
   const { data: userData } = useQueryGetActiveResults();
   const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
-  console.log('🚀 ~ WalletPage ~ mainImageData:', mainImageData);
   const { data: user } = useQueryGetUser();
 
   const [data, setData] = useState([
@@ -114,26 +115,19 @@ export default function WalletPage() {
       </p>
       <div className='flex flex-col md:flex-row items-start w-full justify-between gap-6 xl:gap-10 mt-6 '>
         <div className='w-full flex md:flex-col md:max-w-[200px] gap-6 items-center justify-center md:items-start md:justify-start mt-6 '>
-          <input
-            type='file'
-            className='hidden'
-            accept='image/*'
-            id='fileUpload'
-            ref={inputRef}
-            onChange={(e) => mutateUploadMainFile(e.target.files[0])}
-          />
-          <label htmlFor='fileUpload'>
-            <div className={clsxm('bg-cover bg-no-repeat w-[90px] h-[90px] relative')}>
-              <img
-                src={mainImageData?.ipfsHash ? SourceUrl + mainImageData?.ipfsHash : '/assets/svg/AdminPic.svg'}
-                className='w-full h-full'
-                alt=''
-              />
-              <button className='bg-grey-800 p-1 rounded-[8px] w-fit -mr-2 -mb-2 absolute bottom-0 right-0'>
-                {isLoadingMain ? 'Loading...' : <StyledImage src='/assets/svg/Edit.svg' className='w-6 h-6 ' />}
-              </button>
-            </div>
-          </label>
+         
+          <div className={clsxm('bg-cover glass rounded-lg bg-no-repeat w-[90px] h-[90px] relative')}>
+            <img
+              src={user?.image ? SourceUrl + user?.image : '/assets/svg/AdminPic.svg'}
+              className='w-full h-full'
+              alt=''
+            />
+            <button
+              onClick={() => router.push(`/profile/${userData?.id}`)}
+              className='bg-grey-800 p-1 rounded-[8px] w-fit -mr-2 -mb-2 absolute bottom-0 right-0'>
+              {isLoadingMain ? 'Loading...' : <StyledImage src='/assets/svg/Edit.svg' className='w-6 h-6 ' />}
+            </button>
+          </div>
           <div>
             <div className='lg:mt-6 '>
               <p className='text-18 font-ubuntu font-medium leading-none '>{user?.username}</p>
