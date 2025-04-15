@@ -11,11 +11,17 @@ import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import InvestmentUpgradeModal from '../InvestmentUpgradeModal';
+import { useQueryGetTokenCopPrice } from '@/hooks/query';
 
 export default function HeaderSection({ selectedNFT, userData }) {
   const router = useRouter();
   const params = useParams();
-  const [amount, setAmount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const { data: tokenPrice } = useQueryGetTokenCopPrice();
+
+  const [amount, setAmount] = useState(2.5);
+  console.log("🚀 ~ HeaderSection ~ amount:", {amount})
   const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
   const onSuccess = () => {
     router.push(
@@ -64,9 +70,26 @@ export default function HeaderSection({ selectedNFT, userData }) {
   remainingTokens = totalTokens - remainingTokens;
 
   remainingTokens = Number(remainingTokens?.toFixed(4));
+  const currentValue = 500000 / tokenPrice;
+  console.log("🚀 ~ HeaderSection ~ currentValue:", currentValue)
+
+  const handleUpgrade = () => {
+    // Auto-set investment to 500,000 COP
+    console.log('User opted for Platino — adjust investment value');
+    setShowModal(false);
+    setAmount(currentValue);
+    // Example: setInvestmentAmount(500000);
+  };
+
+  const handleContinue = () => {
+    console.log('User continues with current investment');
+    setShowModal(false);
+    // Continue to checkout, KYC, etc.
+  };
 
   return (
     <div className='font-ubuntu '>
+      {showModal && <InvestmentUpgradeModal onUpgrade={handleUpgrade} onContinue={handleContinue} />}
       <p className='text-28 text-center font-ubuntu font-bold lg:hidden leading-none text-white w-full '>
         {paths[location]}
       </p>
@@ -77,7 +100,13 @@ export default function HeaderSection({ selectedNFT, userData }) {
             className='w-full h-full row-span-2 col-span-2 object-contain shadow-lg shadow-black-300'
           />
           {selectedNFT?.subImages.map((img, idx) => {
-            return <img key={idx + img} src={SourceUrl + img} className='w-full h-full shadow-lg object-cover shadow-black-300' />;
+            return (
+              <img
+                key={idx + img}
+                src={SourceUrl + img}
+                className='w-full h-full shadow-lg object-cover shadow-black-300'
+              />
+            );
           })}
         </div>
       </div>
@@ -177,11 +206,14 @@ export default function HeaderSection({ selectedNFT, userData }) {
           </div>
           <button
             onClick={() => {
-              if (amount <= remainingTokens) {
-                createIntend({ id: selectedNFT?.id, amount });
-              } else {
-                toast.error('your amount must be lower then remaining tokens ');
+              if (Number(amount) < currentValue) {
+                setShowModal(true);
               }
+              // if (amount <= remainingTokens) {
+              //   createIntend({ id: selectedNFT?.id, amount });
+              // } else {
+              //   toast.error('your amount must be lower then remaining tokens ');
+              // }
             }}
             className='bg-Yellow-100 p-3 rounded-[8px] text-20 sm:text-28 w-full mt-4 font-medium text-black-100 '>
             {isLoading ? 'Laoding...' : 'Investing'}

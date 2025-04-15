@@ -6,13 +6,12 @@ import clsxm from '@/utils/clsxm';
 import { conciseAddress, formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import ExchangeRateGraph from '../ExchangeChart';
 import WalletCurrency from './WalletCurrency';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
-import { useMutateUploadFiles } from '@/hooks/mutation';
-import { useRouter } from 'next/router';
 
 export const sumTokensByProperty = (transactions, userId) => {
   // Step 1: Filter transactions for the given userId
@@ -39,7 +38,6 @@ export default function WalletPage() {
   const location = usePathname();
   const inputRef = useRef(null);
   const { data: userData } = useQueryGetActiveResults();
-  const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
   const { data: user } = useQueryGetUser();
 
   const [data, setData] = useState([
@@ -59,10 +57,6 @@ export default function WalletPage() {
     return {
       id: item?.id,
       income: (item?.netAnualIncome / totalTokens) * noOFTokens,
-      // totalTokens,
-      // noOFTokens,
-      // tokenPrice: item.tokenPrice,
-      // investement: item?.netAnualIncome,
     };
   });
 
@@ -113,9 +107,8 @@ export default function WalletPage() {
       <p className='text-28 text-center -mt-5 font-ubuntu font-bold lg:hidden leading-none text-white w-full '>
         {paths[location]}
       </p>
-      <div className='flex flex-col md:flex-row items-start w-full justify-between gap-6 xl:gap-10 mt-6 '>
+      <div className='flex flex-col md:flex-row items-start w-full justify-between gap-6 xl:gap-10 mt-6'>
         <div className='w-full flex md:flex-col md:max-w-[200px] gap-6 items-center justify-center md:items-start md:justify-start mt-6 '>
-         
           <div className={clsxm('bg-cover glass rounded-lg bg-no-repeat w-[90px] h-[90px] relative')}>
             <img
               src={user?.image ? SourceUrl + user?.image : '/assets/svg/AdminPic.svg'}
@@ -125,7 +118,7 @@ export default function WalletPage() {
             <button
               onClick={() => router.push(`/profile/${userData?.id}`)}
               className='bg-grey-800 p-1 rounded-[8px] w-fit -mr-2 -mb-2 absolute bottom-0 right-0'>
-              {isLoadingMain ? 'Loading...' : <StyledImage src='/assets/svg/Edit.svg' className='w-6 h-6 ' />}
+              <StyledImage src='/assets/svg/Edit.svg' className='w-6 h-6 ' />
             </button>
           </div>
           <div>
