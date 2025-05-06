@@ -575,7 +575,7 @@ export const useMutationSendExchangeRate = () => {
       };
       return await axios.request(config);
     } catch (error) {
-      console.log(error);
+      throw new Error(error.response?.data?.error || error.message || 'An error occurred');
     }
   };
 
@@ -608,14 +608,15 @@ export const useMutationSendEmail = () => {
       };
       return await axios.request(config);
     } catch (error) {
-      console.log(error);
+      throw new Error(error?.response?.data?.error || error?.message || 'An error occurred');
     }
   };
 
   return useMutation({
     mutationFn,
     onError: (error) => {
-      console.error('Mutation Error:', error);
+      // console.error('Mutation Error:', error);
+      toast.error(`${error}`)
     },
     onSuccess: (res) => {
       toast.success(`${res?.data?.message}`);

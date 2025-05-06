@@ -104,9 +104,9 @@ export default function CreateAccount() {
         phone: code + value?.phone,
         dateOfBirth: value.dateOfBirth,
       };
-      console.log({values, code})
+      // console.log({values, code})
       //
-      // registerUser(values);
+      registerUser(values);
     } else {
       toast.error("Password don't matched");
     }

@@ -22,15 +22,28 @@ export default async function handler(req, res) {
 
   // Set token and expiration
   const tokenExpiration = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
+
+  const { id, ...userData } = user;
+
   await prisma.user.update({
-    where: { id: user.id },
+    where: { id: id },
     data: {
-      email: user.email,
-      username: user.username,
-      listHash: user.listHash,
-      destinationValues: user.destinationValues,
-      userTokens: user.userTokens,
-      destinationCalculation: user.destinationCalculation,
+      // email: user.email,
+      // username: user.username,
+      // listHash: user.listHash,
+      // destinationValues: user.destinationValues,
+      // userTokens: user.userTokens,
+      // destinationCalculation: user.destinationCalculation,
+      // phone: user.phone,
+      // termsAcceptedPolicy: user.termsAcceptedPolicy,
+      // termsAcceptedServices: user.termsAcceptedServices,
+      // image: user.image,
+      // dateOfBirth: user.dateOfBirth,
+      // nationality: user.nationality,
+      // sessions: user.sessions, // One-to-many relationship with Session
+      // verified: user.verified,
+      // verifiedCode: user.verifiedCode,
+      ...userData,
       resetToken: hashedToken,
       resetTokenExpires: tokenExpiration,
     },
@@ -74,9 +87,9 @@ export default async function handler(req, res) {
     res.status(200).json({ message: 'Password reset email sent' });
   } catch (error) {
     console.error('Email error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Could not send email',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 }

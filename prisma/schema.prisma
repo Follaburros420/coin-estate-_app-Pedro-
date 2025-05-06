@@ -30,6 +30,8 @@ model User {
   resetToken             String? // Optional, for password reset
   resetTokenExpires      DateTime? // Optional, token expiration time
   sessions               Session[] // One-to-many relationship with Session
+  verified               Boolean?  @default(false)
+  verificationCode           String?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
 }
