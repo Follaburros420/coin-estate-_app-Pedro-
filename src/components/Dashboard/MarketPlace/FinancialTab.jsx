@@ -1,3 +1,4 @@
+import InfoTooltip from '@/components/InfoIcon';
 import StyledImage from '@/components/StyedImage';
 import clsxm from '@/utils/clsxm';
 import React from 'react';
@@ -102,6 +103,8 @@ export default function FinancialTab({ nft }) {
       title: 'Ingreso Neto',
       price: nft?.netAnualIncome || '1,700',
       imgUrl: '/assets/svg/Exclamation.svg',
+      message:
+        ' Esto es lo que recibes tras descontar todos los gastos (administración, impuestos, seguros, mantenimiento y reserva de vacancia) del ingreso bruto.',
     },
   ];
   console.log(nft);
@@ -127,7 +130,11 @@ export default function FinancialTab({ nft }) {
           <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between text-20 font-bold text-Yellow-100  '>
             <div className='flex items-center gap-2 '>
               <p>Inversión Total:</p>
-              <StyledImage src='/assets/svg/Exclamation.svg' className='w-4 h-4 ' />
+              <InfoTooltip
+                message={
+                  'Precio total de la inversión. Incluye todos los costos que hacen posible listar el proyecto en el marketplace'
+                }
+              />
             </div>
             <p>{nft.totalInvestmentPrice}$</p>
           </div>
@@ -192,7 +199,7 @@ export default function FinancialTab({ nft }) {
                     <p style={{ color: `${item.textColor}` }} className='font-ubuntu '>
                       {item.title}
                     </p>
-                    {item.imgUrl && <StyledImage src={item.imgUrl} className='w-4 h-4' />}
+                    {item.imgUrl && <InfoTooltip message={item.message} />}
                   </div>
                   <p className='text-white '> {item.price && '$' + item.price}</p>
                 </div>

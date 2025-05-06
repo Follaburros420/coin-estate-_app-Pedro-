@@ -1,7 +1,9 @@
+import InfoTooltip from '@/components/InfoIcon';
 import UserProfile from '@/components/ProfileUser';
 import StyledImage from '@/components/StyedImage';
 import { useQueryGetActiveResults } from '@/hooks/query';
 import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
+import { Button, Tooltip } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 
 export default function Navbar({ toggleSidebar }) {
@@ -31,7 +33,9 @@ export default function Navbar({ toggleSidebar }) {
               </div>
               <p>${formatNumberIndianStyle(userData?.totalInvest)}</p>
             </div>
-            <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' />
+            <InfoTooltip
+              message={'Saldo total. Esto es todo lo que tienes en CoinEstate: fondos líquidos + valor de tus tokens. '}
+            />
           </div>
           <div className='bg-black-600 py-3 px-4 rounded-[6px] w-full max-w-[183px] flex items-center justify-between '>
             <div className='flex items-center gap-3 w-full '>
@@ -40,7 +44,12 @@ export default function Navbar({ toggleSidebar }) {
               </div>
               <p>{formatNumberIndianStyle(userData?.totalEarningFromAllProperties?.toFixed(2))}</p>
             </div>
-            <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' />
+            <InfoTooltip
+              message={'Saldo disponible. Fondos líquidos listos para retirar o reinvertir (rentas y ventas). '}
+            />
+
+            
+            {/* <StyledImage src='/assets/svg/Exclamation.svg' className='w-8 h-8 ' /> */}
           </div>
           {/* <div className='bg-black-600 px-5 py-[14px] w-full max-w-[76px] flex items-center justify-center rounded-[8px] '>
             <StyledImage src='/assets/svg/Notification.svg' className='w-[38px] h-[38px] ' />

@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import InvestmentUpgradeModal from '../InvestmentUpgradeModal';
 import { useQueryGetTokenCopPrice } from '@/hooks/query';
+import InfoTooltip from '@/components/InfoIcon';
 
 export default function HeaderSection({ selectedNFT, userData }) {
   const router = useRouter();
@@ -21,7 +22,6 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
 
   const [amount, setAmount] = useState(2.5);
-  console.log("🚀 ~ HeaderSection ~ amount:", {amount})
   const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
   const onSuccess = () => {
     router.push(
@@ -71,7 +71,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
 
   remainingTokens = Number(remainingTokens?.toFixed(4));
   const currentValue = 500000 / tokenPrice;
-  console.log("🚀 ~ HeaderSection ~ currentValue:", currentValue)
+  console.log('🚀 ~ HeaderSection ~ currentValue:', currentValue);
 
   const handleUpgrade = () => {
     // Auto-set investment to 500,000 COP
@@ -159,7 +159,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
             <div className='flex items-center justify-center sm:justify-start gap-2'>
               {' '}
               <p className='text-20 font-bold '>Resumen Financiero</p>
-              <StyledImage src='/assets/svg/Exclamation.svg' className='w-4 h-4' />
+              <InfoTooltip message='Este resumen financiero agrupa los indicadores clave de tu inversión: la rentabilidad anual esperada, el valor total, la renta neta por alquiler, la valorización del dolar y la apreciación proyectada. Con estos datos, podrás entender mejor el potencial de crecimiento y rendimiento de este proyecto en tu portafolio de inversión.' />
             </div>
             <div className='flex items-center justify-between sm:gap-4 mt-4'>
               <p className='text-14 font-bold text-Yellow-100 '>Rentabilidad Anual Esperada </p>
@@ -181,7 +181,16 @@ export default function HeaderSection({ selectedNFT, userData }) {
                     <div className='flex items-center gap-2'>
                       {' '}
                       <p style={{ color: `${item.color}` }}>{item.ratio}</p>{' '}
-                      {idx === 1 && <StyledImage src='/assets/svg/Exclamation.svg' className='w-4 h-4' />}
+                      {idx === 1 && <InfoTooltip message={'Separate this value with thousands (120,000)'} />}
+                      {idx === 2 && (
+                        <InfoTooltip
+                          message={`Variación   
+                       esperada de la divisa en la que están tus activos 
+                   (según el promedio de los últimos 10 años). No se 
+                   suma al % estimado de rentabilidad, pero aumenta 
+                   tu capital en COP.`}
+                        />
+                      )}
                     </div>
                   </div>
                 );

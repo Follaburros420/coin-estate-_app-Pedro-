@@ -1,4 +1,5 @@
 'use client';
+import InfoTooltip from '@/components/InfoIcon';
 import { useQueryGetTokenCopPrice } from '@/hooks/query';
 import { useGlobalStates } from '@/store/useStore';
 import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
@@ -167,7 +168,7 @@ export default function Simulator({ nft }) {
               onChange={() => setReinvest(!reinvest)}
               className='w-5 h-5 border-2 border-yellow bg-transparent rounded ring-1 focus:ring-0 focus:outline-none'
             />
-            <label for='compoundCheck'>Want to Re-Invest Monthly?</label>
+            <label for='compoundCheck'>Want to Re-Invest Monthly?</label> <InfoTooltip message={'Al reinvertir tus ganancias mensualmente, aprovechas el interés compuesto para maximizar tu rentabilidad a largo plazo. Sin embargo, las cifras mostradas son proyecciones y pueden no reflejar la realidad, ya que están sujetas a cambios en las condiciones de mercado y otros factores externos.'} />
           </div>
           <button
             onClick={() => handleSimulate()}

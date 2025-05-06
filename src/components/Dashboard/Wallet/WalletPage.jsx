@@ -12,6 +12,7 @@ import ExchangeRateGraph from '../ExchangeChart';
 import WalletCurrency from './WalletCurrency';
 import WalletInvestments from './WalletInvestments';
 import WalletTransactionHistory from './WalletTransactionHistory';
+import InfoTooltip from '@/components/InfoIcon';
 
 export const sumTokensByProperty = (transactions, userId) => {
   // Step 1: Filter transactions for the given userId
@@ -73,12 +74,16 @@ export default function WalletPage() {
       status: 'Available',
       price: formatNumberIndianStyle(userData?.totalEarningFromAllProperties) || 0,
       cop: formatNumberIndianStyle(userData?.totalEarningFromAllProperties * tokenPrice) || 0,
+      message:
+        'Dinero líquido generado por rentas mensuales o ventas de activos,listo para retirar o comprar más tokens.',
     },
     {
       id: 2,
       status: 'Total',
       price: formatNumberIndianStyle(total) || 0,
       cop: total * tokenPrice || 0,
+      message:
+        'Aquí ves todo lo que posees en CoinEstate: fondos líquidos + valor actual de tus tokens. A medida que los activos se valorizan, el valor de tus tokens crece. ',
     },
   ];
   const Estimate_Balance_Tokens_Data = [
@@ -87,7 +92,6 @@ export default function WalletPage() {
       imgUrl: '/assets/svg/Dollar.svg',
       title: 'Invested in CoinEstate',
       availableTokens: formatNumberIndianStyle(userData?.totalInvest) + '$' || 0,
-      exclamationImg: '/assets/svg/exclamation.svg',
     },
     {
       id: 2,
@@ -97,8 +101,10 @@ export default function WalletPage() {
     },
     {
       id: 3,
+      exclamationImg: '/assets/svg/exclamation.svg',
       imgUrl: '/assets/svg/RedGraph.svg',
       title: 'Approximate Annual Income',
+      message:'Esto es lo que se estima que estarás ganando anualmente con tu inversión actual.',
       availableTokens: formatNumberIndianStyle(Number(totalNetIncome?.toFixed(2))) + '$',
     },
   ];
@@ -129,7 +135,7 @@ export default function WalletPage() {
             <div className='mt-1 lg:mt-4 '>
               <div className='flex items-center gap-2 '>
                 <p className='text-18 font-medium font-ubuntu'>Blockchain Address</p>
-                <StyledImage src={'/assets/svg/Exclamation.svg'} className='w-3 h-3 mt-1' />
+                <InfoTooltip message={'Esta es tu dirección pública en la blockchain. Tu llave privada está resguardada con altos estándares de seguridad. Al hacer clic, se te redirigirá al escáner de la blockchain para que puedas revisar tu cuenta sobre la cadena.'} />
               </div>
               <div className='flex items-center gap-[6px] '>
                 <Link
@@ -138,6 +144,7 @@ export default function WalletPage() {
                   className='text-16 font-ubuntu font-medium text-grey-700 '>
                   {conciseAddress(user?.address)}
                 </Link>
+
                 <StyledImage src='/assets/svg/Blocks.svg' className='w-9 h-3 ' />
               </div>
             </div>
@@ -167,7 +174,7 @@ export default function WalletPage() {
                       idx === 0 && 'mb-2',
                     )}>
                     <div className='flex items-center justify-between gap-3'>
-                      <StyledImage src='/assets/svg/Exclamation.svg' className='w-6 h-6 ' />
+                      <InfoTooltip message={item.message} />
                       <p className='text-20 font-bold '>{item.status}</p>
                     </div>
                     <div>
@@ -200,7 +207,13 @@ export default function WalletPage() {
                   <div>
                     <p className='text-16 leading-[18px] xl:leading-normal font-medium '>{item.title}</p>
                     <div className='flex items-center gap-2'>
-                      {item.exclamationImg && <StyledImage src={item.exclamationImg} className='w-3 h-3' />}
+                      {item.exclamationImg && (
+                        <InfoTooltip
+                          message={
+                            'Dinero líquido generado por rentas mensuales o ventas de activos,listo para retirar o comprar más tokens.'
+                          }
+                        />
+                      )}
                       <p className='text-base-100 opacity-60 text-14 '>{item.availableTokens}</p>
                     </div>
                   </div>
