@@ -7,6 +7,7 @@ import { createContext, useEffect, useState } from 'react';
 import 'react-quill-new/dist/quill.snow.css'; // Or 'quill.bubble.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-phone-input-2/lib/style.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';

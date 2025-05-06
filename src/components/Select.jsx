@@ -28,11 +28,12 @@
 //     </div>
 //   )
 // }
+import clsxm from '@/utils/clsxm';
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 
-export default function CustomSelect({ label, name, errors, options, control, setValue }) {
-  const [customOptions, setCustomOptions] = useState([...options, 'custom']);
+export default function CustomSelect({ label, name, errors, options, control, setValue, isCustom = true, className }) {
+  const [customOptions, setCustomOptions] = useState([...options, isCustom && 'custom']);
   const [customValue, setCustomValue] = useState('');
   const [showInput, setShowInput] = useState(false);
 
@@ -48,50 +49,60 @@ export default function CustomSelect({ label, name, errors, options, control, se
 
   return (
     <div>
-      <div className="w-full">
-        <label htmlFor={name} className="block">{label}</label>
+      <div className='w-full'>
+        <label htmlFor={name} className='block'>
+          {label}
+        </label>
         <Controller
           name={name}
           control={control}
-          defaultValue=""
+          defaultValue=''
           render={({ field }) => (
             <>
-              {!showInput && (<select
-                {...field}
-                onChange={(e) => {
-                  if (e.target.value === 'custom') {
-                    setShowInput(true);
-                  } else {
-                    field.onChange(e.target.value);
-                    setShowInput(false);
-                  }
-                }}
-                className={`w-full p-3 text-gray-700 outline-none rounded-lg bg-[transparent] border 
-                  ${errors ? 'border-red-500' : 'border-gray-300'}`}
-              >
-                {customOptions.map((item, idx) => (
-                  <option key={idx} value={item} className="capitalize bg-black-600 mt-2 rounded-sm py-2 border-y-1">
-                    {item === 'custom' ? '+ Add Custom Value' : item}
-                  </option>
-                ))}
-              </select>)}
+              {!showInput && (
+                <select
+                  {...field}
+                  onChange={(e) => {
+                    if (e.target.value === 'custom') {
+                      setShowInput(true);
+                    } else {
+                      field.onChange(e.target.value);
+                      setShowInput(false);
+                    }
+                  }}
+                  className={clsxm(
+                    'w-full p-3 text-gray-700 outline-none rounded-lg bg-[transparent] border',
+                  errors ? 'border-red-500' : 'border-gray-300',  className
+                  )}>
+                  {customOptions.map((item, idx) => {
+                    if (item)
+                      return (
+                        <option
+                          key={idx}
+                          value={item}
+                          className='capitalize bg-black-600 mt-2 rounded-sm py-2 border-y-1'>
+                          {item === 'custom' ? '+ Add Custom Value' : item}
+                        </option>
+                      );
+                  })}
+                </select>
+              )}
 
               {/* Show Input for Custom Value */}
               {showInput && (
-                <div className="flex gap-2">
+                <div className='flex gap-2'>
                   <input
-                    type="text"
+                    type='text'
                     autoFocus
-                    placeholder="Enter custom value"
+                    placeholder='Enter custom value'
                     value={customValue}
                     onChange={(e) => setCustomValue(e.target.value)}
-                    className="w-full p-2 border rounded-[8px] bg-[transparent] outline-none"
+                    className='w-full p-2 border rounded-[8px] bg-[transparent] outline-none'
                   />
                   <button
-                    type="button"
+                    type='button'
                     onClick={handleAddCustomValue}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                  >
+                    className='px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'>
                     Add
                   </button>
                 </div>
@@ -99,7 +110,7 @@ export default function CustomSelect({ label, name, errors, options, control, se
             </>
           )}
         />
-        {errors && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+        {errors && <p className='text-red-500 text-sm mt-1'>{errors.message}</p>}
       </div>
     </div>
   );

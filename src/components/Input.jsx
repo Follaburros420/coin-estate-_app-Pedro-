@@ -37,7 +37,7 @@ export default function Input({
           "w-full p-2 outline-none rounded-[8px] bg-[transparent] bo placeholder:text-gray-light sm:text-md focus:ring-blue-100 focus:border-Yellow-100",
           error?.message
             ? "border border-[red] rounded-[8px] bg-none "
-            : "border border-gray-light bg-none ",
+            : "border border-black-100 bg-none ",
           className
         )}
         {...others}
