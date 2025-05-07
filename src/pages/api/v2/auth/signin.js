@@ -33,15 +33,23 @@ export default async function handler(req, res) {
   });
 
   const address = decrypt(user.destinationValues);
+  const { id, listHash, destinationValues, destinationCalculation, ...userData } = user;
 
-  res.status(200).json({
-    token,
-    expiresAt: sessionExpiresAt,
-    email,
-    address: address,
-    username: user?.username,
-    phone: user.phone,
-    termsAcceptedPolicy: user?.termsAcceptedPolicy,
-    termsAcceptedServices: user?.termsAcceptedServices,
-  });
+  res.status(200).json(
+    {
+      message: 'Login Success',
+      user: { ...userData, address },
+    },
+    //   {
+    //   token,
+    //   expiresAt: sessionExpiresAt,
+    //   email,
+    //   address: address,
+    //   username: user?.username,
+    //   phone: user.phone,
+    //   termsAcceptedPolicy: user?.termsAcceptedPolicy,
+    //   termsAcceptedServices: user?.termsAcceptedServices,
+    //   ...userData,
+    // }
+  );
 }

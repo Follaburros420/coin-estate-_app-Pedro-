@@ -96,6 +96,7 @@ export default async function handler(req, res) {
   }
 
   const { email } = req.body;
+  console.log(req.body)
   if (!email) return res.status(400).json({ error: 'Email is required' });
 
   const user = await prisma.user.findUnique({ where: { email } });

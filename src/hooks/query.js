@@ -142,7 +142,7 @@ export const useQueryGetUser = () => {
   const queryKey = [queryKeys.getUserDetails];
 
   const queryFn = async () => {
-    const tx = await sessionStorage.getItem(user_auth);
+    const tx = await localStorage.getItem(user_auth);
     return JSON.parse(tx);
   };
 

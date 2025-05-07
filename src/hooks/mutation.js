@@ -12,7 +12,7 @@ import { usePropertyStates } from '@/store/useProduct';
 
 export const useMutateLocalUser = () => {
   const mutationFn = async (value) => {
-    return sessionStorage.setItem(user_auth, JSON.stringify(value));
+    return localStorage.setItem(user_auth, JSON.stringify(value));
   };
 
   return useMutation({
@@ -262,6 +262,8 @@ export const useMutateCreateProperty = () => {
 
 export const useMutateRegisterUser = () => {
   const router = useRouter();
+  const { mutate: localUser } = useMutateLocalUser();
+
   const mutationFn = async (data) => {
     if (!data) throw new Error('Property data is required for creation.');
 
@@ -286,7 +288,10 @@ export const useMutateRegisterUser = () => {
       toast.error(`Failed: ${message}`);
     },
     onSuccess: (res) => {
-      router.push('/auth/log-in');
+      console.log("🚀 ~ useMutateRegisterUser ~ res:", res)
+      
+      router.push('/auth/verify');
+      localUser(res?.user);
       console.log('Mutation success:', res);
       toast.success(`${res?.message}`);
     },
@@ -324,7 +329,7 @@ export const useMutateLoginUser = () => {
     onSuccess: (res) => {
       console.log('Mutation success:', res);
       router.push('/dashboard');
-      localUser(res);
+      localUser(res.user);
       toast.success(`Login Success`);
     },
   });
@@ -731,6 +736,51 @@ export const useMutationUpdateUserProfile = () => {
     mutationFn,
     onError: (error) => {
       console.error('Mutation Error:', error);
+    },
+    onSuccess: (res) => {
+      // router.push('/dashboard');
+      const latestUser = {
+        ...user,
+        ...res?.data?.data,
+      };
+      localUser(latestUser);
+      toast.success(`${res?.data?.message}`);
+    },
+  });
+};
+
+
+// ============================== verify User Email ==========================================
+
+
+// Send exchange rate to backend
+export const useMutationVerifyUserEmail = () => {
+  const { data: user } = useQueryGetUser();
+  const { mutate: localUser } = useMutateLocalUser();
+
+  const router = useRouter();
+  const mutationFn = async (value) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/auth/verify-user`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${user?.token}`,
+        },
+        data: {email:value}, // Correctly pass the body as `data` in axios
+      };
+      return await axios.request(config);
+    } catch (error) {
+      throw new Error(error?.response?.data?.error || error?.message || 'An error occurred');
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.log('Mutation Error:', error);
+      toast.error(`${error}`)
     },
     onSuccess: (res) => {
       // router.push('/dashboard');
