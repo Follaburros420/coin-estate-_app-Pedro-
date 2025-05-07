@@ -26,7 +26,7 @@ export const useMutateLocalUser = () => {
 
 export const useMutateLogout = () => {
   const mutationFn = async () => {
-    return sessionStorage.removeItem(user_auth);
+    return localStorage.removeItem(user_auth);
   };
 
   return useMutation({
@@ -288,8 +288,8 @@ export const useMutateRegisterUser = () => {
       toast.error(`Failed: ${message}`);
     },
     onSuccess: (res) => {
-      console.log("🚀 ~ useMutateRegisterUser ~ res:", res)
-      
+      console.log('🚀 ~ useMutateRegisterUser ~ res:', res);
+
       router.push('/auth/verify');
       localUser(res?.user);
       console.log('Mutation success:', res);
@@ -621,7 +621,7 @@ export const useMutationSendEmail = () => {
     mutationFn,
     onError: (error) => {
       // console.error('Mutation Error:', error);
-      toast.error(`${error}`)
+      toast.error(`${error}`);
     },
     onSuccess: (res) => {
       toast.success(`${res?.data?.message}`);
@@ -749,14 +749,11 @@ export const useMutationUpdateUserProfile = () => {
   });
 };
 
-
 // ============================== verify User Email ==========================================
 
-
 // Send exchange rate to backend
-export const useMutationVerifyUserEmail = () => {
+export const useMutationVerifyUserEmail = (onSuccess) => {
   const { data: user } = useQueryGetUser();
-  const { mutate: localUser } = useMutateLocalUser();
 
   const router = useRouter();
   const mutationFn = async (value) => {
@@ -768,7 +765,7 @@ export const useMutationVerifyUserEmail = () => {
           Accept: 'application/json',
           Authorization: `Bearer ${user?.token}`,
         },
-        data: {email:value}, // Correctly pass the body as `data` in axios
+        data: { email: value }, // Correctly pass the body as `data` in axios
       };
       return await axios.request(config);
     } catch (error) {
@@ -780,7 +777,7 @@ export const useMutationVerifyUserEmail = () => {
     mutationFn,
     onError: (error) => {
       console.log('Mutation Error:', error);
-      toast.error(`${error}`)
+      toast.error(`${error}`);
     },
     onSuccess: (res) => {
       // router.push('/dashboard');
@@ -788,7 +785,45 @@ export const useMutationVerifyUserEmail = () => {
         ...user,
         ...res?.data?.data,
       };
-      localUser(latestUser);
+      onSuccess();
+      toast.success(`${res?.data?.message}`);
+    },
+  });
+};
+
+// ============================== verify User Email ==========================================
+
+// Send exchange rate to backend
+export const useMutationVerifyCode = () => {
+  const { data: user } = useQueryGetUser();
+
+  const router = useRouter();
+  const mutationFn = async (value) => {
+    try {
+      const config = {
+        method: 'POST',
+        url: `${endPoint}/auth/verify-code`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${user?.token}`,
+        },
+        data: { email: user.email, code: value }, // Correctly pass the body as `data` in axios
+      };
+      return await axios.request(config);
+    } catch (error) {
+      throw new Error(error?.response?.data?.error || error?.message || 'An error occurred');
+    }
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      console.log('Mutation Error:', error);
+      toast.error(`${error}`);
+    },
+    onSuccess: (res) => {
+      console.log('🚀 ~ useMutationVerifyCode ~ res:', res);
+      router.push('/dashboard');
       toast.success(`${res?.data?.message}`);
     },
   });

@@ -31,7 +31,7 @@ model User {
   resetTokenExpires      DateTime? // Optional, token expiration time
   sessions               Session[] // One-to-many relationship with Session
   verified               Boolean?  @default(false)
-  verificationCode           String?
+  verificationCode       String?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
 }

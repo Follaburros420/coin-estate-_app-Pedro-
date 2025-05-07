@@ -1,4 +1,5 @@
 import { useQueryGetUser } from '@/hooks/query';
+import { user_auth } from '@/hooks/queryContants';
 import { routerPaths } from '@/utils/helper';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { bscTestnet, polygonAmoy } from '@reown/appkit/networks';
@@ -26,9 +27,8 @@ export const wagmiAdapter = new WagmiAdapter({
 
 export default function AuthProvider() {
   const router = useRouter();
-  const pathName = usePathname();
-  const name = pathName?.split('/')?.[1];
-  console.log("🚀 ~ AuthProvider ~ name:", name)
+  const pathname = usePathname();
+  const name = pathname?.split('/')?.[1];
   const url = window.location.href;
   const urlParams = new URLSearchParams(url);
   const callbackUrl = urlParams.get('callbackUrl');
@@ -38,21 +38,19 @@ export default function AuthProvider() {
     const handleRoute = async () => {
       if (name) {
         if (!user?.email && routerPaths?.includes(name)) {
-          router.push('/auth/log-in');
+          router.replace('/auth/log-in');
         } else if (user?.email && !routerPaths?.includes(name)) {
-          if (pathName === '/auth/log-in') {
-            router.push('/dashboard');
+          if (pathname === '/auth/log-in' || pathname === '/auth/create-account') {
+            router.replace('/dashboard');
           } else {
-            router.push(`${url}`);
+            router.replace(`${url}`);
           }
         }
-      } else {
-        // router.push(`${url}`);
       }
     };
     if (isSuccess) {
-    handleRoute();
-    // setTimeout(() => handleRoute(), 1000);
+      handleRoute();
+      // setTimeout(() => handleRoute(), 1000);
     }
   }, [user?.address, name, isSuccess]);
 

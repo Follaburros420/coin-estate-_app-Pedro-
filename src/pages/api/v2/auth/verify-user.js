@@ -104,6 +104,7 @@ export default async function handler(req, res) {
 
   // Generate and hash verification code
   const verificationCode = generateCode();
+  console.log({verificationCode})
   const hashedCode = crypto.createHash('sha256').update(verificationCode).digest('hex');
   const expiration = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
 
