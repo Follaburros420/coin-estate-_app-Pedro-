@@ -1,6 +1,13 @@
 import Image from 'next/image';
+import { Router, useRouter } from 'next/router';
 
-export default function VerificationPrompt({ onVerify, onContinue, isLoadingEmail }) {
+export default function VerificationPrompt({ onContinue, isLoadingEmail }) {
+  const router = useRouter();
+
+  const onVerify = () => {
+    router.push('/dashboard');
+  };
+
   return (
     <div className='flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100'>
       <div className='bg-white shadow-2xl rounded-lg p-6 pt-10 w-full max-w-xl text-center'>

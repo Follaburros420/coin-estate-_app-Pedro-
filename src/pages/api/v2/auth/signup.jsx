@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 
-
 const ENCRYPTION_KEY = crypto.createHash('sha256').update(process.env.FORGOT_PASSWORD_KEY).digest(); // Derive 32-byte key
 const IV_LENGTH = 16;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -20,7 +19,7 @@ function encrypt(text) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { email, password, username, phone, termsAcceptedPolicy, termsAcceptedServices } = req.body;
+  const { email, password, username, phone, termsAcceptedPolicy, dateOfBirth, termsAcceptedServices } = req.body;
 
   // Check if user already exists
   const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -39,6 +38,7 @@ export default async function handler(req, res) {
   // Create new user in the database
   const newUser = await prisma.user.create({
     data: {
+      dateOfBirth,
       email,
       username: username,
       listHash: hashedPassword,

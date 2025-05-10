@@ -20,7 +20,6 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
-  console.log('🚀 ~ HeaderSection ~ tokenPrice:', tokenPrice);
 
   const [amount, setAmount] = useState(2.5);
   const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];

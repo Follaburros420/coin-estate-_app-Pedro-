@@ -11,6 +11,7 @@
 import Input from '@/components/Input';
 import { useMutateUploadFiles, useMutationUpdateUserProfile } from '@/hooks/mutation';
 import { useQueryGetUser } from '@/hooks/query';
+import { SourceUrl } from '@/hooks/queryContants';
 import Layout from '@/layout/Dashboard';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -60,9 +61,9 @@ const useYupValidationResolver = (validationSchema) =>
 
 export default function ProfilePage() {
   const { mutate: mutateUploadMainFile, data: mainImageData, isPending: isLoadingMain } = useMutateUploadFiles();
-  console.log("🚀 ~ ProfilePage ~ mainImageData:", mainImageData)
   const { mutate: updateProfile, isPending: isLoadingUpdate } = useMutationUpdateUserProfile();
   const { data: user } = useQueryGetUser();
+  console.log('🚀 ~ ProfilePage ~ mainImageData:', user);
 
   const {
     handleSubmit,
@@ -74,25 +75,26 @@ export default function ProfilePage() {
   } = useForm({
     resolver: useYupValidationResolver(validationSchema),
     defaultValues: {
-      email: '',
-      dateOfBirth: '',
-      phone: '',
-      username: '',
+      email: user?.email,
+      dateOfBirth: user?.dateOfBirth,
+      phone: user?.phone,
+      username: user?.username,
     },
   });
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     if (user) {
       reset({
-        email: user.email || '',
-        dateOfBirth: user.dateOfBirth || '',
-        phone: user.phone || '',
-        username: user.username || '',
+        email: user?.email || '',
+        dateOfBirth: user?.dateOfBirth || '',
+        phone: user?.phone || '',
+        username: user?.username || '',
+        nationality: user.nationality || '',
       });
+      setImagePreview(`${SourceUrl}${user.image}`);
     }
   }, [user, reset]);
-
-  const [imagePreview, setImagePreview] = useState(null);
 
   const onSubmit = (data) => {
     const userDetails = {
@@ -121,7 +123,7 @@ export default function ProfilePage() {
         <div className='min-h-screen bg-black text-yellow-400 flex items-center justify-center p-6'>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className='bg-yellow-50 text-black w-full max-w-xl p-6 rounded-xl glass shadow-2xl space-y-6'>
+            className='bg-yellow-50 text-black w-full max-w-xl p-6 rounded-xl text-lightGray-600 glass shadow-2xl space-y-6'>
             <h2 className='text-2xl font-bold text-center text-yellow-600'>Perfil de Usuario</h2>
 
             {/* Profile Image Upload */}
@@ -156,21 +158,23 @@ export default function ProfilePage() {
 
             {/* Email */}
             <div>
-              <label className='block font-semibold mb-1'>Correo electrónico</label>
+              <p className='text-24 text-lightGray-100 border-b border-black-300 mb-4'>Personal Info</p>
+
+              <label className='block font-semibold mb-1'>ID</label>
               <Input
-                type='email'
+                type='text'
                 readOnly
-                value={user?.email}
+                value={user?.id}
                 className='w-full px-4 py-2 border border-yellow-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
               />
               {errors?.email && <p className='text-red-600 text-sm mt-1'>{errors?.email?.message}</p>}
             </div>
 
-            {/* Username */}
             <div>
               <label className='block font-semibold mb-1'>Nombre de usuario</label>
               <Input
                 type='text'
+                readOnly
                 register={register('username')}
                 className='w-full px-4 py-2 border border-yellow-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
               />
@@ -183,6 +187,7 @@ export default function ProfilePage() {
               <Input
                 type='date'
                 register={register('dateOfBirth')}
+                readOnly
                 className='w-full px-4 py-2 border border-yellow-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
               />
               {errors.dateOfBirth && <p className='text-red-600 text-sm mt-1'>{errors.dateOfBirth.message}</p>}
@@ -193,11 +198,26 @@ export default function ProfilePage() {
               <label className='block font-semibold mb-1'>Nacionalidad</label>
               <Input
                 type='text'
+                // readOnly
                 register={register('nationality')}
                 className='w-full px-4 py-2 border border-yellow-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
               />
               {errors.nationality && <p className='text-red-600 text-sm mt-1'>{errors.nationality.message}</p>}
             </div>
+
+            <div>
+              <p className='text-24 text-lightGray-100 border-b border-black-300 mb-4'>Contact Info</p>
+
+              <label className='block font-semibold mb-1'>Correo electrónico</label>
+              <Input
+                type='email'
+                readOnly
+                value={user?.email}
+                className='w-full px-4 py-2 border border-yellow-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
+              />
+            </div>
+
+            {/* Username */}
 
             {/* Phone */}
             <div>
