@@ -95,7 +95,7 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                 <p className='mt-4 font-inter text-14 text-end font-semibold '>
                   Tokens Disponibles:{' '}
                   <span className='text-yellow  font-regular'>
-                    {formatNumberIndianStyle(Number(remainingTokens.toFixed(2))) || 0}{' '}
+                    {formatNumberIndianStyle(Number(remainingTokens.toFixed(2))) || 0}
                   </span>{' '}
                 </p>
               </div>

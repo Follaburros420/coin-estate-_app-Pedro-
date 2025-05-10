@@ -104,7 +104,7 @@ export default function Properties({  handleFilter, sortByMostRecent, handleSear
           />
           <input
             type="text"
-            placeholder="Busca Propiedades "
+            placeholder="Busca Propiedades"
             className="text-grey-100 bg-lightblue w-full outline-none text-16 font-inter font-regular"
           />
         </div>

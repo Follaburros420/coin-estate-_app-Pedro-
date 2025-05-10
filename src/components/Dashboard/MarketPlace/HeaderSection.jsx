@@ -20,6 +20,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
+  console.log('🚀 ~ HeaderSection ~ tokenPrice:', tokenPrice);
 
   const [amount, setAmount] = useState(2.5);
   const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
@@ -70,8 +71,8 @@ export default function HeaderSection({ selectedNFT, userData }) {
   remainingTokens = totalTokens - remainingTokens;
 
   remainingTokens = Number(remainingTokens?.toFixed(4));
-  const currentValue = 500000 / tokenPrice;
-  console.log('🚀 ~ HeaderSection ~ currentValue:', currentValue);
+  let currentValue = 500000 / tokenPrice;
+  currentValue = currentValue / selectedNFT?.tokenPrice;
 
   const handleUpgrade = () => {
     // Auto-set investment to 500,000 COP
@@ -217,12 +218,13 @@ export default function HeaderSection({ selectedNFT, userData }) {
             onClick={() => {
               if (Number(amount) < currentValue) {
                 setShowModal(true);
+              } else {
+                if (amount <= remainingTokens) {
+                  createIntend({ id: selectedNFT?.id, amount });
+                } else {
+                  toast.error('your amount must be lower then remaining tokens ');
+                }
               }
-              // if (amount <= remainingTokens) {
-              //   createIntend({ id: selectedNFT?.id, amount });
-              // } else {
-              //   toast.error('your amount must be lower then remaining tokens ');
-              // }
             }}
             className='bg-Yellow-100 p-3 rounded-[8px] text-20 sm:text-28 w-full mt-4 font-medium text-black-100 '>
             {isLoading ? 'Laoding...' : 'Investing'}
