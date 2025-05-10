@@ -87,7 +87,8 @@ export default function ProfilePage() {
     if (user) {
       reset({
         email: user?.email || '',
-        dateOfBirth: user?.dateOfBirth || '',
+        dateOfBirth: new Date(user?.dateOfBirth)
+          .toLocaleDateString('en-CA'),
         phone: user?.phone || '',
         username: user?.username || '',
         nationality: user.nationality || '',
