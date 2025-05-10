@@ -81,13 +81,15 @@ export default function CreateAccount() {
     handleSubmit,
     register,
     control,
+    watch,
+    getValues,
     reset,
     setValue,
     formState: { errors },
   } = useForm({
     resolver,
   });
-  console.log("🚀 ~ CreateAccount ~ errors:", errors)
+    console.log("🚀 ~ CreateAccount ~ getValues:", )
 
   function handleFormSubmit(value) {
     // console.log(value, code);
@@ -111,6 +113,10 @@ export default function CreateAccount() {
       toast.error("Password don't matched");
     }
   }
+const password = watch('password');
+const cPassword = watch('cPassword');
+console.log(password && cPassword,cPassword)
+
 
   return (
     <div className='flex items-center  justify-center min-h-screen max-h-screen xl:justify-between gap-10 w-full mx-auto '>
@@ -245,6 +251,24 @@ export default function CreateAccount() {
                 </button>
               </div>
               {errors?.cPassword?.message && <span className='text-[red] text-xs'>{errors?.cPassword?.message}</span>}
+
+
+
+            {password && cPassword ? (
+              password === cPassword ? (
+              <div className='bg-gray-dark px-3 py-1 my-2 rounded-lg'>
+                
+                <p className="text-green">Password matched</p>
+            </div>
+
+              ) : (
+              <div className='bg-gray-dark px-3 py-1 my-2 rounded-lg'>
+
+                <p className="text-red-100">Passwords don&apos;t match</p>
+            </div>
+
+              )
+            ) : null}
               <div className='flex font-bold justify-start gap-2 mt-2 items-center'>
                 <Input
                   type='checkbox'
