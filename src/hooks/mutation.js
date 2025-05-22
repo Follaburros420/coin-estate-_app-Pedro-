@@ -757,20 +757,7 @@ export const useMutationVerifyUserEmail = (onSuccess) => {
 
   const router = useRouter();
   const mutationFn = async (value) => {
-    try {
-      const config = {
-        method: 'POST',
-        url: `${endPoint}/auth/verify-user`,
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${user?.token}`,
-        },
-        data: { email: value }, // Correctly pass the body as `data` in axios
-      };
-      return await axios.request(config);
-    } catch (error) {
-      throw new Error(error?.response?.data?.error || error?.message || 'An error occurred');
-    }
+   
   };
 
   return useMutation({
