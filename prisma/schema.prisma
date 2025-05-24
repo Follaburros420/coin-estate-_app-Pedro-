@@ -121,6 +121,7 @@ model property {
   vacancyReserve       Float
   SPVCreation          Float
   closingCosts         Float
+  listingPrice         Float?
 
   // Owner details
   email     String

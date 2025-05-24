@@ -6,30 +6,6 @@ import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
 
-const handleCalculate = (PropertyValueWithTime, value, tokenPrice, tokenCalculationPrice, nft) => {
-  const result = PropertyValueWithTime.map((item, index) => {
-    const realAppreciationYear = Math.max(
-      0,
-      PropertyValueWithTime[index + 1] - Math.max(item, nft?.totalInvestmentPrice),
-    );
-    // result = 30
-    const earningValue = realAppreciationYear * (value / tokenCalculationPrice) * tokenPrice;
-    return earningValue;
-  });
-
-  result.pop()
-  result.pop()
-
-  const realAppreciationYear = Math.max(
-    0,
-    PropertyValueWithTime[6] -
-      Math.max(PropertyValueWithTime[5], nft?.totalInvestmentPrice) -
-      0.05 * PropertyValueWithTime[6],
-  );
-  const earningValue = realAppreciationYear * (value / tokenCalculationPrice) * tokenPrice;
-  return [...result,earningValue];
-};
-
 export default function Simulator({ nft }) {
   console.log({ nft });
   const [value, setValue] = useState(10);
@@ -37,6 +13,7 @@ export default function Simulator({ nft }) {
   const [reinvest, setReinvest] = useState(false);
   const [rentability, setRentability] = useState(0);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
+  console.log('🚀 ~ Simulator ~ tokenPrice:', tokenPrice);
   const setSimulator = useGlobalStates((state) => state.setSimulator);
 
   // Update the value as the user swipes
@@ -48,28 +25,103 @@ export default function Simulator({ nft }) {
   calculation = calculation.toFixed(2);
   calculation = Number(calculation);
   calculation = formatNumberIndianStyle(calculation);
-  const tokenCalculationPrice = nft?.totalInvestmentPrice / nft?.tokenPrice;
-  console.log('🚀 ~ Simulator ~ tokenCalculationPrice:', tokenCalculationPrice);
 
   const handleSimulate = () => {
-    // setSimulator({ chartData, results, compound: reinvest });
-    const years = [1, 2, 3, 4, 5, 6];
+    const investmentYears = 30;
+    const initialCapital = value;
+    const annualAppreciationRate = nft?.expectedIncome;
+    const annualNetRent = (initialCapital * annualAppreciationRate) / 100;
+    const monthlyRent = annualNetRent / 12;
 
-    const propertyValueByYear = years.map((year) => nft.propertyPrice * Math.pow(1.06, year));
+    console.log({ annualAppreciationRate, annualNetRent, initialCapital, monthlyRent });
+    // console.log({ annualNetRent,monthlyRent });
+    const monthlyAppreciationRate = Math.pow(1 + annualAppreciationRate / 100, 1 / 12) - 1;
 
-    const PropertyValueWithTime = [nft?.propertyPrice, ...propertyValueByYear];
+    let propertyValue = initialCapital;
+    let reinvestedCapital = 0;
+    let accumulatedRentNoReinvestment = 0;
+    let yearlyData = [];
 
-    // const realAppreciationYear1 = Math.max(0, PropertyValueWithTime[4] - Math.max(PropertyValueWithTime[3], nft?.totalInvestmentPrice)); // result = 30
+    let currentMonthlyRent = monthlyRent;
 
-    // // (# tokens to purchase/ total token supply) * ( COP USD rate)
-    //     const earningValue = realAppreciationYear1 * (value / tokenCalculationPrice) * tokenPrice;
+    for (let y = 1; y <= investmentYears; y++) {
+      let yearIncome = 0;
+      for (let m = 1; m <= 12; m++) {
+        propertyValue *= 1 + monthlyAppreciationRate;
 
-    const projectsOnInterest = {
-      earning: handleCalculate(PropertyValueWithTime, value, tokenPrice, tokenCalculationPrice, nft),
-      rentalIncome: Number(value) * nft?.tokenPrice * (nft?.expectedIncome / 100) * tokenPrice,
+        if (reinvest) {
+          reinvestedCapital += currentMonthlyRent;
+          reinvestedCapital *= 1 + monthlyAppreciationRate;
+        }
+        accumulatedRentNoReinvestment += currentMonthlyRent;
+        yearIncome += currentMonthlyRent;
+        currentMonthlyRent *= 1 + monthlyAppreciationRate;
+      }
+
+      yearlyData.push({
+        year: y,
+        propertyValue,
+        totalRentNoCompound: accumulatedRentNoReinvestment,
+        reinvestedCapital,
+        annualIncome: yearIncome,
+      });
+    }
+
+    const summaryYears = [5, 10, 20, 30];
+    const summaryData = summaryYears.map((year) => {
+      const data = yearlyData[year - 1];
+      if (!data) return null;
+
+      const appreciation = data.propertyValue - initialCapital;
+      let effectiveTotalCapital = reinvest
+        ? data.propertyValue + data.reinvestedCapital
+        : data.propertyValue + data.totalRentNoCompound;
+      const totalReturnPercent = ((effectiveTotalCapital - initialCapital) / initialCapital) * 100;
+      const returnRate = (appreciation / initialCapital) * 100;
+      const accumulatedProfit = effectiveTotalCapital - initialCapital;
+
+      return {
+        year,
+        annualIncome: formatNumberIndianStyle(data.annualIncome),
+        appreciation: formatNumberIndianStyle(appreciation),
+        totalReturnPercent: formatNumberIndianStyle(totalReturnPercent),
+        returnRate: formatNumberIndianStyle(returnRate),
+        accumulatedProfit: formatNumberIndianStyle(accumulatedProfit),
+      };
+    });
+
+    const results = {
+      yearlyData,
+      summaryData,
+      finalPropertyValue: propertyValue,
+      reinvestedCapital,
+      accumulatedRentNoReinvestment,
     };
-    console.log({ PropertyValueWithTime, projectsOnInterest });
+    const chartData = {
+      labels: yearlyData.map((d) => `Year ${d.year}`),
+      datasets: [
+        {
+          label: 'Property Value',
+          data: yearlyData.map((d) => d.propertyValue),
+          backgroundColor: 'rgba(75, 192, 75, 0.6)',
+        },
+        {
+          label: 'Accumulated Rent (no reinvestment)',
+          data: yearlyData.map((d) => d.totalRentNoCompound),
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        },
+        {
+          label: 'Reinvested Capital (if compound)',
+          data: yearlyData.map((d) => d.reinvestedCapital),
+          backgroundColor: 'rgba(255, 159, 64, 0.6)',
+        },
+      ],
+    };
+
+    setSimulator({ chartData, results, compound: reinvest });
+    console.log({ chartData, results, compound: reinvest });
   };
+
   return (
     <div className='w-full mt-6  '>
       <div className='border border-base-800 glass rounded-[8px] p-5 w-full '>
@@ -87,7 +139,7 @@ export default function Simulator({ nft }) {
           <input
             type='range'
             min='10'
-            max={tokenCalculationPrice}
+            max='1000'
             value={value}
             onChange={handleChange}
             className='w-full h-1 bg-Yellow-300 rounded-lg appearance-none cursor-pointer accent-indigo-500 range-slider'
@@ -96,7 +148,7 @@ export default function Simulator({ nft }) {
             type='number'
             value={value}
             min={10}
-            max={tokenCalculationPrice}
+            max={1000}
             onChange={(e) => setValue(e.target.value)}
             className='w-20 h-10 bg-[transparent] border border-base-800 p-1 rounded-md appearance-none cursor-pointer accent-indigo-500 range-slider'
           />
@@ -104,12 +156,13 @@ export default function Simulator({ nft }) {
 
         <p className='font-medium font-ubuntu mt-5'>Rentabilidad líquida (% anual):</p>
         <input
-          type='number'
-          value={nft?.expectedIncome}
-          readOnly
-          onChange={(e) => setRentability(e.target.value)}
-          className='w-20 h-10 bg-[transparent] border border-base-800 p-1 rounded-md appearance-none cursor-pointer accent-indigo-500 range-slider'
-        />
+            type='number'
+            value={rentability}
+            min='1'
+            max={6}
+            onChange={(e) => setRentability(e.target.value)}
+            className='w-20 h-10 bg-[transparent] border border-base-800 p-1 rounded-md appearance-none cursor-pointer accent-indigo-500 range-slider'
+          />
 
         <p className='font-medium font-ubuntu mt-5'>Tiempo ( años ):</p>
         <div className='w-full  flex items-center gap-3 justify-between '>
@@ -130,6 +183,7 @@ export default function Simulator({ nft }) {
             className='w-20 h-10 bg-[transparent] border border-base-800 p-1 rounded-md appearance-none cursor-pointer accent-indigo-500 range-slider'
           />
         </div>
+       
 
         <div className='sm:text-20 font-medium font-ubuntu text-center mt-5 '>
           <div class='flex gap-2 justify-start font-bold text-14 '>

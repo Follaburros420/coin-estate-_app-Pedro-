@@ -59,6 +59,7 @@ const validationSchemaProperty = yup.object({
   SPVCreation: yup.number().required('SPVCreation is required'),
   closingCosts: yup.number().required('closing costs is required'),
   documents: yup.string().required('documents is required'),
+  listingPrice: yup.number().required('listing price is required'),
 });
 
 export default function Home() {
@@ -168,10 +169,11 @@ export default function Home() {
                     step={step}
                     Label={'Total investment price'}
                     placeholder='total investment price'
-                    error={errors?.totalInvestmentPrice}
-                    register={register('totalInvestmentPrice')}
+                    error={errors?.listingPrice}
+                    register={register('listingPrice')}
                     className='py-2'
                   />
+                  
                 </div>
 
                 {/* ================================== main token Price ================================= */}
@@ -253,6 +255,15 @@ export default function Home() {
                     control={control}
                     name='propertyType'
                     options={['Financing', 'In Operation']}
+                  />
+                  <Input
+                    type='number'
+                    step={step}
+                    Label={'Listing Price'}
+                    placeholder='Listing Price'
+                    error={errors?.totalInvestmentPrice}
+                    register={register('totalInvestmentPrice')}
+                    className='py-2'
                   />
                 </div>
 

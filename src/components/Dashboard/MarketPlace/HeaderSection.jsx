@@ -39,8 +39,8 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const MarketPlace_Total_Investments_Data = [
     {
       id: 1,
-      title: 'Valor Total de la inversión ',
-      ratio: selectedNFT?.totalInvestmentPrice + '$' || '$ 50.000',
+      title: 'Precio de listado',
+      ratio: `${selectedNFT?.totalInvestmentPrice || 0}` + ' $',
     },
     {
       id: 2,

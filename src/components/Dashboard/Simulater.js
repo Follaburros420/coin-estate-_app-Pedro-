@@ -151,7 +151,7 @@ const RealEstateSimulator = () => {
                 ))}
               </tbody>
             </table>
-                </div>
+            </div>
 
             {/* Chart */}
             <div className='mt-4'>
