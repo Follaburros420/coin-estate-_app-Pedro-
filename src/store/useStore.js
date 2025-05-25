@@ -6,8 +6,8 @@ export const useGlobalStates = create((set) => ({
   selectedToken: null,
   isOpenModal: false,
   simulator: {
-    compound: false,
-    results: null,
+    PropertyValueWithTime: [],
+    projectsOnInterest: null,
     chartData: null,
   },
   setToken: (value) =>

@@ -52,22 +52,44 @@ export default function Simulator({ nft }) {
   console.log('🚀 ~ Simulator ~ tokenCalculationPrice:', tokenCalculationPrice);
 
   const handleSimulate = () => {
-    // setSimulator({ chartData, results, compound: reinvest });
     const years = [1, 2, 3, 4, 5, 6];
-
+    
     const propertyValueByYear = years.map((year) => nft.propertyPrice * Math.pow(1.06, year));
-
+    
     const PropertyValueWithTime = [nft?.propertyPrice, ...propertyValueByYear];
+    
+    const rentalIncome = Number(value) * nft?.tokenPrice * (nft?.expectedIncome / 100) * tokenPrice;
+    const earning = handleCalculate(PropertyValueWithTime, value, tokenPrice, tokenCalculationPrice, nft);
+    const totalOfYear = earning.map((i)=>i+rentalIncome);
+    
+    // total earn year t (1) + ( # Tokens to purchase * Token price * COP USD Rate)
+    const totalCoinEstate = totalOfYear[0] + (Number(value) * nft?.tokenPrice * tokenPrice);
+    // Total en CoinEstate (t-1) + total earn year t 
+    const forNextYearCoinEstate = totalOfYear.reduce((acc, curr, idx) => {
+      if (idx === 0) return [totalCoinEstate];
+      return [...acc, acc[idx - 1] + curr];
+    }, []);
 
-    // const realAppreciationYear1 = Math.max(0, PropertyValueWithTime[4] - Math.max(PropertyValueWithTime[3], nft?.totalInvestmentPrice)); // result = 30
+    // Total earn year t / (# Tokens to purchase * Token price * COP USD Rate)
+    const rateOfReturn = totalOfYear.map((i,idx)=> i / (Number(value) * nft?.tokenPrice * tokenPrice));
 
-    // // (# tokens to purchase/ total token supply) * ( COP USD rate)
-    //     const earningValue = realAppreciationYear1 * (value / tokenCalculationPrice) * tokenPrice;
+//     Accumulated gain  t (1) = Total earn year 1
+// Accumulated gain t > 1 =accumulated gain (t-1) + total earn year (t) 
+ const accumulatedGain = totalOfYear.reduce((acc, curr, idx)=> {
+  if (idx === 0) return [totalOfYear[0]];
+  return [...acc, acc[idx - 1] + curr];
+ }, []);
 
     const projectsOnInterest = {
-      earning: handleCalculate(PropertyValueWithTime, value, tokenPrice, tokenCalculationPrice, nft),
-      rentalIncome: Number(value) * nft?.tokenPrice * (nft?.expectedIncome / 100) * tokenPrice,
+      earning: earning,
+      rentalIncome: rentalIncome,
+      totalOfYear:totalOfYear,
+      totalCoinEstate:forNextYearCoinEstate,
+      rateOfReturn:rateOfReturn,
+      accumulatedGain:accumulatedGain
     };
+
+    setSimulator({ PropertyValueWithTime,projectsOnInterest });
     console.log({ PropertyValueWithTime, projectsOnInterest });
   };
   return (

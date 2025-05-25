@@ -66,6 +66,7 @@
 //   );
 // }
 
+import { useGlobalStates } from '@/store/useStore';
 import React from 'react';
 
 // Utility function to calculate compound interest
@@ -73,23 +74,24 @@ const calculateCompoundInterest = (principal, rate, years) => {
   return principal * Math.pow(1 + rate, years);
 };
 
-const RealEstateProjection = () => {
+const RealEstateProjection = ({ nft }) => {
+
+  const simulator = useGlobalStates((state) => state.simulator);
+
   const years = [0, 1, 2, 3, 4, 5, 6];
   const initialValue = 100000; // Example initial value
   const annualRate = 0.06; // 6% annual rate
 
   // Calculate property values using compound interest
-  const propertyValues = years.map(year => 
-    calculateCompoundInterest(initialValue, annualRate, year)
-  );
+  // const propertyValues =  || [];
 
   const projectionData = {
-    "Ingresos alquiler": ["--", "--", "--", "--", "--", "--"],
-    "Ganancias valorización": ["--", "--", "--", "--", "--", "--"],
-    "Total Ganancia año": ["--", "--", "--", "--", "--", "--"],
-    "Total en CoinEstate": ["--", "--", "--", "--", "--", "--"],
-    "Tasa de retorno ROI": ["--", "--", "--", "--", "--", "--"],
-    "Ganancia acumulada": ["--", "--", "--", "--", "--", "--"],
+    "Ingresos alquiler": [simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome],
+    "Ganancias valorización": simulator?.projectsOnInterest?.earning,
+    "Total Ganancia año": simulator?.projectsOnInterest?.totalOfYear,
+    "Total en CoinEstate": simulator?.projectsOnInterest?.totalCoinEstate,
+    "Tasa de retorno ROI": simulator?.projectsOnInterest?.rateOfReturn,
+    "Ganancia acumulada": simulator?.projectsOnInterest?.accumulatedGain,
   };
 
   return (
@@ -109,7 +111,7 @@ const RealEstateProjection = () => {
           <tbody>
             <tr>
               <td className="border border-gray-700 py-2 font-mono">Valor del inmueble</td>
-              {propertyValues.map((value, index) => (
+              {simulator?.PropertyValueWithTime?.map((value, index) => (
                 <td key={index} className="border border-gray-700 py-2 font-mono">${value.toFixed(2)}</td>
               ))}
             </tr>
@@ -130,11 +132,11 @@ const RealEstateProjection = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(projectionData).map(([label, values]) => (
+            {Object?.entries(projectionData).map(([label, values]) => (
               <tr key={label}>
                 <td className="border border-gray-700 py-2">{label}</td>
-                {values.map((val, idx) => (
-                  <td key={idx} className="border border-gray-700 py-2">{val}</td>
+                {values?.map((val, idx) => (
+                  <td key={idx} className="border border-gray-700 py-2">{Number(val)?.toFixed(2)}</td>
                 ))}
               </tr>
             ))}
