@@ -16,6 +16,7 @@ const handleCalculate = (PropertyValueWithTime, value, tokenPrice, tokenCalculat
     const earningValue = realAppreciationYear * (value / tokenCalculationPrice) * tokenPrice;
     return earningValue;
   });
+  console.log({result})
 
   result.pop()
   result.pop()
@@ -31,7 +32,6 @@ const handleCalculate = (PropertyValueWithTime, value, tokenPrice, tokenCalculat
 };
 
 export default function Simulator({ nft }) {
-  console.log({ nft });
   const [value, setValue] = useState(10);
   const [investmentYears, setInvestmentYears] = useState(0);
   const [reinvest, setReinvest] = useState(false);
@@ -49,7 +49,6 @@ export default function Simulator({ nft }) {
   calculation = Number(calculation);
   calculation = formatNumberIndianStyle(calculation);
   const tokenCalculationPrice = nft?.totalInvestmentPrice / nft?.tokenPrice;
-  console.log('🚀 ~ Simulator ~ tokenCalculationPrice:', tokenCalculationPrice);
 
   const handleSimulate = () => {
     const years = [1, 2, 3, 4, 5, 6];
@@ -89,8 +88,81 @@ export default function Simulator({ nft }) {
       accumulatedGain:accumulatedGain
     };
 
-    setSimulator({ PropertyValueWithTime,projectsOnInterest });
-    console.log({ PropertyValueWithTime, projectsOnInterest });
+
+    // (1+( annual rent / 12 ) ) ^12
+const growthRate = Math.pow(1+( (nft?.expectedIncome/100) / 12 ), 12)
+// Tokens to purchase * token price * COP USD rate
+const growthRateForYear1 = Number(value) * nft?.tokenPrice * tokenPrice
+// Initial balance t-1 * Growth rate
+const initialBalance = years.reduce((acc, year, idx) => {
+  if (idx === 0) return [growthRateForYear1];
+  return [...acc, acc[idx - 1] * growthRate];
+}, []);
+
+    const interestIncome = initialBalance.map((i,idx)=> i * (growthRate -1))
+    // Initial Balance t / (Total token supply *COP USD rate)
+    const interestEarning = initialBalance.map((i,idx)=> i / (nft.totalInvestmentPrice * tokenPrice))
+    // Initial Balance t / (Total token supply *COP USD rate*Token price) 
+    const earningVulation1 = initialBalance.map((i,idx)=> i / ((nft.totalInvestmentPrice/nft?.tokenPrice) * tokenPrice * nft?.tokenPrice))
+    // (Initial Balance t * Growth rate) / ( Token Price * Tokens total supply * USD COP rate )
+    const earningVulation2 = initialBalance.map((i,idx)=> (i * growthRate) / ((nft.totalInvestmentPrice/nft?.tokenPrice) * tokenPrice * nft?.tokenPrice))
+    // (Initial Proportion t + Final Proportion t ) / 2
+    const averageEarning = earningVulation1.map((i,idx)=> (i + earningVulation2[idx]) / 2)
+    // Real appreciation t * COP USD Rate * Average proportion t 
+    
+    
+    // ===========================================================
+    
+    // MAX ( 0; Year 1 asset value - MAX ( Year 0 asset value; Total investment ) )
+    
+    // Real appreciation t 6 : =  (MAX ( 0; Year 6 asset value - MAX ( Year 5 asset value; Total investment ) ) - (0,05*Asset price year 6) )
+    // Calculate real appreciation for each year
+    const realAppreciationByYear = PropertyValueWithTime.map((currentYearValue, idx) => {
+      if (idx === 0) return 0; // No appreciation for year 0
+      const previousYearValue = PropertyValueWithTime[idx - 1];
+      const totalInvestment = nft?.totalInvestmentPrice;
+      
+      if (idx === 6) {
+        // Special calculation for year 6
+        return Math.max(0, currentYearValue - Math.max(previousYearValue, totalInvestment) - (0.05 * currentYearValue));
+      }
+      
+      // For years 1-5: MAX(0, Current year value - MAX(Previous year value, Total investment))
+      return Math.max(0, currentYearValue - Math.max(previousYearValue, totalInvestment));
+    });
+     realAppreciationByYear.shift()
+
+    // Annual Appreciation earns t = Real appreciation t * COP USD Rate * Average proportion t
+    const annualAppreciationEarning = realAppreciationByYear.map((i,idx)=> {
+      const calculation = i * Number(tokenPrice) * averageEarning[idx]
+      return calculation
+    })
+
+
+    // ===========================================================
+
+    // total Profit Year 
+//     Total en CoinEstate t (1) = total earn year t (1) + ( # Tokens to purchase * Token price * COP USD Rate) 
+// Total en CoinEstate t > 1 = Total en CoinEstate (t-1) + total earn year t 
+
+const totalProfitYear = totalOfYear.reduce((acc, curr, idx)=> {
+  if (idx === 0) return [totalOfYear[0] + (Number(value) * nft?.tokenPrice * tokenPrice)];
+  const values = acc[idx - 1] + totalOfYear[idx]
+  return [...acc, values];
+}, []);
+
+
+
+    const interestCompounded = {
+      rentalIncome: interestIncome,
+      earning: annualAppreciationEarning,
+      totalOfYear: totalProfitYear,
+      // totalOfYear:totalOfYear,
+      // totalCoinEstate:forNextYearCoinEstate,
+      // rateOfReturn:rateOfReturn,
+    }
+
+    setSimulator({ PropertyValueWithTime,projectsOnInterest,interestCompounded });
   };
   return (
     <div className='w-full mt-6  '>

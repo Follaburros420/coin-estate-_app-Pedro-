@@ -93,6 +93,14 @@ const RealEstateProjection = ({ nft }) => {
     "Tasa de retorno ROI": simulator?.projectsOnInterest?.rateOfReturn,
     "Ganancia acumulada": simulator?.projectsOnInterest?.accumulatedGain,
   };
+  const interestCompounded = {
+    "Ingresos alquiler": simulator?.interestCompounded?.rentalIncome,
+    "Ganancias valorización": simulator?.interestCompounded?.earning,
+    "Total Ganancia año": simulator?.interestCompounded?.totalOfYear,
+    "Total en CoinEstate": simulator?.projectsOnInterest?.totalCoinEstate,
+    "Tasa de retorno ROI": simulator?.projectsOnInterest?.rateOfReturn,
+    "Ganancia acumulada": simulator?.projectsOnInterest?.accumulatedGain,
+  };
 
   return (
     <div className="text-white bg-black p-4 space-y-8">
@@ -133,6 +141,31 @@ const RealEstateProjection = ({ nft }) => {
           </thead>
           <tbody>
             {Object?.entries(projectionData).map(([label, values]) => (
+              <tr key={label}>
+                <td className="border border-gray-700 py-2">{label}</td>
+                {values?.map((val, idx) => (
+                  <td key={idx} className="border border-gray-700 py-2">{Number(val)?.toFixed(2)}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+        {/* Table 3 */}
+      <div>
+        <h2 className="text-yellow-400 text-lg font-bold mb-2">Interés compuesto</h2>
+        <table className="w-full text-center border border-gray-700">
+          <thead>
+            <tr className="bg-gray-800">
+              <th className="border border-gray-700 py-2">Año</th>
+              {[1, 2, 3, 4, 5, 6].map((year) => (
+                <th key={year} className="border border-gray-700 py-2 text-yellow-400">{year}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {Object?.entries(interestCompounded).map(([label, values]) => (
               <tr key={label}>
                 <td className="border border-gray-700 py-2">{label}</td>
                 {values?.map((val, idx) => (
