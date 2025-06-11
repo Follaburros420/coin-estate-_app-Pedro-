@@ -1,6 +1,17 @@
 import StyledImage from "@/components/StyedImage";
+import { formatNumberIndianStyle } from "@/utils/wagmiConfig";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
-export default function BlockChainTab({nft}) {
+export default function BlockChainTab({ nft, userData }) {
+  const params = useParams();
+  const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
+
+  const totalTokens = nft?.totalInvestmentPrice / nft?.tokenPrice;
+  let remainingTokens = remaining?.remaining / nft?.tokenPrice;
+  remainingTokens = totalTokens - remainingTokens;
+
+  remainingTokens = Number(remainingTokens?.toFixed(4));
   return (
     <div className="mt-8 bg-black-1000 p-6 rounded-[20px] overflow-hidden ">
       <div className="flex flex-col sm:flex-row items-center justify-between ">
@@ -13,7 +24,7 @@ export default function BlockChainTab({nft}) {
         </div>
         <div>
           <p className="text-Yellow-100 font-bold text-20 ">
-            Total tokens: <span className="text-white ">{nft?.tokenPrice}</span>
+            Total tokens: <span className="text-white ">{formatNumberIndianStyle(remainingTokens)}</span>
           </p>
         </div>
       </div>
@@ -30,9 +41,9 @@ export default function BlockChainTab({nft}) {
         </div>
         <div className="grid sm:grid-cols-2 place-items-center sm:place-items-start py-3 border-b border-b-white ">
           <p className="text-24 font-bold  ">Dirección del Contrato</p>
-          <p className="text-blue-400 mt-2 truncate ">
+          <Link href={`https://testnet.bscscan.com/address/${nft?.address}`} target="_blank" className="text-light-blue hover:underline mt-2 truncate ">
             {nft?.address}
-          </p>
+          </Link>
         </div>
       </div>
     </div>

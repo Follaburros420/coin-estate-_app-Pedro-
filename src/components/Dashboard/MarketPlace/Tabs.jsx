@@ -4,7 +4,7 @@ import BlockChainTab from "./BlockChainTab";
 import FinancialTab from "./FinancialTab";
 import ProjectionTab from "./ProjectionTab";
 
-function Tabs({ selectedNFT }) {
+function Tabs({ selectedNFT, userData }) {
   const [activeTab, setActiveTab] = useState(0); // Manage active tab
 
   // Components corresponding to each tab
@@ -15,7 +15,7 @@ function Tabs({ selectedNFT }) {
     },
     {
       name: "Blockchain",
-      component: <BlockChainTab nft={selectedNFT} />
+      component: <BlockChainTab nft={selectedNFT} userData={userData} />
     },
     {
       name: "Financials",

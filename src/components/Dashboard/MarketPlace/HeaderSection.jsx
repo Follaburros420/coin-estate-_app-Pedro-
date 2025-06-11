@@ -20,6 +20,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
+  console.log("🚀 ~ HeaderSection ~ tokenPrice:", tokenPrice)
 
   const [amount, setAmount] = useState(2.5);
   const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
@@ -77,16 +78,44 @@ export default function HeaderSection({ selectedNFT, userData }) {
     // Auto-set investment to 500,000 COP
     console.log('User opted for Platino — adjust investment value');
     setShowModal(false);
-    setAmount(currentValue);
+    setAmount(Number(currentValue).toFixed(2));
     // Example: setInvestmentAmount(500000);
   };
 
+  
+  const handleInvest = () => {
+    if(Number(amount) < 2.5){
+      toast.error('your amount must be greater then 2.5');
+      setAmount(2.5);
+      return;
+    }
+    if (Number(amount) < currentValue) {
+      setShowModal(true);
+    } else {
+      if (amount <= remainingTokens) {
+        createIntend({ id: selectedNFT?.id, amount });
+      } else {
+        toast.error('your amount must be lower then remaining tokens ');
+      }
+    }
+  }
+  
   const handleContinue = () => {
     console.log('User continues with current investment');
     setShowModal(false);
+    if(Number(amount) < 2.5){
+      toast.error('your amount must be greater then 2.5');
+      setAmount(2.5);
+      return;
+    }
+    if (amount <= remainingTokens) {
+      createIntend({ id: selectedNFT?.id, amount });
+    } else {
+      toast.error('your amount must be lower then remaining tokens ');
+    }
     // Continue to checkout, KYC, etc.
   };
-
+  
   return (
     <div className='font-ubuntu '>
       {showModal && <InvestmentUpgradeModal onUpgrade={handleUpgrade} onContinue={handleContinue} />}
@@ -196,35 +225,32 @@ export default function HeaderSection({ selectedNFT, userData }) {
                 );
               })}
             </div>
+            
+            {/* <div className='flex items-center justify-between gap-2 border-t border-t-Yellow-100 pt-4 mt-4'>
+              <p className='text-16 font-bold text-grey-300 '>{amount || 0} =</p>
+              <p className='sm:text-18 font-bold text-Yellow-100 '>{amount * selectedNFT?.tokenPrice} <span className='text-14 text-grey-300 '>USD</span></p>
+            </div> */}
           </div>
-          <div className='flex gap-2'>
+          <div className='flex gap-2 items-center mt-4'>
             <input
-              min={0}
-              step={'0.001'}
+              min={'2.5'}
+              step={'0.01'}
               type='number'
               max={remainingTokens}
               value={amount}
-              className='w-full p-2 glass rounded-sm mt-4'
+              className='w-full p-2 glass rounded-sm outline-none border'
               onChange={(e) => setAmount(e.target.value)}
             />
+              <p className='sm:text-18 font-bold text-Yellow-100 max-w-[100px] w-full overflow-auto glass h-full py-2 rounded-sm'> = ${formatNumberIndianStyle(amount * selectedNFT?.tokenPrice)} </p>
+
             <button
               onClick={() => setAmount(remainingTokens)}
-              className='bg-Yellow-100 p-3 rounded-[8px] text-14 mt-4 font-medium text-black-100 '>
+              className='bg-Yellow-100 p-3 rounded-[8px] text-14 font-medium text-black-100 '>
               Max
             </button>
           </div>
           <button
-            onClick={() => {
-              if (Number(amount) < currentValue) {
-                setShowModal(true);
-              } else {
-                if (amount <= remainingTokens) {
-                  createIntend({ id: selectedNFT?.id, amount });
-                } else {
-                  toast.error('your amount must be lower then remaining tokens ');
-                }
-              }
-            }}
+            onClick={handleInvest}
             className='bg-Yellow-100 p-3 rounded-[8px] text-20 sm:text-28 w-full mt-4 font-medium text-black-100 '>
             {isLoading ? 'Laoding...' : 'Investing'}
           </button>

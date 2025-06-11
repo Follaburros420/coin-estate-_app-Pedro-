@@ -20,7 +20,7 @@ export default function MarketPlace() {
             <hr className=' text-yellow' />
             <hr className='mb-5 mt-1 text-yellow' />
             <HeaderSection userData={userData?.values} selectedNFT={selectedNFT} />
-            <Tabs selectedNFT={selectedNFT} />
+            <Tabs userData={userData?.values} selectedNFT={selectedNFT} />
           </div>
         </div>
       </Layout>
