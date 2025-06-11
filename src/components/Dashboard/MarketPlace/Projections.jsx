@@ -67,6 +67,8 @@
 // }
 
 import { useGlobalStates } from '@/store/useStore';
+import clsxm from '@/utils/clsxm';
+import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 import React from 'react';
 
 // Utility function to calculate compound interest
@@ -97,22 +99,22 @@ const RealEstateProjection = ({ nft }) => {
     "Ingresos alquiler": simulator?.interestCompounded?.rentalIncome,
     "Ganancias valorización": simulator?.interestCompounded?.earning,
     "Total Ganancia año": simulator?.interestCompounded?.totalOfYear,
-    "Total en CoinEstate": simulator?.projectsOnInterest?.totalCoinEstate,
-    "Tasa de retorno ROI": simulator?.projectsOnInterest?.rateOfReturn,
-    "Ganancia acumulada": simulator?.projectsOnInterest?.accumulatedGain,
+    "Total en CoinEstate": simulator?.interestCompounded?.totalCoinEstate,
+    "Tasa de retorno ROI": simulator?.interestCompounded?.rateOfReturn,
+    "Ganancia acumulada": simulator?.interestCompounded?.accumulatedGain,
   };
 
   return (
     <div className="text-white bg-black p-4 space-y-8">
       {/* Table 1 */}
       <div>
-        <h2 className="text-yellow-400 text-lg font-bold mb-2">Valor esperado del inmueble en el tiempo</h2>
+        <h2 className="text-yellow text-lg font-bold mb-2">Valor esperado del inmueble en el tiempo (USD)</h2>
         <table className="w-full text-center border border-gray-700">
           <thead>
             <tr className="bg-gray-800">
               <th className="border border-gray-700 py-2">Año</th>
               {years.map((year) => (
-                <th key={year} className="border border-gray-700 py-2 text-yellow-400">{year}</th>
+                <th key={year} className={clsxm("border border-gray-700 py-2 text-yellow-400", !simulator?.reinvest ? year === simulator?.investmentYears ? 'bg-dark-yellow' : 'bg-black-200' : 'bg-black-100')}>{year}</th>
               ))}
             </tr>
           </thead>
@@ -120,7 +122,7 @@ const RealEstateProjection = ({ nft }) => {
             <tr>
               <td className="border border-gray-700 py-2 font-mono">Valor del inmueble</td>
               {simulator?.PropertyValueWithTime?.map((value, index) => (
-                <td key={index} className="border border-gray-700 py-2 font-mono">${value.toFixed(2)}</td>
+                <td key={index} className="border border-gray-700 py-2 font-mono">${formatNumberIndianStyle(value)}</td>
               ))}
             </tr>
           </tbody>
@@ -129,13 +131,13 @@ const RealEstateProjection = ({ nft }) => {
 
       {/* Table 2 */}
       <div>
-        <h2 className="text-yellow-400 text-lg font-bold mb-2">Proyecciones con interés simple</h2>
+        <h2 className="text-yellow text-lg font-bold mb-2">Proyecciones con interés simple (COP)</h2>
         <table className="w-full text-center border border-gray-700">
           <thead>
             <tr className="bg-gray-800">
               <th className="border border-gray-700 py-2">Año</th>
               {[1, 2, 3, 4, 5, 6].map((year) => (
-                <th key={year} className="border border-gray-700 py-2 text-yellow-400">{year}</th>
+                <th key={year} className={clsxm("border border-gray-700 py-2 text-yellow-400",)}><span className={clsxm( !simulator?.reinvest ? year === simulator?.investmentYears ? 'text-yellow' : 'bg-black-200' : 'bg-black-100')}>{year}</span></th>
               ))}
             </tr>
           </thead>
@@ -144,7 +146,7 @@ const RealEstateProjection = ({ nft }) => {
               <tr key={label}>
                 <td className="border border-gray-700 py-2">{label}</td>
                 {values?.map((val, idx) => (
-                  <td key={idx} className="border border-gray-700 py-2">{Number(val)?.toFixed(2)}</td>
+                  <td key={idx} className={clsxm('border border-gray-700 py-2', !simulator?.reinvest ? idx === simulator?.investmentYears - 1 ? 'border-yellow border-x-2' : 'bg-black-200' : 'bg-black-100')}> {formatNumberIndianStyle(val)}</td>
                 ))}
               </tr>
             ))}
@@ -154,8 +156,8 @@ const RealEstateProjection = ({ nft }) => {
 
         {/* Table 3 */}
       <div>
-        <h2 className="text-yellow-400 text-lg font-bold mb-2">Interés compuesto</h2>
-        <table className="w-full text-center border border-gray-700">
+        <h2 className="text-yellow text-lg font-bold mb-2">Interés compuesto (COP)</h2>
+        <table className="w-full text-center bg-black-100">
           <thead>
             <tr className="bg-gray-800">
               <th className="border border-gray-700 py-2">Año</th>
@@ -165,11 +167,11 @@ const RealEstateProjection = ({ nft }) => {
             </tr>
           </thead>
           <tbody>
-            {Object?.entries(interestCompounded).map(([label, values]) => (
-              <tr key={label}>
+            {Object?.entries(interestCompounded).map(([label, values], idx) => (
+              <tr key={label} >
                 <td className="border border-gray-700 py-2">{label}</td>
                 {values?.map((val, idx) => (
-                  <td key={idx} className="border border-gray-700 py-2">{Number(val)?.toFixed(2)}</td>
+                  <td key={idx} className={clsxm(' py-2', simulator?.reinvest ? idx === simulator?.investmentYears - 1 ? 'border-yellow border-x-2' : 'glass' : 'bg-gray-dark')}> {formatNumberIndianStyle(Number(val))}</td>
                 ))}
               </tr>
             ))}

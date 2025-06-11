@@ -38,6 +38,7 @@ export default function Simulator({ nft }) {
   const [rentability, setRentability] = useState(0);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
   const setSimulator = useGlobalStates((state) => state.setSimulator);
+  const simulator = useGlobalStates((state) => state.simulator);
 
   // Update the value as the user swipes
   const handleChange = (e) => {
@@ -137,32 +138,47 @@ const initialBalance = years.reduce((acc, year, idx) => {
       const calculation = i * Number(tokenPrice) * averageEarning[idx]
       return calculation
     })
-
-
+    
+    
     // ===========================================================
+    // anual income (t) + “appreciation earns anual” (t) 
+    const totalProfitYear = interestIncome.map((i,idx)=> i + annualAppreciationEarning[idx])
 
-    // total Profit Year 
-//     Total en CoinEstate t (1) = total earn year t (1) + ( # Tokens to purchase * Token price * COP USD Rate) 
-// Total en CoinEstate t > 1 = Total en CoinEstate (t-1) + total earn year t 
+    // Total en CoinEstate t (1) = total earn year t (1) + ( # Tokens to purchase * Token price * COP USD Rate) 
+    // Total en CoinEstate t > 1 = Total en CoinEstate (t-1) + total earn year t 
 
-const totalProfitYear = totalOfYear.reduce((acc, curr, idx)=> {
-  if (idx === 0) return [totalOfYear[0] + (Number(value) * nft?.tokenPrice * tokenPrice)];
-  const values = acc[idx - 1] + totalOfYear[idx]
-  return [...acc, values];
-}, []);
+    const totalCoinEstateCompound = totalProfitYear.reduce((acc, curr, idx) => {
+      if (idx === 0) {
+        return [curr + (Number(value) * nft?.tokenPrice * tokenPrice)];
+      }
+      return [...acc, acc[acc.length - 1] + curr];
+    }, []);
 
+    // ==============================================================
+    // Total earn year t / (# Tokens to purchase * Token price * COP USD Rate)
+    const rateOfReturnCompound = totalProfitYear.map((i,idx)=> i / (Number(value) * nft?.tokenPrice * tokenPrice))
 
+    // ==============================================================
+
+    //     Accumulated profit (1) = Total earn year 1
+    // Accumulated profit t > 1 = Accumulated profit (t-1) + total earn year (t) 
+    const accumulatedProfit = totalProfitYear.reduce((acc, curr, idx)=> {
+      if (idx === 0) return [totalProfitYear[0]];
+      return [...acc, acc[idx - 1] + curr];
+    }, []);
+
+    console.log({earning:projectsOnInterest.earning})
 
     const interestCompounded = {
       rentalIncome: interestIncome,
       earning: annualAppreciationEarning,
       totalOfYear: totalProfitYear,
-      // totalOfYear:totalOfYear,
-      // totalCoinEstate:forNextYearCoinEstate,
-      // rateOfReturn:rateOfReturn,
+      totalCoinEstate: totalCoinEstateCompound,
+      rateOfReturn:rateOfReturnCompound,
+      accumulatedGain:accumulatedProfit,
     }
 
-    setSimulator({ PropertyValueWithTime,projectsOnInterest,interestCompounded });
+    setSimulator({ PropertyValueWithTime,projectsOnInterest,interestCompounded, investmentYears,reinvest });
   };
   return (
     <div className='w-full mt-6  '>
@@ -246,6 +262,24 @@ const totalProfitYear = totalOfYear.reduce((acc, curr, idx)=> {
             className='bg-Yellow-100 text-black-100 w-full rounded-lg p-2 font-bold mt-4'>
             Simulate
           </button>
+
+          <div className='mt-4 bg-black-100 p-3 rounded-lg w-full capitalize '>
+
+          <div className='flex justify-between items-center gap-2 text-left '>
+            <p className='text-14 sm:text-16 font-medium font-ubuntu  mt-2 '>Ingresos anuales <span className='text-yellow text-12'>(COP)</span></p>
+            <p className='text-14 sm:text-16 font-ubuntu '>
+              {reinvest ? formatNumberIndianStyle(simulator?.interestCompounded?.rentalIncome?.[investmentYears -1]) || 0 : formatNumberIndianStyle(simulator?.projectsOnInterest?.rentalIncome) || 0}
+            </p>
+            </div>
+            <hr className='border-base-800 col-span-2 space-y-2' />
+            <div className='flex justify-between items-center gap-2'>
+
+            <p className='text-14 sm:text-16 font-medium font-ubuntu  mt-2 '>Ganancia acumulada <span className='text-yellow text-12'>(COP)</span></p>
+            <p className='text-14 sm:text-16 font-ubuntu '>
+            {reinvest ? formatNumberIndianStyle(simulator?.interestCompounded?.accumulatedGain?.[investmentYears -1]) || 0 : formatNumberIndianStyle(simulator?.projectsOnInterest?.accumulatedGain?.[investmentYears-1]) || 0}
+            </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

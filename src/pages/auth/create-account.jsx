@@ -18,7 +18,13 @@ const validationSchema = yup.object({
   username: yup.string().required('username is required'),
   password: yup.string().required('password is required'),
   cPassword: yup.string().required('confirm password is required'),
-  phone: yup.string().required('phone is required'),
+  phone: yup.string()
+    .required('phone is required')
+    .test('phone-length', 'Phone number must be 10 digits', (value) => {
+      // Remove any non-digit characters and check length
+      return value?.replace(/\D/g, '').length === 10;
+    }),
+  // phone: yup.string().required('phone is required'),
   termsAcceptedPolicy: yup.boolean().oneOf([true], 'You must accept the privacy policy'),
   termsAcceptedServices: yup.boolean().oneOf([true], 'You must accept the service terms'),
   code: yup.string().required('code is required'),
@@ -174,11 +180,11 @@ console.log(password && cPassword,cPassword)
                   name='code'
                   options={[
                     '🇨🇴 Colombia +57',
-                    '🇺🇸 United States +1',
-                    '🇲🇽 Mexico +52',
-                    '🇦🇷 Argentina +54',
-                    '🇨🇱 Chile +56',
-                    '🇵🇪 Peru +51',
+                    // '🇺🇸 United States +1',
+                    // '🇲🇽 Mexico +52',
+                    // '🇦🇷 Argentina +54',
+                    // '🇨🇱 Chile +56',
+                    // '🇵🇪 Peru +51',
                   ]}
                 />
                 {errors?.phone && <p className='text-red-100 text-sm'>{errors?.phone?.message}</p>}
@@ -300,6 +306,7 @@ console.log(password && cPassword,cPassword)
             <p className='text-lightGray-700 font-semibold mt-5 text-center '>Have you already registered?</p>
             <div className='text-center'>
               <button
+                type='button'
                 onClick={() => router.push('/auth/log-in')}
                 className='underline  text-blue-500 mt-2 text-center '>
                 Log In
