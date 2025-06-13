@@ -11,8 +11,18 @@ export default function FinancialTab({ nft }) {
       price: nft?.propertyPrice || '$50,000',
     },
     {
+      id: 6,
+      title: 'Costos tokenización', // new field
+      price: nft?.renovations || '$2,000',
+    },
+    {
+      id: 7,
+      title: 'Costos Cierre crédito y Reserva EMD', // new field
+      price: nft?.renovations || '$2,000',
+    },
+    {
       id: 2,
-      title: 'Remodelaciones',
+      title: 'Saldo financiado', // 'Remodelaciones',
       price: nft?.renovations || '$2,000',
     },
     {
@@ -84,22 +94,42 @@ export default function FinancialTab({ nft }) {
       price: nft?.insurance || '1,044',
     },
     {
+      id: 7,
+      title: 'Pagos de intereses',
+      price: nft?.vacancyReserve || '1,700',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'Esta propiedad usa apalancamiento para su financiación, por lo que mensualmente se pagan intereses del crédito utilizado',
+    },
+    // {
+    //   id: 10,
+    //   title: 'Mantenimiento SPV',
+    //   price: nft?.vacancyReserve || '1,700',
+    //   imgUrl: '/assets/svg/Exclamation.svg',
+    //   message: 'Esta propiedad usa apalancamiento para su financiación, por lo que mensualmente se pagan intereses del crédito utilizado',
+    // },
+    {
       id: 5,
-      title: 'Mantenimiento Propiedad',
+      title: 'Reservas de mantenimiento', //'Mantenimiento Propiedad',
       price: nft?.propertyMaintenance || '1,700',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'Esta reserva se usa para el mantenimiento anual del inmueble, y el reacondicionamiento futuro para el momento de la venta',
     },
     {
       id: 6,
       title: 'Mantenimiento SPV',
       price: nft?.SPVMaintenance || '1,740',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'Costos de mantenimiento de vehículo de inversión usado para la compra del inmueble',
     },
     {
-      id: 5,
-      title: 'Reserva de Vacancia',
+      id: 8,
+      title: 'Reserva de Vacancia', //'Reserva de Vacancia',
       price: nft?.vacancyReserve || '1,700',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: ' Estas reservas cubren los costos del inmueble y pago de intereses en caso de vacancia o impagos',
     },
     {
-      id: 5,
+      id: 9,
       title: 'Ingreso Neto',
       price: nft?.netAnualIncome || '1,700',
       imgUrl: '/assets/svg/Exclamation.svg',

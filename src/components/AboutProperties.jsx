@@ -53,7 +53,7 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                   <div className='mt-3 flex gap-6 items-center'>
                     <div>
                       <div className='flex items-center gap-2'>
-                        <p className='text-14 font-inter  font-regular text-grey-100'>Token Price</p>
+                        <p className='text-14 font-inter  font-regular text-grey-100'>Precio Del Token</p>
                         <InfoTooltip message='Este es el costo de cada token, el cual representa una fracción del inmueble. Su valor puede variar según la valorización de la propiedad y las condiciones del mercado.' />
                       </div>
                       <p className='text-14 font-inter  mt-1 font-semibold '>{items?.tokenPrice}</p>
@@ -63,7 +63,7 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                   <div className='mt-3 flex gap-6 items-center'>
                     <div>
                       <div className='flex items-center gap-2'>
-                        <p className='text-14 font-inter  font-regular text-grey-100'>Total Price</p>
+                        <p className='text-14 font-inter  font-regular text-grey-100'>Precio Token</p>
                         <InfoTooltip message='Este valor refleja el costo total del proyecto, que incluye la adquisición de la propiedad y los gastos asociados a su tokenización, operación y administración.' />
                       </div>
                       <p className='text-14 font-inter  mt-1 font-semibold text-end '>{items.totalInvestmentPrice}</p>
@@ -75,7 +75,7 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                   <div className='mt-4 flex gap-6 items-center'>
                     <div>
                       <div className='flex items-center gap-2'>
-                        <p className='text-14 font-inter  font-regular text-grey-100'>Expected Income</p>
+                        <p className='text-14 font-inter  font-regular text-grey-100'>Ingresos Esperados</p>
                         <InfoTooltip message='Este valor representa el ingreso anual proyectado basado en la rentabilidad neta por alquiler. Se trata de una estimación sujeta a variaciones, ya que depende de factores como la ocupación, la demanda del mercado y otros imprevistos. No se incluyen posibles apreciaciones del inmueble.' />
                       </div>
                       <p className='text-14 font-inter  mt-1 font-semibold '>{items.expectedIncome}%</p>
@@ -85,8 +85,8 @@ export default function AboutProperties({ getPropertyList, isDark }) {
                   <div className='mt-3 flex gap-6 items-center'>
                     <div>
                       <div className='flex items-center gap-2'>
-                        <p className='text-14 font-inter  font-regular text-grey-100'>Expected ROI</p>
-                        <InfoTooltip message='Este valor representa el retorno anual esperado de tu inversión, incluyendo tanto los ingresos netos por alquiler como la apreciación potencial del activo. Es una estimación integral basada en supuestos y condiciones de mercado, por lo que los resultados reales pueden variar.' />
+                        <p className='text-14 font-inter  font-regular text-grey-100'>Valorización estimada</p>
+                        <InfoTooltip message='Ganancia estimada total por valorización durante el periodo completo del proyecto (Años que dure el proyecto) . Esta cifra es una estimación basada en estudios de mercado, análisis de tendencias históricas y supuestos de crecimiento económico, y está sujeta a variaciones según las condiciones macro y microeconómicas.' />
                       </div>
                       <p className='text-14 font-inter  mt-1 font-semibold text-end '>{items.roiExpected}% </p>
                     </div>

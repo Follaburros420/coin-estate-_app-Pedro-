@@ -20,7 +20,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
   const { data: tokenPrice } = useQueryGetTokenCopPrice();
-  console.log("🚀 ~ HeaderSection ~ tokenPrice:", tokenPrice)
+  console.log('🚀 ~ HeaderSection ~ tokenPrice:', tokenPrice);
 
   const [amount, setAmount] = useState(2.5);
   const remaining = userData?.filter((item) => item.propertyId === params?.market_place)?.[0];
@@ -42,27 +42,37 @@ export default function HeaderSection({ selectedNFT, userData }) {
       id: 1,
       title: 'Precio de listado',
       ratio: `${selectedNFT?.totalInvestmentPrice || 0}` + ' $',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'Este valor puede ser distinto al precio total del inmueble si se usa apalancamiento en la operación para financiar una parte del inmueble con deuda, y potenciar las posibles ganancias del proyecto',
     },
     {
       id: 2,
       title: 'Renta neta por alquiler anual',
       ratio: selectedNFT?.expectedIncome + '%' || ' 9.93%',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'Estimación rentabilidad anual proveniente de los ingresos de alquiler',
     },
     {
       id: 3,
       title: 'Valorización promedio dólar',
       ratio: selectedNFT?.averageDollar + '%' || '2%',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'Variación esperada de la divisa en la que están tus activos (según el promedio de los últimos 10 años). No se suma al % estimado de rentabilidad, pero aumenta tu capital en COP.',
     },
     {
       id: 4,
-      title: 'Apreciación estimada anual',
+      title: 'Ganancia estimada valorización',
       ratio: selectedNFT?.expectedAnnual + '%' || '7%',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'Este valor es un estimado que se basa en estudios de mercado locales, la ganancia de valorización dependerá del precio final del inmueble tras finalizado el periodo del proyecto y puede estar sujeta a variaciones en los factores macro y mirco económicos ',
     },
     {
       id: 5,
-      title: 'Rentabilidad Total',
+      title: 'Periodo de proyecto',
       ratio: '$' + selectedNFT?.totalReturn || '$ 10.179',
       color: '#FFCC00',
+      imgUrl: '/assets/svg/Exclamation.svg',
+      message: 'porcentaje de ganancia total al final del proyecto, incluyendo costos de listado. Por ejemplo, si dice 35 % es la ganancia total, no anual. Para ver la duración, revisa sección “Detalles y proyecciones”.',
     },
   ];
   // - remaining?.remaining
@@ -82,9 +92,8 @@ export default function HeaderSection({ selectedNFT, userData }) {
     // Example: setInvestmentAmount(500000);
   };
 
-  
   const handleInvest = () => {
-    if(Number(amount) < 2.5){
+    if (Number(amount) < 2.5) {
       toast.error('your amount must be greater then 2.5');
       setAmount(2.5);
       return;
@@ -98,12 +107,12 @@ export default function HeaderSection({ selectedNFT, userData }) {
         toast.error('your amount must be lower then remaining tokens ');
       }
     }
-  }
-  
+  };
+
   const handleContinue = () => {
     console.log('User continues with current investment');
     setShowModal(false);
-    if(Number(amount) < 2.5){
+    if (Number(amount) < 2.5) {
       toast.error('your amount must be greater then 2.5');
       setAmount(2.5);
       return;
@@ -115,7 +124,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
     }
     // Continue to checkout, KYC, etc.
   };
-  
+
   return (
     <div className='font-ubuntu '>
       {showModal && <InvestmentUpgradeModal onUpgrade={handleUpgrade} onContinue={handleContinue} />}
@@ -191,12 +200,23 @@ export default function HeaderSection({ selectedNFT, userData }) {
               <InfoTooltip message='Este resumen financiero agrupa los indicadores clave de tu inversión: la rentabilidad anual esperada, el valor total, la renta neta por alquiler, la valorización del dolar y la apreciación proyectada. Con estos datos, podrás entender mejor el potencial de crecimiento y rendimiento de este proyecto en tu portafolio de inversión.' />
             </div>
             <div className='flex items-center justify-between sm:gap-4 mt-4'>
-              <p className='text-14 font-bold text-Yellow-100 '>Rentabilidad Anual Esperada </p>
+              <div className='flex items-center gap-2'>
+                <InfoTooltip message='Estimación rentabilidad anual proveniente de los ingresos de alquiler' />
+                <p className='text-14 font-bold text-Yellow-100 flex justify-center items-center'>
+                  Renta neta anual por alquiler
+                </p>
+              </div>
               <p className='sm:text-20 font-bold text-Yellow-100 '>{selectedNFT?.roiExpected}%</p>
             </div>
-            <p className='text-light-brand-400 text-center sm:text-start text-14 mt-2 '>
-              Incluye valorización del inmueble
-            </p>
+            <div className='flex items-center justify-between sm:gap-4 mt-4'>
+              <div className='flex items-center gap-2'>
+                <InfoTooltip message='porcentaje de ganancia total al final del proyecto, incluyendo costos de listado. Por ejemplo, si dice 35 % es la ganancia total, no anual. Para ver la duración, revisa sección “Detalles y proyecciones”.' />
+                <p className='text-14 font-bold text-Yellow-100 '>Valorización total proyecto</p>
+              </div>
+
+              <p className='sm:text-20 font-bold text-Yellow-100 '>{selectedNFT?.roiExpected}%</p>
+            </div>
+
             <div className='mt-8 w-full'>
               {MarketPlace_Total_Investments_Data.map((item, idx) => {
                 return (
@@ -206,26 +226,17 @@ export default function HeaderSection({ selectedNFT, userData }) {
                       'flex items-center justify-between gap-5 text-14 mt-3 pb-1 ',
                       idx === 4 ? '' : 'border-b border-b-Yellow-100 ',
                     )}>
-                    <p className='te '>{item.title}</p>
+                      
                     <div className='flex items-center gap-2'>
-                      {' '}
-                      <p style={{ color: `${item.color}` }}>{item.ratio}</p>{' '}
-                      {idx === 1 && <InfoTooltip message={'Separate this value with thousands (120,000)'} />}
-                      {idx === 2 && (
-                        <InfoTooltip
-                          message={`Variación   
-                       esperada de la divisa en la que están tus activos 
-                   (según el promedio de los últimos 10 años). No se 
-                   suma al % estimado de rentabilidad, pero aumenta 
-                   tu capital en COP.`}
-                        />
-                      )}
-                    </div>
+                      {item.imgUrl && <InfoTooltip message={item.message} />}
+                    <p className='te '>{item.title}</p>
                   </div>
+                      <p style={{ color: `${item.color}` }}>{item.ratio}</p>{' '}
+                    </div>
                 );
               })}
             </div>
-            
+
             {/* <div className='flex items-center justify-between gap-2 border-t border-t-Yellow-100 pt-4 mt-4'>
               <p className='text-16 font-bold text-grey-300 '>{amount || 0} =</p>
               <p className='sm:text-18 font-bold text-Yellow-100 '>{amount * selectedNFT?.tokenPrice} <span className='text-14 text-grey-300 '>USD</span></p>
@@ -241,7 +252,10 @@ export default function HeaderSection({ selectedNFT, userData }) {
               className='w-full p-2 glass rounded-sm outline-none border'
               onChange={(e) => setAmount(e.target.value)}
             />
-              <p className='sm:text-18 font-bold text-Yellow-100 max-w-[100px] w-full overflow-auto glass h-full py-2 rounded-sm'> = ${formatNumberIndianStyle(amount * selectedNFT?.tokenPrice)} </p>
+            <p className='sm:text-18 font-bold text-Yellow-100 max-w-[100px] w-full overflow-auto glass h-full py-2 rounded-sm'>
+              {' '}
+              = ${formatNumberIndianStyle(amount * selectedNFT?.tokenPrice)}{' '}
+            </p>
 
             <button
               onClick={() => setAmount(remainingTokens)}

@@ -124,6 +124,12 @@ export default function ProjectionTab({ nft }) {
         </div>
       </div>
       <div className='w-full mt-6 md:mt-1 '>
+        <p className='text-20 font-medium font-ubuntu text-center md:text-start '>Riesgos y acciones/datos concretos para mitigarlos</p>
+        <div className='w-full border border-base-800 rounded-[8px] mt-2 p-4 '>
+          <p className='font-bold font-ubuntu w-full '>{nft?.attractive}</p>
+        </div>
+      </div>
+      <div className='w-full mt-6 md:mt-1 '>
         <p className='text-20 font-medium font-ubuntu text-center md:text-start'>Property Documents</p>
         <div className='w-full border border-base-800 rounded-[8px] mt-2 p-4  overflow-auto '>
           <Link
