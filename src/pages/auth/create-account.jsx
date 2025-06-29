@@ -18,13 +18,10 @@ const validationSchema = yup.object({
   username: yup.string().required('username is required'),
   password: yup.string().required('password is required'),
   cPassword: yup.string().required('confirm password is required'),
-  phone: yup.string()
+  phone: yup
+    .string()
     .required('phone is required')
-    .test('phone-length', 'Phone number must be 10 digits', (value) => {
-      // Remove any non-digit characters and check length
-      return value?.replace(/\D/g, '').length === 10;
-    }),
-  // phone: yup.string().required('phone is required'),
+    .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits'),
   termsAcceptedPolicy: yup.boolean().oneOf([true], 'You must accept the privacy policy'),
   termsAcceptedServices: yup.boolean().oneOf([true], 'You must accept the service terms'),
   code: yup.string().required('code is required'),
@@ -95,7 +92,6 @@ export default function CreateAccount() {
   } = useForm({
     resolver,
   });
-    console.log("🚀 ~ CreateAccount ~ getValues:", )
 
   function handleFormSubmit(value) {
     // console.log(value, code);
@@ -121,8 +117,6 @@ export default function CreateAccount() {
   }
 const password = watch('password');
 const cPassword = watch('cPassword');
-console.log(password && cPassword,cPassword)
-
 
   return (
     <div className='flex items-center  justify-center min-h-screen max-h-screen xl:justify-between gap-10 w-full mx-auto '>
