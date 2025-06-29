@@ -61,7 +61,7 @@ export default async function handler(req, res) {
   });
 
 
-  const resetUrl = `${process.env.REFERRER_WEBSITE_LIVE}/auth/reset-password?token=${resetToken}`;
+  const resetUrl = `https://coin-estate-app-ten.vercel.app/auth/reset-password?token=${resetToken}`;
   const mailOptions = {
     from: `"Coin Estate" <${process.env.EMAIL_USER}>`,
     to: email,
