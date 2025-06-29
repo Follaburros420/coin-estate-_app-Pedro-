@@ -4,9 +4,6 @@ import NextImage, { ImageProps as NextImageProps } from "next/image";
 
 import clsxm from "@/utils/clsxm";
 
-// interface StyledImageProps extends NextImageProps {
-//   // className?: string;
-// }
 
 const StyledImage = ({ src, alt, className, ...other }) => {
   return (

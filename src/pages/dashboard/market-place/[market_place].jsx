@@ -3,14 +3,15 @@ import Tabs from '@/components/Dashboard/MarketPlace/Tabs';
 import { useQueryGetActiveResults, useQueryGetMarketPlaceList } from '@/hooks/query';
 import Layout from '@/layout/Dashboard';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function MarketPlace() {
   const params = useParams();
   const { data: getPropertyList } = useQueryGetMarketPlaceList();
   const { data: userData } = useQueryGetActiveResults();
-
   const selectedNFT = getPropertyList?.filter((item) => item.id === params?.market_place)?.[0];
 
+  
   return (
     <div>
       <Layout>

@@ -104,6 +104,14 @@ const RealEstateProjection = ({ nft }) => {
     "Ganancia acumulada": simulator?.interestCompounded?.accumulatedGain,
   };
 
+  if(!simulator?.projectsOnInterest?.rentalIncome){
+    return (
+      <div>
+        <h2 className="text-yellow text-lg font-bold mb-2">Proyecciones con interés compuesto (COP)</h2>
+      </div>
+    )
+  }
+
   return (
     <div className="text-white bg-black p-4 space-y-8">
       {/* Table 1 */}

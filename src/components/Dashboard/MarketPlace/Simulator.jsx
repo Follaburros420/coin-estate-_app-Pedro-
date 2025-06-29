@@ -1,10 +1,11 @@
 'use client';
 import InfoTooltip from '@/components/InfoIcon';
 import { useQueryGetTokenCopPrice } from '@/hooks/query';
+import { useGlobalAmount } from '@/store/useGlobalStates';
 import { useGlobalStates } from '@/store/useStore';
 import { formatNumberIndianStyle } from '@/utils/wagmiConfig';
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const handleCalculate = (PropertyValueWithTime, value, tokenPrice, tokenCalculationPrice, nft) => {
   const result = PropertyValueWithTime.map((item, index) => {
@@ -32,7 +33,8 @@ const handleCalculate = (PropertyValueWithTime, value, tokenPrice, tokenCalculat
 };
 
 export default function Simulator({ nft }) {
-  const [value, setValue] = useState(10);
+  const amount = useGlobalAmount(state => state.amount);
+  const setAmount = useGlobalAmount(state => state.setAmount);
   const [investmentYears, setInvestmentYears] = useState(0);
   const [reinvest, setReinvest] = useState(false);
   const [rentability, setRentability] = useState(0);
@@ -42,10 +44,10 @@ export default function Simulator({ nft }) {
 
   // Update the value as the user swipes
   const handleChange = (e) => {
-    setValue(e.target.value);
+    setAmount(e.target.value);
   };
 
-  let calculation = tokenPrice * value;
+  let calculation = tokenPrice * amount;
   calculation = calculation.toFixed(2);
   calculation = Number(calculation);
   calculation = formatNumberIndianStyle(calculation);
@@ -58,12 +60,12 @@ export default function Simulator({ nft }) {
     
     const PropertyValueWithTime = [nft?.propertyPrice, ...propertyValueByYear];
     
-    const rentalIncome = Number(value) * nft?.tokenPrice * (nft?.expectedIncome / 100) * tokenPrice;
-    const earning = handleCalculate(PropertyValueWithTime, value, tokenPrice, tokenCalculationPrice, nft);
+    const rentalIncome = Number(amount) * nft?.tokenPrice * (nft?.expectedIncome / 100) * tokenPrice;
+    const earning = handleCalculate(PropertyValueWithTime, amount, tokenPrice, tokenCalculationPrice, nft);
     const totalOfYear = earning.map((i)=>i+rentalIncome);
     
     // total earn year t (1) + ( # Tokens to purchase * Token price * COP USD Rate)
-    const totalCoinEstate = totalOfYear[0] + (Number(value) * nft?.tokenPrice * tokenPrice);
+    const totalCoinEstate = totalOfYear[0] + (Number(amount) * nft?.tokenPrice * tokenPrice);
     // Total en CoinEstate (t-1) + total earn year t 
     const forNextYearCoinEstate = totalOfYear.reduce((acc, curr, idx) => {
       if (idx === 0) return [totalCoinEstate];
@@ -71,7 +73,7 @@ export default function Simulator({ nft }) {
     }, []);
 
     // Total earn year t / (# Tokens to purchase * Token price * COP USD Rate)
-    const rateOfReturn = totalOfYear.map((i,idx)=> i / (Number(value) * nft?.tokenPrice * tokenPrice));
+    const rateOfReturn = totalOfYear.map((i,idx)=> i / (Number(amount) * nft?.tokenPrice * tokenPrice));
 
 //     Accumulated gain  t (1) = Total earn year 1
 // Accumulated gain t > 1 =accumulated gain (t-1) + total earn year (t) 
@@ -93,7 +95,7 @@ export default function Simulator({ nft }) {
     // (1+( annual rent / 12 ) ) ^12
 const growthRate = Math.pow(1+( (nft?.expectedIncome/100) / 12 ), 12)
 // Tokens to purchase * token price * COP USD rate
-const growthRateForYear1 = Number(value) * nft?.tokenPrice * tokenPrice
+const growthRateForYear1 = Number(amount) * nft?.tokenPrice * tokenPrice
 // Initial balance t-1 * Growth rate
 const initialBalance = years.reduce((acc, year, idx) => {
   if (idx === 0) return [growthRateForYear1];
@@ -149,14 +151,14 @@ const initialBalance = years.reduce((acc, year, idx) => {
 
     const totalCoinEstateCompound = totalProfitYear.reduce((acc, curr, idx) => {
       if (idx === 0) {
-        return [curr + (Number(value) * nft?.tokenPrice * tokenPrice)];
+        return [curr + (Number(amount) * nft?.tokenPrice * tokenPrice)];
       }
       return [...acc, acc[acc.length - 1] + curr];
     }, []);
 
     // ==============================================================
     // Total earn year t / (# Tokens to purchase * Token price * COP USD Rate)
-    const rateOfReturnCompound = totalProfitYear.map((i,idx)=> i / (Number(value) * nft?.tokenPrice * tokenPrice))
+    const rateOfReturnCompound = totalProfitYear.map((i,idx)=> i / (Number(amount) * nft?.tokenPrice * tokenPrice))
 
     // ==============================================================
 
@@ -198,16 +200,16 @@ const initialBalance = years.reduce((acc, year, idx) => {
             type='range'
             min='10'
             max={tokenCalculationPrice}
-            value={value}
+            value={amount}
             onChange={handleChange}
             className='w-full h-1 bg-Yellow-300 rounded-lg appearance-none cursor-pointer accent-indigo-500 range-slider'
           />
           <input
             type='number'
-            value={value}
+            value={amount}
             min={10}
             max={tokenCalculationPrice}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setAmount(e.target.value)}
             className='w-20 h-10 bg-[transparent] border border-base-800 p-1 rounded-md appearance-none cursor-pointer accent-indigo-500 range-slider'
           />
         </div>
