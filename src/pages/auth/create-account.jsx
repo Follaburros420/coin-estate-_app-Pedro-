@@ -94,6 +94,10 @@ export default function CreateAccount() {
 
   function handleFormSubmit(value) {
     // console.log(value, code);
+    if(value?.phone?.length !== 10){
+      toast.error("Phone number must be exactly 10 digits");
+      return;
+    }
 
     if (value.password === value.cPassword) {
       const code = value.code.split(' ').pop();
