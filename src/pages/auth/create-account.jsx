@@ -20,8 +20,7 @@ const validationSchema = yup.object({
   cPassword: yup.string().required('confirm password is required'),
   phone: yup
     .string()
-    .required('phone is required')
-    .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits'),
+    .required('phone is required'),
   termsAcceptedPolicy: yup.boolean().oneOf([true], 'You must accept the privacy policy'),
   termsAcceptedServices: yup.boolean().oneOf([true], 'You must accept the service terms'),
   code: yup.string().required('code is required'),
