@@ -12,10 +12,8 @@ export default function VerifyPage() {
     setIsEmailSent(true);
   };
 
-  console.log({ user });
   const { mutate: verifyUser, isSuccess, isPending: isLoadingEmail } = useMutationVerifyUserEmail(onSuccess);
   const { mutate: mutateVerifyCode, isPending: isLoadingVerify } = useMutationVerifyCode();
-  console.log('🚀 ~ verify ~ isSuccess:', isSuccess);
 
   const onContinue = () => {
     verifyUser(user.email);

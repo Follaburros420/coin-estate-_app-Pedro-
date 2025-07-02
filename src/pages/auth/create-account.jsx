@@ -4,6 +4,7 @@ import CustomSelect from '@/components/Select';
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import StyledImage from '@/components/StyedImage';
+import ProgressBar from '@/components/ProgressBar';
 import { useMutateRegisterUser } from '@/hooks/mutation';
 import clsxm from '@/utils/clsxm';
 import { useRouter } from 'next/navigation';
@@ -16,11 +17,16 @@ import * as yup from 'yup';
 const validationSchema = yup.object({
   email: yup.string().required('e-mail is required'),
   username: yup.string().required('username is required'),
-  password: yup.string().required('password is required'),
+  password: yup
+    .string()
+    .required('password is required')
+    .min(8, 'Password must be at least 8 characters')
+    .matches(/[A-Z]/, 'Password must contain at least 1 capital letter')
+    .matches(/[0-9]/, 'Password must contain at least 1 number'),
   cPassword: yup.string().required('confirm password is required'),
   phone: yup
     .string()
-    .required('phone is required'),
+    .required('phone is required').max(10, 'Phone number must be exactly 10 digits'),
   termsAcceptedPolicy: yup.boolean().oneOf([true], 'You must accept the privacy policy'),
   termsAcceptedServices: yup.boolean().oneOf([true], 'You must accept the service terms'),
   code: yup.string().required('code is required'),
@@ -121,6 +127,33 @@ export default function CreateAccount() {
 const password = watch('password');
 const cPassword = watch('cPassword');
 
+// Function to calculate password strength
+const calculatePasswordStrength = (password) => {
+  if (!password) return 0;
+  
+  let strength = 0;
+  
+  // Length check (up to 25% of total strength)
+  if (password.length >= 8) strength += 25;
+  else if (password.length >= 6) strength += 15;
+  else if (password.length >= 4) strength += 10;
+  
+  // Capital letter check (25% of total strength)
+  if (/[A-Z]/.test(password)) strength += 25;
+  
+  // Number check (25% of total strength)
+  if (/[0-9]/.test(password)) strength += 25;
+  
+  // Special character check (25% of total strength)
+  if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 25;
+  
+  return Math.min(strength, 100);
+};
+
+const passwordStrength = calculatePasswordStrength(password);
+
+
+
   return (
     <div className='flex items-center  justify-center min-h-screen max-h-screen xl:justify-between gap-10 w-full mx-auto '>
       <form
@@ -195,7 +228,7 @@ const cPassword = watch('cPassword');
               />
             </div>
 
-            <label htmlFor='dateOfBirth' className='block text-sm font-medium text-gray-700'>
+            <label htmlFor='dateOfBirth' className='block text-md  mt-3 text-gray-700'>
               Date of Birth
             </label>
             <Controller
@@ -255,7 +288,66 @@ const cPassword = watch('cPassword');
               </div>
               {errors?.cPassword?.message && <span className='text-[red] text-xs'>{errors?.cPassword?.message}</span>}
 
-
+            {/* Password Strength Progress Bar */}
+            {password && (
+              <div className='mt-3'>
+                {/* <div className='flex justify-between items-center mb-2'>
+                  <span className='text-sm font-medium text-gray-700'>Password Strength:</span>
+                  <span className='text-sm font-medium'>
+                    {passwordStrength <= 25 && 'Weak'}
+                    {passwordStrength > 25 && passwordStrength <= 50 && 'Fair'}
+                    {passwordStrength > 50 && passwordStrength <= 75 && 'Good'}
+                    {passwordStrength > 75 && 'Strong'}
+                  </span>
+                </div> */}
+                
+                                  <div className='mt-2 text-xs text-gray-600'>
+                    <p>Password must contain:</p>
+                    <ul className='space-y-1'>
+                      <li className={`flex items-center gap-2 ${password.length >= 8 ? 'text-green-600 font-bold text-black-100' : 'text-gray-500'}`}>
+                        {password.length >= 8 ? (
+                          <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
+                        )}
+                        At least 8 characters
+                      </li>
+                      <li className={`flex items-center gap-2 ${/[A-Z]/.test(password) ? 'text-green-600 font-bold text-black-100' : 'text-gray-500'}`}>
+                        {/[A-Z]/.test(password) ? (
+                          <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
+                        )}
+                        At least 1 capital letter
+                      </li>
+                      <li className={`flex items-center gap-2 ${/[0-9]/.test(password) ? 'text-green-600 font-semibold text-black-100' : 'text-gray-500'}`}>
+                        {/[0-9]/.test(password) ? (
+                          <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
+                        )}
+                        At least 1 number
+                      </li>
+                      <li className={`flex items-center gap-2 ${/[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'text-green-600 font-bold text-black-100' : 'text-gray-500'}`}>
+                        {/[!@#$%^&*(),.?":{}|<>]/.test(password) ? (
+                          <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
+                        )}
+                        At least 1 special character (optional)
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+            )}
 
             {password && cPassword ? (
               password === cPassword ? (
