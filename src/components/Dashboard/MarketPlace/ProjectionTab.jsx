@@ -140,9 +140,9 @@ export default function ProjectionTab({ nft }) {
           </Link>
         </div>
       </div>
-      <div className='w-full mt-6 md:mt-1 '>
+      <div className='w-full mt-6 '>
         <p className='text-20 font-medium font-ubuntu text-center md:text-start '>Projections</p>
-        <div className='w-full border border-base-800 rounded-[8px] mt-2 p-4 '>
+        <div className='w-full '>
           <Projections nft={nft} />
         </div>
       </div>

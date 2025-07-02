@@ -198,7 +198,7 @@ const initialBalance = years.reduce((acc, year, idx) => {
         <div className='w-full  flex items-center gap-3 justify-between '>
           <input
             type='range'
-            min='10'
+            min='2'
             max={tokenCalculationPrice}
             value={amount}
             onChange={handleChange}
@@ -207,7 +207,7 @@ const initialBalance = years.reduce((acc, year, idx) => {
           <input
             type='number'
             value={amount}
-            min={10}
+            min={2}
             max={tokenCalculationPrice}
             onChange={(e) => setAmount(e.target.value)}
             className='w-20 h-10 bg-[transparent] border border-base-800 p-1 rounded-md appearance-none cursor-pointer accent-indigo-500 range-slider'
@@ -255,7 +255,7 @@ const initialBalance = years.reduce((acc, year, idx) => {
             <label for='compoundCheck'>¿Con interés compuesto?</label>{' '}
             <InfoTooltip
               message={
-                'Al reinvertir tus ganancias mensualmente, aprovechas el interés compuesto para maximizar tu rentabilidad a largo plazo. Sin embargo, las cifras mostradas son proyecciones y pueden no reflejar la realidad, ya que están sujetas a cambios en las condiciones de mercado y otros factores externos.'
+                'Al reinvertir tus ganancias mensuales, aprovechas el interés compuesto para maximizar tu rentabilidad a largo plazo, sin embargo ten en cuenta que las cifras mostradas son proyecciones, y debido a cambios en las condiciones de mercado y demás factores externos, podrían no reflejar la realidad'
               }
             />
           </div>

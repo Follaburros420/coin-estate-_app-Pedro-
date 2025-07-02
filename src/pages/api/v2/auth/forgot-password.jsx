@@ -8,10 +8,9 @@ export default async function handler(req, res) {
   }
 
   const { email } = req.body;
-  console.log('🚀 ~ handler ~ email:', email);
   // Find user by email
   const user = await prisma.user.findUnique({ where: { email } });
-  console.log('🚀 ~ handler ~ user:', user);
+
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
