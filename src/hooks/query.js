@@ -304,15 +304,16 @@ export const useQueryGetTokenCopPrice = () => {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      // url: `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=COP`,
-      url: `https://v6.exchangerate-api.com/v6/724d9ad2ed885afcd8bf0830/latest/USD`,
+      url: `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=COP`,
+      // url: `https://v6.exchangerate-api.com/v6/724d9ad2ed885afcd8bf0830/latest/USD`,
       headers: {
         Accept: 'application/json',
       },
     };
 
     const tx = await axios.request(config);
-    return tx?.data?.conversion_rates?.COP?.toFixed(2);
+    // return tx?.data?.conversion_rates?.COP?.toFixed(2);
+    return tx?.data?.COP;
   };
 
   return useQuery({
@@ -452,3 +453,4 @@ export const useQueryGetDocument = (id) => {
     // refetchInterval: 5000, // Fetch every 5 seconds
   });
 };
+// 

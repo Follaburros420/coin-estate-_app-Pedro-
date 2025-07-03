@@ -88,7 +88,7 @@ const RealEstateProjection = ({ nft }) => {
   // const propertyValues =  || [];
 
   const projectionData = {
-    "Ingresos alquiler": simulator?.projectsOnInterest?.rentalIncome || [],
+    "Ingresos alquiler": [simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome,simulator?.projectsOnInterest?.rentalIncome     ] || [],
     "Ganancias valorización": simulator?.projectsOnInterest?.earning || [],
     "Total Ganancia año": simulator?.projectsOnInterest?.totalOfYear || [],
     "Total en CoinEstate": simulator?.projectsOnInterest?.totalCoinEstate || [],
@@ -192,7 +192,7 @@ const RealEstateProjection = ({ nft }) => {
                     rowIndex % 2 === 0 ? 'bg-gray-900' : 'bg-gray-800'
                   )}>
                     <td className="px-6 py-4 font-semibold text-left text-gray-300 transition-colors group-hover:bg-gray-800/30">{label}</td>
-                    {values.map((val, idx) => (
+                    {values?.map((val, idx) => (
                       <td key={idx} className={clsxm(
                         'px-6 py-4 font-mono transition-all duration-300 group-hover:bg-green-400/10',
                         !simulator?.reinvest ? idx === simulator?.investmentYears - 1 ? 'glass bg-Yellow-100/20 text-Yellow-100 backdrop-blur-sm border border-Yellow-100/30 font-bold' : 'text-green-400' : 'text-green-400'
@@ -243,7 +243,7 @@ const RealEstateProjection = ({ nft }) => {
                     rowIndex % 2 === 0 ? 'bg-gray-900' : 'bg-gray-800'
                   )}>
                     <td className="px-6 py-4 font-semibold text-left text-gray-300 transition-colors group-hover:bg-gray-800/30">{label}</td>
-                    {values.map((val, idx) => (
+                    {values?.map((val, idx) => (
                       <td key={idx} className={clsxm(
                         'px-6 py-4 font-mono transition-all duration-300 group-hover:bg-white/20',
                         simulator?.reinvest ? idx === simulator?.investmentYears - 1 ? 'glass bg-Yellow-100/20 text-Yellow-100 backdrop-blur-sm border border-Yellow-100/30 font-bold' : 'text-green-400' : 'text-green-400'

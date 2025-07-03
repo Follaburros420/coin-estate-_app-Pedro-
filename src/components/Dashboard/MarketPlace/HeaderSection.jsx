@@ -243,6 +243,8 @@ export default function HeaderSection({ selectedNFT, userData }) {
               <p className='sm:text-18 font-bold text-Yellow-100 '>{amount * selectedNFT?.tokenPrice} <span className='text-14 text-grey-300 '>USD</span></p>
             </div> */}
           </div>
+          <div className='mt-4 glass border border-base-800 rounded-[8px] p-4'>
+          <p className='text-14 font-bold text-Yellow-100'> ¿Cuántos tokens deseas comprar?</p>
           <div className='flex gap-2 items-center mt-4'>
             <input
               min={'2.5'}
@@ -269,6 +271,7 @@ export default function HeaderSection({ selectedNFT, userData }) {
             className='bg-Yellow-100 p-3 rounded-[8px] text-20 sm:text-28 w-full mt-4 font-medium text-black-100 '>
             {isLoading ? 'Laoding...' : 'Investing'}
           </button>
+              </div>
         </div>
       </div>
     </div>

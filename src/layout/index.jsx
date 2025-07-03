@@ -1,8 +1,5 @@
-import { useEffect } from 'react';
 import Footer from './Footer';
 import Navbar from './Navbar';
-import { useQueryGetTokenCopPrice } from '@/hooks/query';
-import { useMutationSendExchangeRate } from '@/hooks/mutation';
 
 function Layout({ children }) {
   
