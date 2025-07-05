@@ -51,6 +51,11 @@ export default function ProjectionTab({ nft }) {
   const simulator = useGlobalStates((state) => state.simulator);
 
   const labels = [1, 2, 3, 4, 5, 6];
+  // const totalGainSimple = simulator?.projectsOnInterest?.totalOfYear || [];
+  // const totalGainCompound = simulator?.interestCompounded?.totalOfYear || [];
+  // const totalCEstateSimple = simulator?.projectsOnInterest?.totalCoinEstate || [];
+  // const totalCEstateCompound = simulator?.interestCompounded?.totalCoinEstate || [];
+
   const totalGainSimple = simulator?.projectsOnInterest?.totalOfYear || [];
   const totalGainCompound = simulator?.interestCompounded?.totalOfYear || [];
   const totalCEstateSimple = simulator?.projectsOnInterest?.totalCoinEstate || [];

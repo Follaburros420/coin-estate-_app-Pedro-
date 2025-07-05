@@ -268,16 +268,23 @@ const initialBalance = years.reduce((acc, year, idx) => {
           <div className='mt-4 bg-black-100 p-3 rounded-lg w-full capitalize '>
 
           <div className='flex justify-between items-center gap-2 text-left '>
-            <p className='text-14  font-medium font-ubuntu  mt-2 '>Ingresos anuales <span className='text-yellow text-12'>(COP)</span></p>
+           
+            <p className='text-14  font-medium font-ubuntu '>Ingresos anuales <span className='text-yellow text-12'>(COP)</span></p>
             <p className='text-14 sm:text-16 font-ubuntu '>
               {reinvest ? formatNumberIndianStyle(simulator?.interestCompounded?.rentalIncome?.[investmentYears -1]) || 0 : formatNumberIndianStyle(simulator?.projectsOnInterest?.rentalIncome) || 0}
             </p>
             </div>
             <hr className='border-base-800 col-span-2 space-y-2' />
-            <div className='flex justify-between items-center gap-2'>
-
-            <p className='text-14 font-medium font-ubuntu  mt-2 '>Ganancia acumulada <span className='text-yellow text-12'>(COP)</span></p>
-            <p className='text-14 sm:text-16 font-ubuntu mt-2'>
+            <div className='flex justify-between items-center gap-2 mt-2'>
+                <div className='flex items-center gap-2 text-left  '>
+            <InfoTooltip
+              message={
+                'Estas proyecciones no tienen en cuenta la variación del dólar, que históricamente ha tendido a la alza con respecto al COP, y como moneda refugio para protegerse de la inflación en Colombia.'
+              }
+            />
+            <p className='text-14 font-medium font-ubuntu  '>Ganancia acumulada <span className='text-yellow text-12'>(COP)</span></p>
+            </div>
+            <p className='text-14 sm:text-16 font-ubuntu'>
             {reinvest ? formatNumberIndianStyle(simulator?.interestCompounded?.accumulatedGain?.[investmentYears -1]) || 0 : formatNumberIndianStyle(simulator?.projectsOnInterest?.accumulatedGain?.[investmentYears-1]) || 0}
             </p>
             </div>

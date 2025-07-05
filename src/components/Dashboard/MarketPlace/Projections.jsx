@@ -118,6 +118,9 @@ const RealEstateProjection = ({ nft }) => {
     )
   }
 
+//   Total ganancia anual interes simple = Line 3
+// Total en CE interés simple =Line 4
+
   return (
     <div className="text-white bg-black mt-6 space-y-8 rounded-lg">
       {/* Table 1 */}
