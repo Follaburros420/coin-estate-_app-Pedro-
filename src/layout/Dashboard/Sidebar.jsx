@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import StyledImage from '@/components/StyedImage';
 import clsxm from '@/utils/clsxm';
 import Link from 'next/link';
@@ -10,14 +11,22 @@ export default function Sidebar({ isOpen }) {
   const [isActive, setIsActive] = useState();
   const [isDark, setIsDark] = useState(true);
   const location = usePathname();
-  console.log({location})
+
+  const sidebarVariants = {
+    open: { x: 0 },
+    closed: { x: '-100%' },
+  };
 
   return (
-    <div
+    <motion.aside
+      variants={sidebarVariants}
+      initial='closed'
+      animate={isOpen ? 'open' : 'closed'}
+      transition={{ type: 'tween', duration: 0.3 }}
       className={clsxm(
-        ' transform transition-transform duration-300 ease-in-out w-full shadow-lg max-w-[292px] block fixed left-0 top-[75px] lg:top-[80px] bottom-0 z-50 glass',
-        isOpen ? 'translate-x-0 ' : '-translate-x-full xl:translate-x-0',
-      )}>
+        'w-full shadow-lg max-w-[292px] block fixed left-0 top-[75px] lg:top-[80px] bottom-0 z-50 glass xl:translate-x-0'
+      )}
+    >
       <div className='w-full px-4 py-9 h-full flex flex-col justify-between '>
         <div className='flex flex-col  '>
           {Sidebar_Data.map((item, idx) => {
@@ -117,6 +126,6 @@ export default function Sidebar({ isOpen }) {
           </button>
         </div>
       </div>
-    </div>
+    </motion.aside>
   );
 }
