@@ -150,62 +150,63 @@ export default function WalletPage() {
             </div>
           </div>
         </div>
-        <div className='border border-grey-400 p-6 rounded-[26px] flex flex-col xl:flex-row gap-5 items-center justify-between w-full '>
+        <div className='glass-enhanced-dark border border-white/10 p-6 rounded-[26px] flex flex-col xl:flex-row gap-5 items-center justify-between w-full shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_12px_40px_-5px_rgba(0,0,0,0.6)]'>
           <div className='w-full max-w-[60%]'>
-            <div className='flex items-center justify-center xl:justify-start gap-4 '>
-              <p className='text-20 sm:text-29 font-bold leading-none '>Estimate Balance</p>
-              <StyledImage src='/assets/svg/WalletMoney.svg' className='w-6 h-6 ' />
+            <div className='flex items-center justify-center xl:justify-start gap-4'>
+              <p className='text-20 sm:text-29 font-bold leading-none bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent'>Estimate Balance</p>
+              <StyledImage src='/assets/svg/WalletMoney.svg' className='w-6 h-6 transition-all duration-300 hover:scale-110' />
             </div>
-            <div className='mt-7 flex flex-col sm:flex-row items-center gap-5 sm:gap-10 '>
-              <button className='sm:text-20 py-2 px-6 sm:w-full  bg-Yellow-100 rounded-[8px] font-medium font-ubuntu text-black-100 '>
-                Reinvest
+            <div className='mt-7 flex flex-col sm:flex-row items-center gap-5 sm:gap-10'>
+              <button className='group sm:text-20 py-3 px-8 sm:w-full bg-gradient-to-r from-Yellow-100 to-yellow-300 rounded-[12px] font-medium font-ubuntu text-black-100 transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_-5px_rgba(255,200,44,0.4)] border border-yellow-200/30'>
+                <span className='relative z-10'>Reinvest</span>
+                <div className='absolute inset-0 rounded-[12px] bg-gradient-to-r from-yellow-300 to-yellow-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100' />
               </button>
-              <button className='sm:text-20 py-2 px-6 sm:w-full  bg-white rounded-[8px] font-medium font-ubuntu text-black-100  '>
-                Withdraw
+              <button className='group sm:text-20 py-3 px-8 sm:w-full bg-gradient-to-r from-white to-gray-100 rounded-[12px] font-medium font-ubuntu text-black-100 transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_25px_-5px_rgba(255,255,255,0.3)] border border-white/30'>
+                <span className='relative z-10'>Withdraw</span>
+                <div className='absolute inset-0 rounded-[12px] bg-gradient-to-r from-gray-100 to-white opacity-0 transition-opacity duration-300 group-hover:opacity-100' />
               </button>
             </div>
-            <div className=' mt-5 '>
+            <div className='mt-5'>
               {Estimate_Balance_Data.map((item, idx) => {
                 return (
                   <div
                     key={idx}
                     className={clsxm(
-                      'flex flex-col sm:flex-row items-center justify-between sm:gap-11 ',
+                      'group flex flex-col sm:flex-row items-center justify-between sm:gap-11 transition-all duration-300 hover:scale-105',
                       idx === 0 && 'mb-2',
                     )}>
                     <div className='flex items-center justify-between gap-3'>
                       <InfoTooltip message={item.message} />
-                      <p className='text-20 font-bold '>{item.status}</p>
+                      <p className='text-20 font-bold transition-colors duration-300 group-hover:text-yellow-300'>{item.status}</p>
                     </div>
                     <div>
                       <div>
-                        <p className='text-24 font-bold '>
+                        <p className='text-24 font-bold transition-colors duration-300 group-hover:text-yellow-300'>
                           {item.price}
-                          <span className='text-22 font-regular ml-3 '>USD</span>
+                          <span className='text-22 font-regular ml-3 text-gray-300'>USD</span>
                         </p>
                       </div>
-                      <p className='text-14 text-base-100 opacity-60 '>= {formatNumberIndianStyle(item.cop)} COP</p>
+                      <p className='text-14 text-base-100 opacity-60 transition-opacity duration-300 group-hover:opacity-80'>= {formatNumberIndianStyle(item.cop)} COP</p>
                     </div>
-                    {/* {idx === 0 && <div className='p-2 rounded-full bg-darkCyan -mt-4 ' />} */}
                   </div>
                 );
               })}
             </div>
           </div>
-          <div className='grid sm:grid-cols-2 xl:grid-cols-1 items-center gap-5 mt-6 xl:mt-0 '>
+          <div className='grid sm:grid-cols-2 xl:grid-cols-1 items-center gap-5 mt-6 xl:mt-0'>
             {Estimate_Balance_Tokens_Data.map((item, idx) => {
               return (
                 <div
                   key={idx}
                   className={clsxm(
-                    'bg-black-600 rounded-[6px] min-h-[100px] p-3 xl:px-4 xl:py-5 w-full max-w-[254px] flex items-center gap-4 ',
+                    'group bg-gradient-to-br from-black-600 to-black-700 rounded-[12px] min-h-[100px] p-4 xl:px-5 xl:py-6 w-full max-w-[254px] flex items-center gap-4 border border-white/10 transition-all duration-300 hover:scale-105 hover:border-yellow/30 hover:shadow-[0_8px_25px_-5px_rgba(255,200,44,0.2)]',
                     idx === 1 && 'xl:my-5',
                   )}>
-                  <div className='bg-black-700 p-2 rounded-[8px] w-fit '>
-                    <StyledImage src={item.imgUrl} className='w-6 h-6 ' />
+                  <div className='bg-gradient-to-br from-yellow/20 to-yellow/30 p-2 rounded-[8px] w-fit transition-all duration-300 group-hover:scale-110'>
+                    <StyledImage src={item.imgUrl} className='w-6 h-6 transition-all duration-300' />
                   </div>
                   <div>
-                    <p className='text-16 leading-[18px] xl:leading-normal font-medium '>{item.title}</p>
+                    <p className='text-16 leading-[18px] xl:leading-normal font-medium transition-colors duration-300 group-hover:text-yellow-300'>{item.title}</p>
                     <div className='flex items-center gap-2'>
                       {item.exclamationImg && (
                         <InfoTooltip
@@ -214,7 +215,7 @@ export default function WalletPage() {
                           }
                         />
                       )}
-                      <p className='text-base-100 opacity-60 text-14 '>{item.availableTokens}</p>
+                      <p className='text-base-100 opacity-60 text-14 transition-all duration-300 group-hover:opacity-100 group-hover:text-yellow-300'>{item.availableTokens}</p>
                     </div>
                   </div>
                 </div>

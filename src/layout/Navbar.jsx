@@ -27,14 +27,14 @@ export default function Navbar() {
   const themeLabel = !isMounted ? 'Tema' : theme === 'dark' ? 'Modo claro' : 'Modo oscuro';
 
   return (
-    <nav className='sticky top-0 z-50 border-b border-gray-200/60 bg-white/90 backdrop-blur-xl dark:border-gray-800/60 dark:bg-black-800/80'>
+    <nav className='sticky top-0 z-50 border-b border-gray-200/60 bg-white/90 backdrop-blur-xl transition-all duration-300 dark:border-gray-800/60 dark:bg-black-800/80'>
       <div className='mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:py-4'>
         <button
           onClick={() => handleNavigate('/')}
-          className='flex items-center gap-2'
+          className='group flex items-center gap-2 transition-transform duration-300 hover:scale-105'
           aria-label='Ir al inicio'
         >
-          <StyledImage src='/assets/svg/coinEstateLogo.svg' className='h-9 w-[153px]' alt='CoinEstate' />
+          <StyledImage src='/assets/svg/coinEstateLogo.svg' className='h-9 w-[153px] transition-all duration-300 group-hover:brightness-110' alt='CoinEstate' />
         </button>
         <div className='hidden flex-1 items-center justify-center gap-2 sm:flex md:gap-6'>
           {Navbar_Links.map((item) => (
@@ -43,12 +43,13 @@ export default function Navbar() {
               href={item.path}
               onClick={() => setIsMenuOpen(false)}
               className={clsxm(
-                'relative px-1 text-14 font-semibold text-black-100 transition-colors duration-200 hover:text-yellow dark:text-white dark:hover:text-yellow',
+                'group relative px-1 text-14 font-semibold text-black-100 transition-all duration-300 hover:text-yellow hover:scale-105 dark:text-white dark:hover:text-yellow',
                 path === item.path && 'text-yellow'
               )}
             >
-              {item.title}
-              {path === item.path && <span className='absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-yellow' />}
+              <span className='relative z-10'>{item.title}</span>
+              {path === item.path && <span className='absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-yellow to-yellow-300 animate-glow' />}
+              <span className='absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-yellow to-yellow-300 scale-x-0 transition-transform duration-300 group-hover:scale-x-100' />
             </Link>
           ))}
         </div>
@@ -56,7 +57,7 @@ export default function Navbar() {
           <button
             type='button'
             onClick={handleToggleTheme}
-            className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-200/70 bg-white text-black-100 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.5)] transition hover:-translate-y-[1px] hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.45)] dark:border-gray-700 dark:bg-black-700 dark:text-white'
+            className='group flex h-10 w-10 items-center justify-center rounded-full border border-gray-200/70 bg-white text-black-100 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.5)] transition-all duration-300 hover:-translate-y-[1px] hover:scale-110 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.45)] hover:border-yellow/50 dark:border-gray-700 dark:bg-black-700 dark:text-white dark:hover:border-yellow/50'
             aria-label={themeLabel}
             title={themeLabel}
           >
