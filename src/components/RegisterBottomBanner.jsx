@@ -5,19 +5,22 @@ import React from 'react';
 export default function RegisterBottomBanner() {
   const router = useRouter();
   const { data: user } = useQueryGetUser();
+
   if (!user?.email)
     return (
-      <div className='px-6 md:px-10 '>
-        <div className=' bg-black-100 my-[100px] rounded-[8px] w-full max-w-[1161px] mx-auto'>
-          <div className='p-8 md:p-16 flex flex-col items-center gap-5 sm:flex-row text-center sm:text-start justify-between  '>
-            <h1 className='font-semibold md:text-28 font-inter text-white'>
-              Accede Con <span className='text-yellow'>CoinEstate</span> al futuro de la inversión inmobiliaria
-            </h1>
+      <div className='px-6 md:px-10'>
+        <div className='my-[100px] w-full max-w-[1161px] rounded-[24px] bg-black-100 px-6 py-10 md:px-12 md:py-16'>
+          <div className='flex flex-col items-center gap-6 text-center text-white sm:flex-row sm:text-left sm:justify-between'>
+            <h2 className='max-w-xl text-24 font-semibold md:text-28'>
+              Accede con <span className='text-yellow'>CoinEstate</span> al futuro de la inversión inmobiliaria
+            </h2>
             <button
               onClick={() => {
                 router.push('/auth/create-account');
               }}
-              className='py-3 px-8 mt-4 md:mt-0 bg-yellow font-inter font-semibold text-12 sm:text-16 text-white rounded-full'>
+              className='rounded-full bg-yellow px-8 py-3 text-14 font-semibold text-black-100 shadow-[0_20px_50px_-25px_rgba(255,200,44,0.6)] transition hover:bg-yellow/90'
+              type='button'
+            >
               Regístrate
             </button>
           </div>

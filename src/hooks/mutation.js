@@ -828,3 +828,44 @@ export const useMutationVerifyCode = () => {
     },
   });
 };
+
+
+export const useMutateSocialLogin = () => {
+  const router = useRouter();
+  const { mutate: localUser } = useMutateLocalUser();
+
+  const mutationFn = async ({ provider, token }) => {
+    if (!provider || !token) {
+      throw new Error('Provider and token are required.');
+    }
+
+    const config = {
+      method: 'POST',
+      url: `${endPoint}/auth/social-login`,
+      headers: {
+        Accept: 'application/json',
+      },
+      data: { provider, token },
+    };
+
+    const response = await axios.request(config);
+    return response.data;
+  };
+
+  return useMutation({
+    mutationFn,
+    onError: (error) => {
+      const message =
+        error?.response?.data?.error || error?.message || 'Unable to complete social login.';
+      toast.error(message);
+    },
+    onSuccess: (res) => {
+      localUser(res?.user);
+      toast.success(res?.message || 'Login success.');
+      if (res?.needsProfileCompletion) {
+        toast.info('Please complete your profile to finish onboarding.');
+      }
+      router.push('/dashboard');
+    },
+  });
+};

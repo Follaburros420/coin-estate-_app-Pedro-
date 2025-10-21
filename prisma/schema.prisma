@@ -22,6 +22,9 @@ model User {
   termsAcceptedPolicy    Boolean
   termsAcceptedServices  Boolean
   image                  String?
+  authProvider           String?
+  providerAccountId      String?
+  profileCompleted       Boolean?  @default(false)
   dateOfBirth            String?
   nationality            String?
   destinationValues      String

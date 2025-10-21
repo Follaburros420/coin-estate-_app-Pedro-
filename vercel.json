@@ -1,0 +1,29 @@
+{
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  "env": {
+    "DATABASE_URL": "@database_url",
+    "JWT_SECRET": "@jwt_secret",
+    "FORGOT_PASSWORD_KEY": "@forgot_password_key",
+    "STRIPE_SECRET_KEY": "@stripe_secret_key",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key",
+    "PRIVATE_KEY": "@private_key",
+    "WALLET_ADDRESS": "@wallet_address",
+    "NEXT_PUBLIC_WALLET_PUBLIC_KEY": "@wallet_public_key",
+    "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "@google_client_id",
+    "NEXT_PUBLIC_GOOGLE_MAP_API_KEY": "@google_map_api_key",
+    "NEXT_PUBLIC_FACEBOOK_APP_ID": "@facebook_app_id",
+    "COMPLYCUBE_API_KEY": "@complycube_api_key",
+    "NEXT_PUBLIC_PINATA_JWT_TOKEN": "@pinata_jwt_token",
+    "EMAIL_USER": "@email_user",
+    "EMAIL_PASS": "@email_pass",
+    "NEXT_PUBLIC_PROJECT_ID": "@project_id",
+    "NEXT_PUBLIC_API_ENDPOINT": "@api_endpoint",
+    "NEXT_PUBLIC_APP_URL": "@app_url",
+    "REFERRER_WEBSITE": "@referrer_website",
+    "NODE_ENV": "production"
+  }
+}

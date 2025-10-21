@@ -1,21 +1,21 @@
+import clsxm from "@/utils/clsxm";
+import NextImage from "next/image";
 import React from "react";
 
-import NextImage, { ImageProps as NextImageProps } from "next/image";
+const StyledImage = ({ src, alt = "", className, imgClassName, priority, fetchPriority, ...other }) => {
+  const containerClass = className ? clsxm('relative', className) : 'relative h-[272px] w-[232px]';
 
-import clsxm from "@/utils/clsxm";
-
-
-const StyledImage = ({ src, alt, className, ...other }) => {
   return (
-    <div className={clsxm("relative h-[272px] w-[232px]", className)}>
+    <div className={containerClass}>
       <NextImage
         fill
-        sizes="h-[272px] w-[232px]"
+        className={clsxm('object-cover', imgClassName)}
+        sizes='100%'
         src={src}
-        alt={alt || ""}
+        alt={alt}
+        priority={priority}
+        fetchPriority={fetchPriority}
         {...other}
-        priority
-        fetchPriority="high"
       />
     </div>
   );

@@ -77,52 +77,37 @@ export const SLIDER = [
   {
     id: 1,
     img: '/assets/images/man1.png',
-    name: 'Name',
-    position: 'Position',
+    name: 'Laura Méndez',
+    position: 'Inversionista',
     about:
-      ' CoinEstate me ha permitido acceder a negocios que antes solo pocos podian llevar a cabo desde montos muy pequeños. Es una gran oportunidad para aquellos que buscamos maximizar nuestro portafolio sin necesidad de un gran capital inicial, en especial para quienes queremos inversiones con niveles de riesgo bajos, pero sin tener que invertir cantidades muy elevadas, para mi CoinEstate es la mejor opción.',
+      'CoinEstate me abrió las puertas a proyectos inmobiliarios en EE. UU. con montos que puedo manejar. Hoy reinvierto mis rendimientos y veo crecer mi capital en dólares.',
   },
   {
     id: 2,
     img: '/assets/images/man2.png',
-    name: 'Name',
-    position: 'Position',
+    name: 'Daniel Paredes',
+    position: 'Ingeniero',
     about:
-      'Lo que más me gusta de CoinEstate es que puedo reinvertir y aumentar mi capital de manera regular. Invertir pequeñas cantidades, incluso lo que me sobra al final del mes, ha hecho que mi inversión crezca de forma constante. Es una opción flexible y accesible para todos. Además, me hace sentir muy segura el hecho de que puedo poner a la venta mis tokens en el mercado secundario, y beneficiarme de la valorización del inmueble cuando yo quiera',
+      'Me siento tranquilo porque cada proyecto tiene información clara, contratos inteligentes auditados y acompañamiento constante del equipo de CoinEstate.',
   },
   {
     id: 3,
     img: '/assets/images/man3.png',
-    name: 'Name',
-    position: 'Position',
+    name: 'Mariana Silva',
+    position: 'Emprendedora',
     about:
-      'CoinEstate ha sido una revelación para mí. Poder invertir en bienes raíces de USA con montos tan bajos es increíble. He visto cómo mi inversión ha crecido gracias a la valorización de los inmuebles, todo de manera transparente y sencilla. Lo que más valoro es la posibilidad de diversificar mi portafolio sin la complejidad tradicional del sector inmobiliario. Definitivamente, es la manera más práctica y accesible de participar en el mercado inmobiliario.',
+      'Diversifiqué mis ahorros en diferentes propiedades tokenizadas. Es la forma más sencilla que he encontrado para invertir en bienes raíces fuera del país.',
   },
   {
     id: 4,
     img: '/assets/images/man1.png',
-    name: 'Name',
-    position: 'Position',
+    name: 'Julián Torres',
+    position: 'Consultor financiero',
     about:
-      ' CoinEstate me ha permitido acceder a negocios que antes solo pocos podian llevar a cabo desde montos muy pequeños. Es una gran oportunidad para aquellos que buscamos maximizar nuestro portafolio sin necesidad de un gran capital inicial, en especial para quienes queremos inversiones con niveles de riesgo bajos, pero sin tener que invertir cantidades muy elevadas, para mi CoinEstate es la mejor opción.',
-  },
-  {
-    id: 5,
-    img: '/assets/images/man2.png',
-    name: 'Name',
-    position: 'Position',
-    about:
-      'Lo que más me gusta de CoinEstate es que puedo reinvertir y aumentar mi capital de manera regular. Invertir pequeñas cantidades, incluso lo que me sobra al final del mes, ha hecho que mi inversión crezca de forma constante. Es una opción flexible y accesible para todos. Además, me hace sentir muy segura el hecho de que puedo poner a la venta mis tokens en el mercado secundario, y beneficiarme de la valorización del inmueble cuando yo quiera',
-  },
-  {
-    id: 6,
-    img: '/assets/images/man3.png',
-    name: 'Name',
-    position: 'Position',
-    about:
-      'CoinEstate ha sido una revelación para mí. Poder invertir en bienes raíces de USA con montos tan bajos es increíble. He visto cómo mi inversión ha crecido gracias a la valorización de los inmuebles, todo de manera transparente y sencilla. Lo que más valoro es la posibilidad de diversificar mi portafolio sin la complejidad tradicional del sector inmobiliario. Definitivamente, es la manera más práctica y accesible de participar en el mercado inmobiliario.',
+      'El dashboard de resultados y las proyecciones me ayudan a tomar decisiones informadas. Es un producto serio y alineado con el futuro de las finanzas.',
   },
 ];
+
 
 export const CoinEstate_Table_Data = [
   {
@@ -268,24 +253,25 @@ export const TOKENS = [
   {
     id: 1,
     img: '/assets/svg/token2.svg',
-    text: ' Nuestros expertos buscan y seleccionan las mejores propiedades y proyectos para invertir en el mercado Americano.',
+    text: 'Nuestros expertos seleccionan propiedades con alto potencial en el mercado estadounidense.',
   },
   {
     id: 2,
     img: '/assets/svg/token4.svg',
-    text: 'Fraccionamos las participaciones en nuestros proyectos por medio de Tokens, lo que permite al inversor acceder desde montos muy bajos.',
+    text: 'Fraccionamos la inversión mediante tokens para que puedas participar con montos accesibles y diversificar fácilmente.',
   },
   {
     id: 3,
     img: '/assets/svg/token5.svg',
-    text: ' No te preocupes, nosotros nos encargamos de la gestión del proyecto, además de distribuir las ganancias entre los inversores según su participación. ',
+    text: 'Nos encargamos de la gestión integral del proyecto y distribuimos las ganancias según la participación de cada inversionista.',
   },
   {
     id: 4,
     img: '/assets/svg/token6.svg',
-    text: 'Facilitamos el retiro o reinversión de tus ganancias. Reinvierte fácilmente y maxifica tu portafolio, o retira tus ganancias directamente a tu cuenta bancaria.',
+    text: 'Facilitamos el retiro o la reinversión de tus rendimientos con procesos ágiles y transparentes.',
   },
 ];
+
 
 export const SERVICES = [
   {
@@ -484,21 +470,20 @@ export const Tokens_Cards_Data = [
   {
     id: 1,
     img: '/assets/svg/token1.svg',
-    title:
-      'Crea ingresos 100% pasivos respaldados por activos del mundo real, de forma fácil, segura y accesible para todos.',
+    title: 'Crea ingresos 100% pasivos respaldados por activos reales con procesos seguros y accesibles para todos.',
   },
   {
     id: 2,
     img: '/assets/svg/token2.svg',
-    title: 'Al adquirir Tokens de propiedad formarás parte del mercado inmobiliario más rentable y estable del mundo.',
+    title: 'Al adquirir tokens de propiedad formas parte del mercado inmobiliario más estable y rentable del mundo.',
   },
   {
     id: 3,
     img: '/assets/svg/token3.svg',
-    title:
-      'Diversifica fácilmente y mitiga riesgos, a la vez que aprovechas la magia del interés compuesto de forma inteligente.',
+    title: 'Diversifica con facilidad, mitiga riesgos y aprovecha el interés compuesto reinvirtiendo tus retornos.',
   },
 ];
+
 
 export const Marketing_Cards_Data = [
   {
@@ -1102,6 +1087,7 @@ export const Navbar_Links = [
     path: '/learn',
   },
 ];
+
 
 export const MarketPlace_List_Content = [
   {

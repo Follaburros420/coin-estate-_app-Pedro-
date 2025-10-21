@@ -18,5 +18,8 @@ export const useGlobalAmount = create((set) => ({
     }),
 }));
 
+// Exportar también como useGlobalStates para compatibilidad
+export const useGlobalStates = useGlobalAmount;
+
 
 // useMutationInitiatePayment

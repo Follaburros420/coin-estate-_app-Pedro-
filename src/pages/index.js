@@ -34,7 +34,7 @@ export default function Home() {
       className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)]`}
     >
       <Layout>
-        <div className="bg-lightblue">
+        <div className="bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
           <Header />
           <Tokens />
           <AboutCoinEstate />

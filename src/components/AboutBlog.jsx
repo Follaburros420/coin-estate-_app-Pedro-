@@ -20,7 +20,7 @@ export default function AboutBlog({ getBlogsList }) {
             if (showMore > idx)
               return (
                 <div key={`${items.id}___${idx}`}>
-                  <div className="max-w-[371px] mx-auto lg:mx-0 bg-white hover:bg-gray-200 rounded-lg border border-gray-200">
+                  <div className="max-w-[371px] mx-auto rounded-2xl border border-gray-200/70 bg-white/95 transition-colors hover:bg-gray-200 lg:mx-0 dark:border-white/10 dark:bg-black-900/60 dark:hover:bg-black-900/70">
                     <div className=" relative ">
                       <img
                         src={image}
@@ -28,15 +28,15 @@ export default function AboutBlog({ getBlogsList }) {
                         loading="lazy"
                         className="w-full h-[249px] object-fill"
                       />
-                      <button className="absolute top-4 left-4  py-1.5  px-6 rounded-full bg-black-100 text-white ">
+                      <button className="absolute top-4 left-4 rounded-full bg-black-100 px-6 py-1.5 text-white transition-colors dark:bg-white dark:text-black-100">
                         {items.blogStatus}
                       </button>
                     </div>
                     <div className="p-4">
-                      <h5 className="text-16 text-black-100 font-semibold font-inter">
+                      <h5 className="text-16 font-inter font-semibold text-black-100 dark:text-white">
                         {items.heading}
                       </h5>
-                      <p className="mt-2 text-14 font-inter font-regular text-gray">
+                      <p className="mt-2 text-14 font-inter font-regular text-gray dark:text-white/75">
                         {items.details}
                       </p>
                       <div className={clsxm("flex justify-between mt-5")}>
@@ -46,7 +46,7 @@ export default function AboutBlog({ getBlogsList }) {
                             src="/assets/svg/UserIcon.svg"
                             alt=""
                           />
-                          <h6 className="text-black-100 font-inter font-semibold text-14">
+                          <h6 className="text-14 font-inter font-semibold text-black-100 dark:text-white">
                             Pedro Ardila
                           </h6>
                         </div>
@@ -56,7 +56,7 @@ export default function AboutBlog({ getBlogsList }) {
                             src={'/assets/svg/clock.svg'}
                             alt=""
                           />
-                          <h6 className="text-gray font-inter font-semibold text-12">
+                          <h6 className="text-12 font-inter font-semibold text-gray dark:text-white/60">
                             {handleFormateTime(items.createdAt)}
                           </h6>
                         </div>
