@@ -33,7 +33,7 @@ const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [bscTestnet, polygonAmoy],
-  defaultNetwork: mainnet,
+  defaultNetwork: bscTestnet,
   metadata,
   features: {
     analytics: true,

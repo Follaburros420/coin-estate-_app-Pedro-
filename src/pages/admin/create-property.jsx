@@ -14,52 +14,48 @@ import { useAccount } from 'wagmi';
 import * as yup from 'yup';
 
 const validationSchemaProperty = yup.object({
-  name: yup.string().required('House Type is required'),
-  totalInvestmentPrice: yup.number().required('total investment price is required'),
-  description: yup
-    .string()
-    .required('Description is mandatory')
-    .min(1, 'Description must be at least 20 characters')
-    .max(200, 'Description must be at most 200 characters'),
-  bedRoom: yup.number().required('bedRoom required'),
-  bathRoom: yup.number().required('bathRoom required'),
-  roomSize: yup.number().required('roomSize required'),
-  constructionYear: yup.string().required('constructionYear required'),
-  propertyMaintenance: yup.number().required('propertyMaintenance required'),
-  // saleStatus: yup.string().required('please select an option'),
-  // houseType: yup.string().required('location is required'),
-  // location: yup.string().required('location is required'),
-  netAnualIncome: yup.number().required('net anual income is required'),
-  propertyType: yup.string().required('please select Property Type an option'),
-  tokenPrice: yup.number().required('token price is required'),
-  expectedIncome: yup.number().required('expected income is required'),
-  roiExpected: yup.number().required('roi expected income is required'),
-  // availableTokens: yup.number().required('available tokens income is required'),
-  expectedAnnual: yup.number().required('expected annual is required'),
-  averageDollar: yup.number().required('average dollar is required'),
-  totalReturn: yup.number().required('total return is required'),
-  attractive: yup.string().required('attractive is required'),
+  name: yup.string(),
+  totalInvestmentPrice: yup.number(),
+  description: yup.string(),
+  bedRoom: yup.number(),
+  bathRoom: yup.number(),
+  roomSize: yup.number(),
+  constructionYear: yup.string(),
+  propertyMaintenance: yup.number(),
+  // saleStatus: yup.string(),
+  // houseType: yup.string(),
+  // location: yup.string(),
+  netAnualIncome: yup.number(),
+  propertyType: yup.string(),
+  tokenPrice: yup.number(),
+  expectedIncome: yup.number(),
+  roiExpected: yup.number(),
+  // availableTokens: yup.number(),
+  expectedAnnual: yup.number(),
+  averageDollar: yup.number(),
+  totalReturn: yup.number(),
+  attractive: yup.string(),
   //======================= finance price================================
-  propertyPrice: yup.number().required('property price is required'),
-  renovations: yup.number().required('renovations is required'),
-  tokenizationCosts: yup.number().required('tokenization costs is required'),
-  commercialCosts: yup.number().required('commercial costs is required'),
-  legalCosts: yup.number().required('legal costs is required'),
-  dueDiligence: yup.number().required('due diligence is required'),
-  financialReserves: yup.number().required('financial reserves is required'),
-  difference4x: yup.number().required('difference 4x1000 is required'),
-  supplyFee: yup.number().required('supplyFee is required'),
-  marketingPlan: yup.number().required('marketing plan is required'),
-  grossIncome: yup.number().required('gross income is required'),
-  management: yup.number().required('management is required'),
-  taxes: yup.number().required('taxes is required'),
-  insurance: yup.number().required('insurance is required'),
-  SPVMaintenance: yup.number().required('SPV Maintenance is required'),
-  vacancyReserve: yup.number().required('vacancy reserve is required'),
-  SPVCreation: yup.number().required('SPVCreation is required'),
-  closingCosts: yup.number().required('closing costs is required'),
-  documents: yup.string().required('documents is required'),
-  listingPrice: yup.number().required('listing price is required'),
+  propertyPrice: yup.number(),
+  renovations: yup.number(),
+  tokenizationCosts: yup.number(),
+  commercialCosts: yup.number(),
+  legalCosts: yup.number(),
+  dueDiligence: yup.number(),
+  financialReserves: yup.number(),
+  difference4x: yup.number(),
+  supplyFee: yup.number(),
+  marketingPlan: yup.number(),
+  grossIncome: yup.number(),
+  management: yup.number(),
+  taxes: yup.number(),
+  insurance: yup.number(),
+  SPVMaintenance: yup.number(),
+  vacancyReserve: yup.number(),
+  SPVCreation: yup.number(),
+  closingCosts: yup.number(),
+  documents: yup.string(),
+  listingPrice: yup.number(),
 });
 
 export default function Home() {
@@ -98,7 +94,7 @@ export default function Home() {
       subImages: multiFilesList || ['QmVVEGcA8S7k5ewTdEf33hXnecQYT3YRTyH828VrJ7YwZU'],
       email: user?.email || 'demo@gmail.com',
       address: address,
-      location: JSON.stringify(selectedLocation),
+      location: selectedLocation ? JSON.stringify(selectedLocation) : null,
     };
     createProperty(defaultValues);
   };
@@ -108,16 +104,8 @@ export default function Home() {
     if (!address) {
       toast.error('Please connect your wallet');
     } else {
-      if (mainImageData?.IpfsHash && multiFilesList?.length > 0 && selectedLocation) {
-        setSelected(value);
-        createNftProperty({ name: value?.name, symbols: value?.documents });
-      } else {
-        if (!selectedLocation) {
-          toast.error('Please Select Location');
-        } else {
-          toast.error('Please Add Images');
-        }
-      }
+      setSelected(value);
+      createNftProperty({ name: value?.name, symbols: value?.documents });
     }
   }
 

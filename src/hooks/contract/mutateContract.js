@@ -37,7 +37,7 @@ export const useMutateCreateERC884ProPerty = (onSuccess) => {
 export const useMutateMint = (onSuccess) => {
   const { address } = useAccount();
   const { data: user } = useQueryGetUser();
-  const signer = useEthersSigner(CHAIN_ID);
+  const signer = useEthersSigner({ chainId: CHAIN_ID });
 
   const { FACTORY_CONTRACT } = useGlobalStates((state) => state.contract);
 

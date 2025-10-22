@@ -10,7 +10,7 @@ import { useAccount } from 'wagmi'
 export default function ConnectWallet() {
   const { address } = useAccount()
   const { onConnect } = useWalletConnector()
-  const signer = useEthersSigner(CHAIN_ID)
+  const signer = useEthersSigner({ chainId: CHAIN_ID })
 
   useEffect(() => {
     if (address) {

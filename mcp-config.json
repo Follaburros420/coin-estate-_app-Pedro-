@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "vercel": {
+      "transport": "streamableHttp",
+      "url": "https://mcp.open-mcp.org/api/server/vercel@latest/mcp",
+      "env": {
+        "API_KEY": "${VERCEL_API_KEY}"
+      }
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    }
+  }
+}
+

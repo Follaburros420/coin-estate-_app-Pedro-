@@ -7,7 +7,7 @@ import { useEthersSigner } from './ethers';
 
 const useWalletConnector = () => {
   const { address: account, chainId } = useAccount();
-  const signer = useEthersSigner(CHAIN_ID)
+  const signer = useEthersSigner({ chainId: CHAIN_ID })
   const setContactDetails = useGlobalStates((state) => state.setContactDetails);
   // eip155:97
   // const provider = useProvider();

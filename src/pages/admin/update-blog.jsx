@@ -19,18 +19,16 @@ const QuillEditor = dynamic(() => import('@/components/QuillEditor'), {
 });
 
 const validationSchema = yup.object({
-  heading: yup.string().required('heading is required'),
+  heading: yup.string(),
   items: yup.array().of(
     yup.object().shape({
-      name: yup.string().required('Name is required'),
-      text_details: yup.string().required('Details are required'),
+      name: yup.string(),
+      text_details: yup.string(),
     })
   ),
-  details: yup.string().required('Details is required'),
-  description: yup
-    .string()
-    .required('Description is mandatory'),
-  subheading: yup.string().required('constructionYear required')
+  details: yup.string(),
+  description: yup.string(),
+  subheading: yup.string()
 });
 
 const useYupValidationResolver = (validationSchema) =>

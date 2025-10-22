@@ -125,3 +125,8 @@ import ShadcnTest from '@/components/ShadcnTest';
 - [Temas y personalización](https://ui.shadcn.com/docs/theming)
 
 ¡Ya puedes empezar a usar shadcn/ui en tu proyecto! 🎉
+
+
+
+
+
