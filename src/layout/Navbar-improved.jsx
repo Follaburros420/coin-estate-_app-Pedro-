@@ -1,8 +1,9 @@
-﻿'use client';
+'use client';
 import { Navbar_Links } from '@/_mock/data';
 import ProfileUser from '@/components/ProfileUser';
 import StyledImage from '@/components/StyedImage';
 import { useTheme } from '@/context/ThemeContext';
+import { Button } from '@/components/ui/button';
 import clsxm from '@/utils/clsxm';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -34,12 +35,15 @@ export default function Navbar() {
           className='group flex items-center gap-2 transition-transform duration-300 hover:scale-105'
           aria-label='Ir al inicio'
         >
+          {/* Logo dinámico que cambia según el tema */}
           <StyledImage 
             src={theme === 'dark' ? '/assets/svg/LogoLight.svg' : '/assets/svg/coinEstateLogo.svg'} 
             className='h-9 w-[153px] transition-all duration-300 group-hover:brightness-110' 
             alt='CoinEstate' 
           />
         </button>
+        
+        {/* Navegación principal */}
         <div className='hidden flex-1 items-center justify-center gap-2 sm:flex md:gap-6'>
           {Navbar_Links.map((item) => (
             <Link
@@ -57,11 +61,16 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
+        
+        {/* Controles de usuario */}
         <div className='hidden items-center gap-3 sm:flex'>
-          <button
+          {/* Botón de cambio de tema mejorado con Shadcn/UI */}
+          <Button
             type='button'
             onClick={handleToggleTheme}
-            className='group flex h-10 w-10 items-center justify-center rounded-full border border-gray-200/70 bg-white text-black-100 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.5)] transition-all duration-300 hover:-translate-y-[1px] hover:scale-110 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.45)] hover:border-yellow/50 dark:border-gray-700 dark:bg-black-700 dark:text-white dark:hover:border-yellow/50'
+            variant="outline"
+            size="icon"
+            className='group flex h-10 w-10 items-center justify-center rounded-full border-gray-200/70 bg-white text-black-100 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.5)] transition-all duration-300 hover:-translate-y-[1px] hover:scale-110 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.45)] hover:border-yellow/50 dark:border-gray-700 dark:bg-black-700 dark:text-white dark:hover:border-yellow/50'
             aria-label={themeLabel}
             title={themeLabel}
           >
@@ -86,15 +95,19 @@ export default function Navbar() {
                 />
               </svg>
             )}
-          </button>
+          </Button>
+          
           <div className='hidden lg:flex'>
             <ProfileUser />
           </div>
         </div>
-        <button
+        
+        {/* Botón de menú móvil mejorado con Shadcn/UI */}
+        <Button
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          className='flex h-11 w-11 items-center justify-center rounded-full border border-gray-200/80 bg-white text-black-100 shadow-[0_15px_35px_-25px_rgba(15,23,42,0.45)] dark:border-gray-700 dark:bg-black-700 dark:text-white sm:hidden'
-          type='button'
+          variant="outline"
+          size="icon"
+          className='flex h-11 w-11 items-center justify-center rounded-full border-gray-200/80 bg-white text-black-100 shadow-[0_15px_35px_-25px_rgba(15,23,42,0.45)] dark:border-gray-700 dark:bg-black-700 dark:text-white sm:hidden'
           aria-expanded={isMenuOpen}
           aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
         >
@@ -120,50 +133,58 @@ export default function Navbar() {
               isMenuOpen && '-translate-y-[6px] -rotate-45'
             )}
           />
-        </button>
+        </Button>
       </div>
+      
+      {/* Menú móvil mejorado */}
       {isMenuOpen && (
         <div className='border-t border-gray-200/70 bg-white/95 px-4 pb-6 shadow-[0_25px_60px_-35px_rgba(15,23,42,0.45)] backdrop-blur-xl dark:border-gray-700 dark:bg-black-800/90 sm:hidden'>
           <div className='flex flex-col gap-2 py-4'>
             {Navbar_Links.map((item) => (
-              <button
+              <Button
                 key={item.id}
                 type='button'
                 onClick={() => handleNavigate(item.path)}
+                variant="ghost"
                 className={clsxm(
                   'w-full rounded-full px-4 py-3 text-left text-14 font-semibold text-black-100 transition-colors duration-150 hover:bg-gray-200/70 dark:text-white dark:hover:bg-black-700',
                   path === item.path && 'bg-gray-200/90 text-yellow dark:bg-black-700/80'
                 )}
               >
                 {item.title}
-              </button>
+              </Button>
             ))}
           </div>
+          
           <div className='flex flex-col gap-3'>
-            <button
+            <Button
               type='button'
               onClick={handleToggleTheme}
-              className='flex items-center justify-center gap-2 rounded-full border border-gray-200/80 px-4 py-3 text-14 font-semibold text-black-100 dark:border-gray-700 dark:text-white'
+              variant="outline"
+              className='flex items-center justify-center gap-2 rounded-full border-gray-200/80 px-4 py-3 text-14 font-semibold text-black-100 dark:border-gray-700 dark:text-white'
             >
               {themeLabel}
               <span className='inline-flex h-6 w-6 items-center justify-center rounded-full bg-yellow/20 text-yellow'>
                 {isMounted && theme === 'dark' ? '☀' : '🌙'}
               </span>
-            </button>
-            <button
+            </Button>
+            
+            <Button
               type='button'
               onClick={() => handleNavigate('/auth/create-account')}
-              className='w-full rounded-full border border-black-100 px-4 py-3 text-14 font-semibold text-black-100 dark:border-white dark:text-white'
+              variant="outline"
+              className='w-full rounded-full border-black-100 px-4 py-3 text-14 font-semibold text-black-100 dark:border-white dark:text-white'
             >
               Regístrate
-            </button>
-            <button
+            </Button>
+            
+            <Button
               type='button'
               onClick={() => handleNavigate('/auth/log-in')}
               className='w-full rounded-full bg-yellow px-4 py-3 text-14 font-semibold text-black-100'
             >
               Ingresa
-            </button>
+            </Button>
           </div>
         </div>
       )}

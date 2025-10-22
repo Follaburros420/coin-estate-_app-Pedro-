@@ -51,50 +51,70 @@ function Difference() {
       <div className='absolute inset-0 -z-10 bg-gradient-to-br from-[#eef3ff] via-white to-[#f9fbff] dark:from-[#0b1220] dark:via-[#0e1729] dark:to-[#111d33]' />
       <div className='relative mx-auto max-w-7xl text-black-100 dark:text-white'>
         <div className='grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center'>
-          {/* Columna izquierda - Solo Community Insights */}
+          
+          {/* Columna izquierda - Imagen y estadísticas unificadas */}
           <div className='space-y-6'>
-            {/* Componente Community Insights con el mismo estilo del proyecto hero */}
-            <Card className='group relative overflow-hidden rounded-[32px] border-white/10 bg-white/10 shadow-[0_45px_120px_-40px_rgba(10,10,10,0.9)] backdrop-blur-xl transition-all duration-500 hover:scale-105 hover:shadow-[0_60px_150px_-50px_rgba(10,10,10,0.95)]'>
-              <div className='absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100' />
-              <StyledImage
-                src='/assets/images/house.png'
-                alt='Propiedad administrada por CoinEstate'
-                className='h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-110'
-                imgClassName='object-cover'
-              />
-              <CardContent className='space-y-4 bg-gradient-to-t from-black/85 via-black/60 to-transparent p-6'>
-                <div className='flex items-center justify-between'>
-                  <p className='text-16 font-semibold text-white'>Community Insights</p>
-                  <Badge variant="secondary" className='bg-white/10 text-white/70'>
-                    Live
-                  </Badge>
+            {/* Imagen completamente redonda */}
+            <Card className='overflow-hidden border-gray-200/60 bg-white shadow-[0_45px_120px_-70px_rgba(15,23,42,0.25)] dark:border-white/15 dark:bg-[#11121f] dark:shadow-[0_60px_140px_-80px_rgba(0,0,0,0.8)]'>
+              <CardContent className="p-0">
+                <div className='relative'>
+                  <StyledImage
+                    src='/assets/images/house.png'
+                    alt='Propiedad administrada por CoinEstate'
+                    className='h-[360px] w-full md:h-[440px] rounded-[36px]'
+                    imgClassName='object-cover rounded-[36px]'
+                  />
+                  {/* Overlay sutil para mejorar la integración */}
+                  <div className='absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent rounded-[36px] pointer-events-none' />
                 </div>
-                <p className='text-14 text-white/75'>
-                  Resultados históricos de los proyectos tokenizados en los últimos 18 meses con datos verificados y auditados.
-                </p>
-                <div className='grid grid-cols-3 gap-3'>
-                  <Card className='rounded-[20px] border-white/10 bg-black/40 p-3 text-center'>
-                    <CardContent className="p-0">
-                      <p className='text-18 font-bold text-yellow'>+14.3%</p>
-                      <p className='mt-1 text-11 font-medium text-white/60'>Rentabilidad promedio anual</p>
-                    </CardContent>
-                  </Card>
-                  <Card className='rounded-[20px] border-white/10 bg-black/40 p-3 text-center'>
-                    <CardContent className="p-0">
-                      <p className='text-18 font-bold text-yellow'>18</p>
-                      <p className='mt-1 text-11 font-medium text-white/60'>Meses de datos</p>
-                    </CardContent>
-                  </Card>
-                  <Card className='rounded-[20px] border-white/10 bg-black/40 p-3 text-center'>
-                    <CardContent className="p-0">
-                      <p className='text-18 font-bold text-yellow'>100%</p>
-                      <p className='mt-1 text-11 font-medium text-white/60'>Datos verificados</p>
-                    </CardContent>
-                  </Card>
+              </CardContent>
+            </Card>
+            
+            {/* Componente Community Insights unificado con Shadcn/UI */}
+            <Card className='border-gray-200/60 bg-white shadow-lg dark:border-white/15 dark:bg-[#11121f]'>
+              <CardContent className="p-6">
+                {/* Header con Badge */}
+                <div className='flex items-center justify-between mb-4'>
+                  <Badge variant="outline" className='text-blue-600 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-900/20 dark:border-blue-800'>
+                    Community Insights
+                  </Badge>
+                  <div className='flex items-center gap-2'>
+                    <div className='w-2 h-2 bg-green-500 rounded-full'></div>
+                    <span className='text-xs text-green-600 dark:text-green-400 font-medium'>Live</span>
+                  </div>
+                </div>
+                
+                {/* Estadística principal destacada */}
+                <div className='mb-4'>
+                  <CardTitle className='text-4xl font-black text-gray-900 dark:text-white mb-2'>
+                    +6.2%
+                  </CardTitle>
+                  <CardDescription className='text-lg font-semibold text-gray-700 dark:text-gray-200'>
+                    rentabilidad promedio anual
+                  </CardDescription>
+                </div>
+                
+                {/* Descripción */}
+                <CardDescription className='text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-4'>
+                  Resultados históricos de los proyectos tokenizados en los últimos 18 meses.
+                </CardDescription>
+                
+                {/* Footer con indicadores */}
+                <div className='flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-600'>
+                  <div className='flex items-center text-sm text-gray-500 dark:text-gray-400'>
+                    <svg className='w-4 h-4 mr-2 text-green-500' fill='currentColor' viewBox='0 0 20 20'>
+                      <path fillRule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clipRule='evenodd' />
+                    </svg>
+                    Datos verificados
+                  </div>
+                  <Badge variant="secondary" className='text-xs'>
+                    Última actualización: Dic 2024
+                  </Badge>
                 </div>
               </CardContent>
             </Card>
           </div>
+          
           {/* Columna derecha - Componentes unificados */}
           <div className='space-y-6'>
             {/* Badge de sección */}

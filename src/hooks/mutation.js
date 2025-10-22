@@ -563,25 +563,65 @@ export const useMutationMonthlyProcess = (onSuccess) => {
 
 // ===================================== send data to database =======================
 
-// Send exchange rate to backend
+// Send exchange rate to backend with fallback
 export const useMutationSendExchangeRate = () => {
   const mutationFn = async ({ value, time }) => {
     console.log({ value, time });
-    try {
-      const config = {
-        method: 'POST',
-        url: `${endPoint}/blog/exchange`,
-        headers: {
-          Accept: 'application/json',
-        },
-        data: {
-          cop: value,
-        }, // Correctly pass the body as `data` in axios
-      };
-      return await axios.request(config);
-    } catch (error) {
-      throw new Error(error.response?.data?.error || error.message || 'An error occurred');
+    
+    // Lista de endpoints a probar en orden de preferencia
+    const endpoints = [
+      `${endPoint}/blog/exchange-direct`, // MongoDB directo
+      `${endPoint}/blog/exchange`, // Prisma original
+      `${endPoint}/blog/exchange-simulated` // Simulado como último recurso
+    ];
+    
+    let lastError = null;
+    
+    for (let i = 0; i < endpoints.length; i++) {
+      try {
+        console.log(`Trying endpoint ${i + 1}/${endpoints.length}: ${endpoints[i]}`);
+        
+        const config = {
+          method: 'POST',
+          url: endpoints[i],
+          headers: {
+            Accept: 'application/json',
+          },
+          data: {
+            cop: value,
+          },
+          timeout: 10000, // 10 segundos de timeout
+        };
+        
+        const response = await axios.request(config);
+        console.log(`Success with endpoint ${i + 1}:`, endpoints[i]);
+        return response;
+        
+      } catch (error) {
+        console.error(`Failed with endpoint ${i + 1}:`, endpoints[i], error.message);
+        lastError = error;
+        
+        // Si no es el último endpoint, continuar con el siguiente
+        if (i < endpoints.length - 1) {
+          console.log('Trying next endpoint...');
+          continue;
+        }
+      }
     }
+    
+    // Si todos los endpoints fallaron, lanzar el último error
+    console.error('All endpoints failed, throwing last error');
+    
+    // Manejo de errores mejorado
+    if (lastError.response?.data?.error) {
+      throw new Error(lastError.response.data.error);
+    }
+    
+    if (lastError.response?.data?.details) {
+      throw new Error(`${lastError.response.data.error}: ${lastError.response.data.details}`);
+    }
+    
+    throw new Error(lastError.message || 'All exchange rate endpoints failed');
   };
 
   return useMutation({
